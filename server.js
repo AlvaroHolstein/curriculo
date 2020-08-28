@@ -10,15 +10,19 @@ const mongoConf = require("./server/mongoConfig");
 const escolaRoute = require("./server/routes/escola.route");
 const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
+const competenciasRoute = require("./server/routes/competencias.route");
+
 const port = process.env.PORT || 8000;
 
 server.use(cors());
 
 server.use("/api/escola/", escolaRoute);
-server.use("/api/infoextra", infoExtraRoute);
-server.use("/api/exp", experienciaRoute);
+server.use("/api/infoextra/", infoExtraRoute);
+server.use("/api/exp/", experienciaRoute);
+server.use("/api/competencias/", competenciasRoute);
 
 
+server.use("/", express.static(__dirname + "/curriculo_frontend/dist/"))
 server.get("/api/", (req, res) => {
     res.json({success: true, msg: "A funcionar, bem vindo À api!!!"})
 })

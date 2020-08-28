@@ -16,28 +16,35 @@
 
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <router-link :to="{name:'experiencia'}" id="experiencia" class="nav-link">
-            Experiencia Profissional
-          </router-link>
+          <router-link
+            :to="{name:'experiencia'}"
+            id="experiencia"
+            class="nav-link"
+          >Experiencia Profissional</router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'educacao'}" id="educacao" class="nav-link">
-            Educação
-          </router-link>
+          <router-link :to="{name:'educacao'}" id="educacao" class="nav-link">Educação</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Competencias</a>
+          <router-link :to="{name:'competencias'}" id="competencias" class="nav-link">Competencias</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Detalhes</a>
+          <router-link :to="{name:'detalhes'}" id="detalhes" class="nav-link">Detalhes</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Informação Adicional</a>
+          <router-link
+            :to="{name:'info_adicional'}"
+            id="info_adicional"
+            class="nav-link"
+          >Informação Adicional</router-link>
         </li>
       </ul>
     </div>
     <div>
       <router-view id="router-view"></router-view>
+    </div>
+    <div class="fab">
+      <i class="fa fa-comments-o" aria-hidden="true"></i>
     </div>
   </div>
 </template>
@@ -45,10 +52,10 @@
 <script>
 // Só pa bere import HelloWorld from './components/HelloWorld.vue'
 
+// A ma Gonna make the messaging madafakas
 export default {
   name: "App",
   components: {
-    // HelloWorld
   },
 };
 </script>
@@ -71,5 +78,35 @@ div.image-div {
 ul.first-info {
   list-style: none;
   margin-top: 10px;
+}
+hr.separator {
+  border-top: 1px dashed red;
+}
+div.fab {
+  width: 60px;
+  height: 60px;
+  background-color: red;
+  border-radius: 50%;
+  box-shadow: 0 6px 10px 0 #666;
+  transition: all 0.1s ease-in-out;
+
+  font-size: 40px;
+  color: white;
+  text-align: center;
+  line-height: 70px;
+
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+div.fab > i {
+  right: 60px;
+  bottom: 60px;
+  position:fixed;
+}
+
+div.fab:hover {
+  box-shadow: 0 6px 14px 0 #666;
+  transform: scale(1.05);
 }
 </style>

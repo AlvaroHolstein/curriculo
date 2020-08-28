@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>{{littleText}}</h1>
+  <div class="escolas-wrapper">
     <ul class="escolas-list">
       <li v-for="(escola, index) in escolas" v-bind:key="index">
         <h4>{{escola.nome_curso}}</h4>
@@ -8,7 +7,7 @@
         <div>
           {{escola.data_inicio}} - {{escola.data_fim}}
         </div>
-        <hr v-if="index < escolas.length -1" />
+        <hr v-if="index < escolas.length -1" class="separator" />
       </li>
     </ul>
   </div>
@@ -18,7 +17,6 @@
 export default {
   data: () => {
     return {
-      littleText: "AIIIIIII",
       escolas: [],
     };
   },
@@ -34,8 +32,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+div.escolas-wrapper {
+  margin-top: 20px;
+}
 ul.escolas-list {
   list-style: none;
+  padding: 0px;
 }
 </style>
