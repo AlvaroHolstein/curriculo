@@ -57,6 +57,12 @@ export default {
   name: "App",
   components: {
   },
+  data() {
+    console.log(process.env.NODE_ENV, process.env)
+  },
+  computed: {
+
+  }
 };
 </script>
 
@@ -103,10 +109,11 @@ div.fab > i {
   right: 60px;
   bottom: 60px;
   position:fixed;
+  z-index: 999;
 }
 
-div.fab:hover {
+div.fab:hover /*, div.fab > i:hover*/ {
   box-shadow: 0 6px 14px 0 #666;
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
 }
 </style>
