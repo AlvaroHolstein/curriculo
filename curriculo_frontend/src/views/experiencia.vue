@@ -17,10 +17,11 @@ export default {
   data: () => {
     return {
       trabalhos: [],
+      url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/"
     };
   },
   async created() {
-    let res = await fetch("http://localhost:5000/api/exp/");
+    let res = await fetch(`${this.url}exp`);
     let data = await res.json();
 
     if (data.success) {
