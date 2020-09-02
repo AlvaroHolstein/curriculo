@@ -43,19 +43,18 @@
     <div>
       <router-view id="router-view"></router-view>
     </div>
-    <div class="fab">
-      <i class="fa fa-comments-o" aria-hidden="true"></i>
-    </div>
+    <Messaging />
   </div>
 </template>
 
 <script>
 // Só pa bere import HelloWorld from './components/HelloWorld.vue'
-
+import Messaging from './components/messaging.vue';
 // A ma Gonna make the messaging madafakas
 export default {
   name: "App",
   components: {
+    Messaging
   },
   data() {
     console.log(process.env.NODE_ENV, process.env)
@@ -91,32 +90,5 @@ ul.first-info {
 hr.separator {
   border-top: 1px dashed red;
 }
-div.fab {
-  width: 60px;
-  height: 60px;
-  background-color: red;
-  border-radius: 50%;
-  box-shadow: 0 6px 10px 0 #666;
-  transition: all 0.1s ease-in-out;
 
-  font-size: 40px;
-  color: white;
-  text-align: center;
-  line-height: 70px;
-
-  position: fixed;
-  right: 50px;
-  bottom: 50px;
-}
-div.fab > i {
-  right: 60px;
-  bottom: 60px;
-  position:fixed;
-  z-index: 999;
-}
-
-div.fab:hover /*, div.fab > i:hover*/ {
-  box-shadow: 0 6px 14px 0 #666;
-  /* transform: scale(1.05); */
-}
 </style>

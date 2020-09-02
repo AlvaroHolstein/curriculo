@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path")
+// const discordClient = require("./server/disc.js")
 
 const server = express();
 
@@ -21,9 +22,9 @@ server.use("/api/escola/", escolaRoute);
 server.use("/api/infoextra/", infoExtraRoute);
 server.use("/api/exp/", experienciaRoute);
 server.use("/api/competencias/", competenciasRoute);
+// server.use("/api/msg", mensagensRoute)
 
-console.log(path.join(process.cwd(), "/curriculo_frontend/dist/"))
-console.log(process.env)
+
 server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dist/")))
 server.get("/api/", (req, res) => {
     res.json({success: true, msg: "A funcionar, bem vindo À api!!!"})
