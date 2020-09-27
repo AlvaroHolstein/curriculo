@@ -24,4 +24,4 @@ io.on("connect", socket => {
     })
 })
 
-(port);
+io.listen(port);
