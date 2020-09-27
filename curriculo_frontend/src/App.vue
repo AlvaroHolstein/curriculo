@@ -57,7 +57,7 @@ export default {
     Messaging
   },
   data() {
-    console.log(process.env.NODE_ENV, process.env)
+    // console.log(process.env.NODE_ENV, process.env)
     return {
       // url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/"
     }

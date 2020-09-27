@@ -6,7 +6,6 @@ router.get("/", async (req, res, next) => {
     try {
         let data = await competenciasController.getCompetencias();
 
-        console.log(data)
         res.json({success: true, data: data});
     } catch (err) {
         next(err);

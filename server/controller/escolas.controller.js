@@ -7,7 +7,6 @@ const escolasController = {
             escola.find({}, (err, data) => {
                 // Apanhar este erro nos routes e enviar num next
                 if(err) reject(err);
-                console.log(data)
                 resolve(data);
             })
         })

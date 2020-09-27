@@ -10,7 +10,6 @@ const infoExtraController = {
                     reject(err);
                     return;
                 }
-                console.log("collection",collection)
                 resolve(collection);
             })
         })

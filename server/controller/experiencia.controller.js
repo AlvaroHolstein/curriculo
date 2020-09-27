@@ -9,7 +9,6 @@ const experienciaController = {
                     return;
                 }
 
-                console.log("data" ,data);
                 resolve(data);
             })
         })
