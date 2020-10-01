@@ -2,10 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path")
 // const discordClient = require("./server/disc.js")
+require("dotenv").config();
+
+const port = process.env.PORT || 8000;
+
 
 const server = express();
+const httpServer = require("http").createServer(server);
+const io = require("socket.io")(httpServer);
+const socketIODisc = require("./server/socket")(io, port);
 
-require("dotenv").config();
+
 
 const mongoConf = require("./server/mongoConfig");
 
@@ -14,13 +21,12 @@ const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
 const competenciasRoute = require("./server/routes/competencias.route");
 const messagesRoute = require("./server/routes/message.route");
+// const socketInicialization = require("./server/socket");
 
-const port = process.env.PORT || 8000;
 
 
 server.use(cors());
 
-const socketIODisc = require("./server/socket");
 
 server.use("/api/escola/", escolaRoute);
 server.use("/api/infoextra/", infoExtraRoute);
@@ -39,6 +45,7 @@ server.use((err, req, res, next) => {
     res.json({success: false, err: err})
 })
 
-server.listen(port, () => {
+let sheet = server.listen(port, () => {
     console.log(`Servidor a correr no port ${port}`);
 })
+io.listen(sheet)

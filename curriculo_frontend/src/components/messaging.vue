@@ -90,10 +90,16 @@ export default {
     // Vai ser aqui qu vou buscar todas as mensagens que tenahm sido trocadas entre mim e o utilizador autenticado
     // let res = fetch()
 
-    this.socketClient = io("http://localhost:5001/", {
-      withCredentials: false
+    this.socketClient = io.connect("http://127.0.0.1:5000/socket.io/", {
+      withCredentials: false,
+      secure: false,
+      rejectUnauthorized: false
     });
     console.log(this.socketClient)
+
+    this.socketClient.on("connect", socket => {
+      console.log("connected", socket)
+    })
   },
   mounted() {
     document.querySelector("#text").addEventListener("keypress", (event) => {
