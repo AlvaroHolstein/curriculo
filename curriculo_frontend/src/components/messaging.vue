@@ -45,7 +45,7 @@
 
 
 <script>
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 export default {
   data() {
@@ -90,28 +90,43 @@ export default {
     // Vai ser aqui qu vou buscar todas as mensagens que tenahm sido trocadas entre mim e o utilizador autenticado
     // let res = fetch()
 
-    this.socketClient = io.connect("http://127.0.0.1:5000/socket.io/", {
+    /**
+     * IMPORTANTE:
+     * Debugging SocketIO
+     * localStorage.debug = "socket.io-client:socket"
+     * https://socket.io/docs/logging-and-debugging/
+     */
+
+    this.socketClient = await io.connect("http://127.0.0.1:5000/", {
       withCredentials: false,
       secure: false,
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
     });
-    console.log(this.socketClient)
+    // console.log(this.socketClient)
+    this.socketClient.on("connection", (socket) => {
+      console.log("connected", socket);
+    });
+    this.socketClient.on("user left", (socket) => console.log("Alguem saiu", socket))
 
-    this.socketClient.on("connect", socket => {
-      console.log("connected", socket)
+    /** Receive message from discord */
+    this.socketClient.on("messageDisc", data => {
+      console.log("data", data)
+
+      /** Inserir esta mensagem no  */
+      this.receiveMessages(data)
     })
   },
   mounted() {
     document.querySelector("#text").addEventListener("keypress", (event) => {
       if (event.keyCode == 13) {
-        this.sendMessage(); 
+        this.sendMessage();
       }
     });
   },
   computed: {
-      messagesFilter() {
-        return this.messages
-      }
+    messagesFilter() {
+      return this.messages;
+    },
   },
   methods: {
     openMessages() {
@@ -119,12 +134,11 @@ export default {
       // console.log(messageWrapper);
 
       this.showMessages = !this.showMessages;
-      
-      if(this.firstTimeChatOpen) {
+
+      if (this.firstTimeChatOpen) {
         this.scrollDownMessageContainer();
         this.firstTimeChatOpen = false;
       }
-
 
       /** Importante
        *  Vou ter que criar sessões */
@@ -135,35 +149,52 @@ export default {
        * a avisar que é preciso tentar enviar outra vez
        * e dizer se a mensagem foi lida ou não
        */
-      if(this.textMessage) {
+      if (this.textMessage) {
         let messageObj = {
-        message: this.textMessage,
-        date: new Date().toISOString(),
-        empresa: "TBD",
-        compId: -1,
-        name: "TBD"
-      };
+          message: this.textMessage,
+          date: new Date().toISOString(),
+          empresa: "TBD",
+          compId: -1,
+          name: "TBD",
+          self: true
+        };
 
-      /** Enviar para o client Socket IO */
+        /** Enviar para o client Socket IO */
 
-      this.messages.push(messageObj);
-      //Limpar a caixa de texto
-      
-      this.textMessage = "";
-      this.scrollDownMessageContainer();
+        this.messages.push(messageObj);
+        this.socketClient.emit('mess', this.textMessage)
+        //Limpar a caixa de texto
+
+        this.textMessage = "";
+        this.scrollDownMessageContainer();
       }
+    },
+    receiveMessages(text) {
+      let messageObj = {
+          message: text,
+          date: new Date().toISOString(),
+          empresa: "TBD",
+          compId: -1,
+          name: "TBD",
+          self: false
+        };
+
+        this.messages.push(messageObj);
+        this.scrollDownMessageContainer();
     },
     closeMessages() {
       this.showMessages = false;
     },
     scrollDownMessageContainer() {
-      let messageContainer = document.querySelector("div.message-container-body");
+      let messageContainer = document.querySelector(
+        "div.message-container-body"
+      );
 
-      // Workaround para deixar as coisas assentarem  
+      // Workaround para deixar as coisas assentarem
       setTimeout(() => {
-              messageContainer.scrollTop = messageContainer.scrollHeight; 
-      }, 100)
-    }
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      }, 100);
+    },
   },
 };
 </script>
@@ -215,9 +246,10 @@ div.fab.close-messaging {
 
 div.message-text-container {
   &.theirs {
-    text-align: right;
+    text-align: left;
   }
   &.self {
+    text-align: right;
   }
 }
 div.message-text {
@@ -230,11 +262,11 @@ div.message-text {
 
   &.theirs {
     border-radius: 5px 5px 0px 5px;
-    right: 0px;
+    left: 0px;
   }
   &.self {
     border-radius: 5px 5px 5px 0px;
-    left: 0px;
+    right: 0px;
   }
 }
 

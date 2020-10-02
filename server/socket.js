@@ -12,21 +12,36 @@
     * @param {server} some string
     * @return {bool} some bool
     */
-function socketInicialization(io, port) {
+const {discInit, chanelId} = require("./disc.js");
+
+const ohthecoms = require("./disc_guilds/company_comunication");
 
 
-    console.log(io)
-    io.on("connect", socket => {
+function socketInicialization(io) {
+
+    io.on("connection", socket => {
+        const client = discInit(socket);
+
         /** Perceber se este connect é só para os clientes, mas acho que sinhe */
-        console.log("Entrou Mais um", { socket });
+        console.log("Entrou Mais um");
 
-        socket.on("message", (data) => {
+        socket.on("mess", (data) => {
             /** Vai ser aqui que vou mandar as mensagens para o discord
              * AIIIIIIII
              */
 
             console.log("Received message", { data })
+            client.channels.cache.get(chanelId).send(data)
+        })
 
+        /** Emitir Merdas */
+        /** Ao entrar alguém o melhor a fazer era criar um canal que ficasse com o historico das mensagens e depois nem tinha que ser eu a guardar las na BD talvez */
+        socket.emit("connection", "AIIIIIIIIIIII")
+        
+        /** Disconnect  */
+        socket.on("disconnect", () => {
+            console.log("Saiu um")
+            socket.broadcast.emit("user left", "A user left")
         })
     })
 

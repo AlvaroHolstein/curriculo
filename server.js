@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 const server = express();
 const httpServer = require("http").createServer(server);
 const io = require("socket.io")(httpServer);
-const socketIODisc = require("./server/socket")(io, port);
+const socketIODisc = require("./server/socket")(io);
 
 
 
@@ -48,4 +48,5 @@ server.use((err, req, res, next) => {
 let sheet = server.listen(port, () => {
     console.log(`Servidor a correr no port ${port}`);
 })
+//Isto estava a faltar IMPORTANTE: (https://stackoverflow.com/questions/41943929/cannot-get-socket-io-eio-3transport-pollingt-ldmmkyz/41945228#41945228)
 io.listen(sheet)
