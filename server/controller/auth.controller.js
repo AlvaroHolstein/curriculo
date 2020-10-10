@@ -45,10 +45,23 @@ module.exports = {
                     return;
                 }
 
-                returnModel.success = true;
-                returnModel.data = collection;
-                resolve(returnModel);
-                return;
+                /** Só depois disto é que o user pode passar à parte 
+                 * de Brincar com as cookies e JWT (funções à parte)
+                 */
+                bcrypt.compare(pass, collection[0].password, (errorBcrypt, result /** true ou false */) => {
+                    if (result) {
+                        returnModel.success = true;
+                        returnModel.data = collection;
+                        resolve(returnModel);
+                        return;
+                    }
+                    else {
+                        returnModel.err = errorBcrypt;
+                        reject(returnModel);
+                        return;
+                    }
+                })
+
             })
         });
     },
@@ -96,6 +109,38 @@ module.exports = {
                     })
                 })
             }
+        })
+    },
+    /** Funcção para ver se já exite algum utilizador com
+     * username ou
+     * email
+     * igual ao que chega do frontend
+     * @param email String
+     * @param username String
+     * 
+     */
+    existsEmail(email) {
+        return new Promise((resolve, reject) => {
+            user.find({email: email}, (err, data) => {
+                if(err) {
+                    reject(err);
+                    return;
+                }
+                let founded = data.length == 0 ? false : true;
+                resolve(founded)
+            })
+        })
+    },
+    existsUsername(username) {
+        return new Promise((resolve, reject) => {
+            user.find({username: username}, (err, data) => {
+                if(err) {
+                    reject(err);
+                    return;
+                }
+                let founded = data.length == 0 ? false : true;
+                resolve(founded)
+            })
         })
     }
 }
