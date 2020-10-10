@@ -7,10 +7,13 @@ function ohthecoms(socket, discCli) {
      * saber que as empresa estão a falar com o bot
      */
     function automaticResponses(msg) {
-        /** o message reply é para mandar as mensagen para o discord, 
-         * não é bme isto que eu quero
+        /** aqui devia estar uma lista de respostas rápidas e automaticas 
+         * que não seja necessário o meu input
+         * algo como umas FAQ's
+         * e funcionaria com um prefixo seguido do que o utilizador quer saber
+         * Ex:
+         * !
          */
-        // msg.reply()
     }
 
     /** Isto também nõa é aqui por aqui */

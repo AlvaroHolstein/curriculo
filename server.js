@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path")
+const path = require("path");
+const bodyParser = require("body-parser");
 // const discordClient = require("./server/disc.js")
 require("dotenv").config();
 
@@ -8,13 +9,21 @@ const port = process.env.PORT || 8000;
 
 
 const server = express();
+
+server.use(cors());
+server.use(bodyParser.urlencoded({extended: false}));
+server.use(bodyParser.json())
+
 const httpServer = require("http").createServer(server);
+
 const io = require("socket.io")(httpServer);
 const socketIODisc = require("./server/socket")(io);
 
 
 
 const mongoConf = require("./server/mongoConfig");
+
+const authenticationRoute = require("./server/routes/auth.route");
 
 const escolaRoute = require("./server/routes/escola.route");
 const infoExtraRoute = require("./server/routes/info_extra.route");
@@ -25,8 +34,8 @@ const messagesRoute = require("./server/routes/message.route");
 
 
 
-server.use(cors());
 
+server.use("/api/auth/", authenticationRoute);
 
 server.use("/api/escola/", escolaRoute);
 server.use("/api/infoextra/", infoExtraRoute);

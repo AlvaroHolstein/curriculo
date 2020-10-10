@@ -23,6 +23,9 @@ function socketInicialization(io) {
         const client = discInit(socket);
 
         /** Perceber se este connect é só para os clientes, mas acho que sinhe */
+        /**
+         * Aqui os utilizadores só são conectados depois de passarem da página auth
+         */
         console.log("Entrou Mais um");
 
         socket.on("mess", (data) => {

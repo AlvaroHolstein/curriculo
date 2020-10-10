@@ -10,8 +10,6 @@ function discordInit(socket) {
  * Vai ser preciso mandar as mensagens só para um canal de texto em especifico
  * ou seja, para o ServidorBot > (Canal de texto) curriculo
  */
-
-
     client.on('ready', () => {
         console.log("O Discord Já está a correr sem erros em principio");
     })
