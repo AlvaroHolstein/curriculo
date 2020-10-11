@@ -30,10 +30,11 @@ export default {
       async login(eve) {
         eve.preventDefault()
         let auth = await this.http.post("http://localhost:5000/api/auth/login", {username: this.loginPart1, password: this.pass}/*, {withCredentials: true}*/);
-        console.log(auth);
+        console.log(auth.data);
 
         if(auth.data.success) {
           this.$store.commit('login');
+          this.$store.commit('setToken', auth.data.jwt)
           this.$router.push({name: 'experiencia'})
         }
       }

@@ -97,3 +97,5 @@ exists({email, username}) {
 
 # 11/10
 [Headers in express](https://stackoverflow.com/questions/43002444/make-axios-send-cookies-in-its-requests-automatically)
+
+tive que instalar o ```npm install --save aws-sdk```.... Deve ter sido por causa do jsonwebtoken, que isto só apareceu depois de usar verify()

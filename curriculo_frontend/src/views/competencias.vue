@@ -1,14 +1,14 @@
 <template>
   <div class="competencias-wrapper">
     <div v-for="(comp, index) in competencias" v-bind:key="index">
-      <div class="competencias-list">
-        {{comp.name}} -
-        <span
+      <div class="competencias-list row">
+        <div class="col-3">{{comp.name}}</div>
+        <div class="col-8"><span
           v-for="(i, ind) in maxScore"
           v-bind:key="ind"
           class="circle"
           v-bind:class="{fill: comp.current >= i}"
-        ></span>
+        ></span></div>
       </div>
     </div>
   </div>

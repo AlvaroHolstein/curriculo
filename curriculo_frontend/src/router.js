@@ -10,6 +10,11 @@ import Competencias from "./views/competencias.vue";
 import Detalhes from "./views/detalhes.vue";
 import InformacaoAdicional from "./views/informacao_adicional.vue";
 
+import jwt from 'jsonwebtoken';
+import axios from 'axios';
+
+import envs from '../dev.env';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -57,22 +62,56 @@ const router = new Router({
     ]
 })
 
+function verifyToken(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, envs.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(decoded);
+            return;
+        })
+    })
+}
+
 router.beforeEach(async (to, from, next) => {
-    let letgo = true;
-    
-    console.log({ to, from, next }, to.name, store)
-    if(to.name != "auth" && store.getters.logged == false) {
-        console.log("A ir para o curriculo")
-        letgo = false;
-    }
+    try {
+        let letgo = true;
+
+        console.log({ to, from, next }, to.name, store)
+
+        /** Em desenvolvimento isto vai ser de uma forma, 
+         * depois em produção vai ser de outra maneira
+         */
+        if (to.name != "auth" && store.getters.logged == false) {
+            letgo = false;
+        }
+
+        /** Fazer a conflirmação das cookies aqui */
+        // fetch()
+
+        if (to.name != 'auth' && store.getters.logged == true) {
+            //1. Veirficar Token
+            let jwtVerified = await verifyToken(store.getters.token);
 
 
-    /** Fazer a confirmação das cookies aqui */
-    // fetch()
+            //Ainda tenho que criar a rota
+            let {a, b} = jwtVerified;
+            console.log({a, b, jwtVerified}); 
+            let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a*b});
 
-    next(letgo)
-    if(!letgo && from.name != "auth") {
-        router.push({name: 'auth'})
+            if(!authRes.data.success) {
+                letgo = false;
+            }
+        }
+        next(letgo)
+        if (!letgo && from.name != "auth") {
+            router.push({ name: 'auth' })
+        }
+    } catch (error) {
+        console.error(error)
+        next(false)
     }
 })
 export default router;

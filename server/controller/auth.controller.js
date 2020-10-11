@@ -147,9 +147,26 @@ module.exports = {
      * Esta função vai ser usada como auxiliar mas também acho que devia ter 
      * um endpoint só para ela porque assim era mais fácil de gerir 
      * as navigations guards do frontend, penso eu de que
+     * 
+     * @param body Request Body
     */
-    verifyJWT() {
-
+    verifyJWT({ token, c }, /** multiplicador, multipacado */) {
+        return new Promise((resolve, reject) => {
+            //1. Verificar a validade do token
+            // A função assim é sincrona
+            console.log(token, c)
+            let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
+                //2. Se válido, testar a resposta que veio no body
+                console.log(ver);
+                if (c == ver.a * ver.b) {
+                    resolve(true)
+                }
+                else {
+                    resolve(false)
+                }
+                //3. Tótil seguro :)
+            });
+        })
     },
     /** E uma funcção para criar também, só para ter isto limpinho
      * esta funcção vai ser usada no login e no register
@@ -171,6 +188,16 @@ module.exports = {
 
         /** Backdate a jwt 30 seconds (copy paste) */
         payload.iat = Math.floor(Date.now() / 1000) - 30
+
+        /** Super Secure authentication */
+
+        //1.  Criar dois numeros aos calhas para enviar para o frontend
+        let a/*multiplicador*/ = Math.floor(Math.random() * 100)
+        let b/*multiplicado*/ = Math.floor(Math.random() * 100)
+
+        //2. Inserir os numeros na payload
+        payload.a = a;
+        payload.b = b;
 
         return new Promise((resolve, reject) => {
             console.log("payload", payload)

@@ -3,12 +3,15 @@ import router from './router'
 import App from './App.vue'
 import Vuex from 'vuex';
 import store from './store';
-
 import axios from "axios";
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv';
 
+dotenv.config()
 Vue.config.productionTip = false
 
 Vue.prototype.http = axios;
+Vue.prototype.jwt = jwt;
 
 Vue.use(router)
 Vue.use(Vuex);
