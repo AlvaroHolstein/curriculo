@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 // const discordClient = require("./server/disc.js")
 require("dotenv").config();
 
@@ -10,8 +11,9 @@ const port = process.env.PORT || 8000;
 
 const server = express();
 
+server.use(cookieParser()); // Não sei se vai ficar só assim no fim
 server.use(cors());
-server.use(bodyParser.urlencoded({extended: false}));
+server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json())
 
 const httpServer = require("http").createServer(server);
@@ -33,7 +35,23 @@ const messagesRoute = require("./server/routes/message.route");
 // const socketInicialization = require("./server/socket");
 
 
+/** Cookie management
+ * Ver se depois não é preciso passar isto para outro ficheiro
+ */
+server.use((req, res, next) => {
 
+    // Este header estava a não deixar pedidos de outros dominios por ser demasiado abrangente xD
+    // res.header('Access-Control-Allow-Origin', "*/*");
+
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+    /** Vai servir para ir vendo as cookies */
+    console.log("Cookies: ", req.cookies);
+    console.log("Signed Cookies: ", req.signedCookies);
+    console.log("Headers Cookies:", req.headers.cookie)
+    next();
+})
 
 server.use("/api/auth/", authenticationRoute);
 
@@ -46,12 +64,12 @@ server.use("/api/msg", messagesRoute);
 
 server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dist/")))
 server.get("/api/", (req, res) => {
-    res.json({success: true, msg: "A funcionar, bem vindo À api!!!"})
+    res.json({ success: true, msg: "A funcionar, bem vindo À api!!!" })
 })
 
 server.use((err, req, res, next) => {
     console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);
-    res.json({success: false, err: err})
+    res.json({ success: false, err: err })
 })
 
 let sheet = server.listen(port, () => {

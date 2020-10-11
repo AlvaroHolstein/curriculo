@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-
+import store from "./store"; // Ir buscar a minha store
 import Auth from "./views/auth-page.vue";
 
 import MainPage from "./views/main-page.vue";
@@ -58,10 +58,21 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
-    console.log({ to, from, next })
+    let letgo = true;
+    
+    console.log({ to, from, next }, to.name, store)
+    if(to.name != "auth" && store.getters.logged == false) {
+        console.log("A ir para o curriculo")
+        letgo = false;
+    }
+
 
     /** Fazer a confirmação das cookies aqui */
     // fetch()
-    next();
+
+    next(letgo)
+    if(!letgo && from.name != "auth") {
+        router.push({name: 'auth'})
+    }
 })
 export default router;

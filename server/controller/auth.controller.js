@@ -1,5 +1,5 @@
 const user = require("../models/user.model");
-
+const jwt = require("jsonwebtoken");
 /** Porque caralhos isto tem 1 vulnerabilitie high (npm audit maixtarde) */
 const bcrypt = require("bcrypt");
 
@@ -121,8 +121,8 @@ module.exports = {
      */
     existsEmail(email) {
         return new Promise((resolve, reject) => {
-            user.find({email: email}, (err, data) => {
-                if(err) {
+            user.find({ email: email }, (err, data) => {
+                if (err) {
                     reject(err);
                     return;
                 }
@@ -133,13 +133,55 @@ module.exports = {
     },
     existsUsername(username) {
         return new Promise((resolve, reject) => {
-            user.find({username: username}, (err, data) => {
-                if(err) {
+            user.find({ username: username }, (err, data) => {
+                if (err) {
                     reject(err);
                     return;
                 }
                 let founded = data.length == 0 ? false : true;
                 resolve(founded)
+            })
+        })
+    },
+    /** Vou ter que criar aqui uma função que veja se o JWT é válido 
+     * Esta função vai ser usada como auxiliar mas também acho que devia ter 
+     * um endpoint só para ela porque assim era mais fácil de gerir 
+     * as navigations guards do frontend, penso eu de que
+    */
+    verifyJWT() {
+
+    },
+    /** E uma funcção para criar também, só para ter isto limpinho
+     * esta funcção vai ser usada no login e no register
+     * @param payload
+     * @return token String
+     */
+    createJWT(payload, options = null) {
+        /* https://www.npmjs.com/package/jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback
+        
+        "payload" could be an object literal, buffer or string representing valid JSON. */
+        if (options == null) {
+            /** Para o caso de querer options especificas veem nos parametros
+             * se não defino as aqui
+             */
+            options = {
+                expiresIn: 7200000
+            };
+        }
+
+        /** Backdate a jwt 30 seconds (copy paste) */
+        payload.iat = Math.floor(Date.now() / 1000) - 30
+
+        return new Promise((resolve, reject) => {
+            console.log("payload", payload)
+            jwt.sign(payload, process.env.JWT_SECRET, options, (err, token) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                console.log(token)
+                resolve(token)
             })
         })
     }

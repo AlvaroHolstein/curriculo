@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-6 actual-auth">
     <h2 class="text-center">Login</h2>
-    <form class="login-form">
+    <form class="login-form" v-on:submit="login($event)">
       <label for="login-part1">Email/Username</label>
       <input v-model="loginPart1" type="text" id="login-part1" class="form-control"/>
 
@@ -25,6 +25,18 @@ export default {
     },
     created() {
         // this.http = Axios
+    },
+    methods: {
+      async login(eve) {
+        eve.preventDefault()
+        let auth = await this.http.post("http://localhost:5000/api/auth/login", {username: this.loginPart1, password: this.pass}/*, {withCredentials: true}*/);
+        console.log(auth);
+
+        if(auth.data.success) {
+          this.$store.commit('login');
+          this.$router.push({name: 'experiencia'})
+        }
+      }
     }
 };
 </script>

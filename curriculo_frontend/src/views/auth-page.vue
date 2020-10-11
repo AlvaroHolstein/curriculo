@@ -24,6 +24,13 @@ export default {
       login: true,
     };
   },
+  created() {
+    // console.log(this.$store.getters.logged);
+
+    if(this.$store.getters.logged) {
+      this.$router.push({name: 'experiencia'})
+    }
+  }
 };
 </script>
 

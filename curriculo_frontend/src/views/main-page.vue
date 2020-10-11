@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="container-sm">
+    <Navbar />
     <div class="row curriculo-header">
       <div class="col-sm image-div">
         <img alt="My Face" src="../assets/logo.png" />
@@ -50,11 +51,13 @@
 <script>
 // Só pa bere import HelloWorld from './components/HelloWorld.vue'
 import Messaging from '../components/messaging.vue';
+import Navbar from '../components/navbar.vue';
 // A ma Gonna make the messaging madafakas
 export default {
 //   name: "App",
   components: {
-    Messaging
+    Messaging,
+    Navbar
   },
   data() {
     // console.log(process.env.NODE_ENV, process.env)
