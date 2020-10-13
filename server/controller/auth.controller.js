@@ -51,7 +51,7 @@ module.exports = {
                 bcrypt.compare(pass, collection[0].password, (errorBcrypt, result /** true ou false */) => {
                     if (result) {
                         returnModel.success = true;
-                        returnModel.data = collection;
+                        returnModel.data = collection[0];
                         resolve(returnModel);
                         return;
                     }
@@ -156,6 +156,9 @@ module.exports = {
             // A função assim é sincrona
             console.log(token, c)
             let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
+                if(err) {
+                    reject(err)
+                }
                 //2. Se válido, testar a resposta que veio no body
                 console.log(ver);
                 if (c == ver.a * ver.b) {
@@ -210,6 +213,15 @@ module.exports = {
                 console.log(token)
                 resolve(token)
             })
+        })
+    },
+
+    /** Vou ter que matar aqui o token */
+    logout(token) {
+        // Acho que  que vou fazer vai ser por a data de expiração para agora
+        //naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
+        return new Promise((res, rej) => {
+
         })
     }
 }

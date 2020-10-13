@@ -29,10 +29,10 @@ const bodyParser = require("body-parser");
  */
 router.get("/:compId", async (req, res, next) => {
     try {
-        let res = await messageController.getMessages(req.params.compId)
+        let response = await messageController.getMessages(req.params.compId)
 
-        console.log(res);
-        res.json({ success: true, data: res});
+        console.log(response);
+        res.json({ success: true, data: response});
     } catch (err) {
         next(err)
     }

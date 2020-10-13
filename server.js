@@ -19,7 +19,9 @@ server.use(bodyParser.json())
 const httpServer = require("http").createServer(server);
 
 const io = require("socket.io")(httpServer);
-const socketIODisc = require("./server/socket")(io);
+    const socketIODisc = require("./server/socket")(io);
+
+
 
 
 
@@ -66,6 +68,10 @@ server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dis
 server.get("/api/", (req, res) => {
     res.json({ success: true, msg: "A funcionar, bem vindo À api!!!" })
 })
+
+// server.get('/api/disc/numberusers', (req, res) => {
+//     res.json({success: true, n: socketIODisc.getUsersCon()})
+// })
 
 server.use((err, req, res, next) => {
     console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);

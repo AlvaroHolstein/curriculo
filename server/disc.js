@@ -26,7 +26,7 @@ function discordInit(socket) {
 
         // Enviar a mensagem para o frontend
         if (msg.author.bot) {
-
+            console.log("AIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
         }
         else {
             // Tenho que fazer uma funcçã oque envie as mensagens para frontend
@@ -40,5 +40,5 @@ function discordInit(socket) {
 }
 module.exports = {
     discInit: discordInit,
-    chanelId: chanelId
+    defaultChanelId: chanelId
 };

@@ -12,8 +12,13 @@ router.post("/login", async (req, res, next) => {
          */
         console.log(req.cookies)
         let authSuccess = await authController.authenticate(username, password)
+        console.log(authSuccess)
         if (authSuccess.success) {
-            let token = await authController.createJWT({ username: username });
+            let token = await authController.createJWT(
+                {
+                    username: username,
+                    idM: authSuccess.data._id 
+                });
 
 
             // Só estou a conseguir fazer cookies em produção por isso por agora também vai passar a ir no body da resposta, tenho que mudar depois. Devo ter que criar um branch para produção
@@ -64,14 +69,23 @@ router.post("/verify", async (req, res, next) => {
         console.log(ver);
 
         if (ver) {
-            res.json({success: true});
+            res.json({ success: true });
         }
         else {
-            res.json({success: false});
+            res.json({ success: false });
         }
     } catch (error) {
         next(error);
         return;
     }
+})
+
+/** Vou precisar disto para "matar" tokens */
+router.post("/logout", async (req, res, next) => {
+    try {
+
+    } catch(error) {
+        next(error);
+    } 
 })
 module.exports = router;

@@ -3,13 +3,25 @@
     <h2 class="text-center">Login</h2>
     <form class="login-form" v-on:submit="login($event)">
       <label for="login-part1">Email/Username</label>
-      <input v-model="loginPart1" type="text" id="login-part1" class="form-control"/>
+      <input
+        v-model="loginPart1"
+        type="text"
+        id="login-part1"
+        class="form-control"
+      />
 
       <label for="password-login">Password</label>
-      <input v-model="pass" type="text" id="password-login" class="form-control">
+      <input
+        v-model="pass"
+        type="text"
+        id="password-login"
+        class="form-control"
+      />
 
       <div class="text-center btns-div">
-          <button class="btn btn-outline-success" type="submit">Fazer login oh mano</button>
+        <button class="btn btn-outline-success" type="submit">
+          Fazer login oh mano
+        </button>
       </div>
     </form>
   </div>
@@ -17,33 +29,44 @@
 
 <script>
 export default {
-    data() {
-        return {
-            loginPart1: "",
-            pass: ""
-        }
-    },
-    created() {
-        // this.http = Axios
-    },
-    methods: {
-      async login(eve) {
-        eve.preventDefault()
-        let auth = await this.http.post("http://localhost:5000/api/auth/login", {username: this.loginPart1, password: this.pass}/*, {withCredentials: true}*/);
-        console.log(auth.data);
+  data() {
+    return {
+      loginPart1: "",
+      pass: "",
+    };
+  },
+  created() {
+    // this.http = Axios
+  },
+  methods: {
+    async login(eve) {
+      eve.preventDefault();
+      let auth = await this.http.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          username: this.loginPart1,
+          password: this.pass,
+        } /*, {withCredentials: true}*/
+      );
+      console.log(auth.data);
 
-        if(auth.data.success) {
-          this.$store.commit('login');
-          this.$store.commit('setToken', auth.data.jwt)
-          this.$router.push({name: 'experiencia'})
-        }
+      /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
+       * Passo 1. das mensagens 
+       */
+      if (auth.data.success) {
+        this.$store.commit("login");
+
+        /** Passo 2. das Mensagens */
+        this.$store.commit("setToken", auth.data.jwt);
+        this.$router.push({ name: "experiencia" });
       }
-    }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 div.btns-div {
-    margin: 10px 0px;
+  margin: 10px 0px;
 }
 </style>

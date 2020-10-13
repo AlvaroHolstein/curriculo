@@ -138,6 +138,11 @@ export default {
       if (this.firstTimeChatOpen) {
         this.scrollDownMessageContainer();
         this.firstTimeChatOpen = false;
+
+        /** Primeira vez que se abre as mensagens por isso carregar agora as infos necessárias
+         * 1. Enviar o token e ver qual é a resposta do backend, ão vai ser aqui... Vai ser no sendMessage()
+         */
+        // this.http.post()
       }
 
       /** Importante
@@ -162,7 +167,9 @@ export default {
         /** Enviar para o client Socket IO */
 
         this.messages.push(messageObj);
-        this.socketClient.emit('mess', this.textMessage)
+        
+        /** Acho que vai haver um stress aqui que vai ser a mensagem vai acabar a ir para todos os utilizadores */
+        this.socketClient.emit('mess', {text: this.textMessage, token: this.$store.getters.token})
         //Limpar a caixa de texto
 
         this.textMessage = "";
