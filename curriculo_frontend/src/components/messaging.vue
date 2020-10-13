@@ -46,39 +46,15 @@
 
 <script>
 import io from "socket.io-client";
-
+import { AuthClass } from "../classes/auth.class";
+import Swal from 'sweetalert2'
 export default {
   data() {
     return {
-      textMessage: "text",
+      textMessage: "",
       firstTimeChatOpen: true,
       socketClient: null,
-      messages: [
-        { message: "ola", date: "2020/08/31", self: false },
-        {
-          message:
-            "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
-          date: "2020/08/31",
-          self: true,
-        },
-        { message: "ola", date: "2020/08/31", self: true },
-        { message: "ola", date: "2020/08/31", self: true },
-        { message: "ola", date: "2020/08/31", self: true },
-        {
-          message:
-            "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
-          date: "2020/08/31",
-          self: true,
-        },
-        { message: "ola", date: "2020/08/31", self: true },
-        {
-          message:
-            "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
-          date: "2020/08/31",
-          self: false,
-        },
-        { message: "ola", date: "2020/08/31", self: true },
-      ],
+      messages: [],
       showMessages: false,
       url:
         process.env.NODE_ENV == "production"
@@ -106,15 +82,17 @@ export default {
     this.socketClient.on("connection", (socket) => {
       console.log("connected", socket);
     });
-    this.socketClient.on("user left", (socket) => console.log("Alguem saiu", socket))
+    this.socketClient.on("user left", (socket) =>
+      console.log("Alguem saiu", socket)
+    );
 
     /** Receive message from discord */
-    this.socketClient.on("messageDisc", data => {
-      console.log("data", data)
+    this.socketClient.on("messageDisc", (data) => {
+      console.log("data", data);
 
       /** Inserir esta mensagem no  */
-      this.receiveMessages(data)
-    })
+      this.receiveMessages(data);
+    });
   },
   mounted() {
     document.querySelector("#text").addEventListener("keypress", (event) => {
@@ -129,22 +107,41 @@ export default {
     },
   },
   methods: {
-    openMessages() {
+    async openMessages() {
       // let messageWrapper = document.querySelector("#messaging");
       // console.log(messageWrapper);
+      try {
+        this.showMessages = !this.showMessages;
 
-      this.showMessages = !this.showMessages;
+        if (this.firstTimeChatOpen) {
+          this.scrollDownMessageContainer();
+          this.firstTimeChatOpen = false;
 
-      if (this.firstTimeChatOpen) {
-        this.scrollDownMessageContainer();
-        this.firstTimeChatOpen = false;
+          /** Primeira vez que se abre as mensagens por isso carregar agora as mensagens
+           */
+          console.log("MESSAGES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-        /** Primeira vez que se abre as mensagens por isso carregar agora as infos necessárias
-         * 1. Enviar o token e ver qual é a resposta do backend, ão vai ser aqui... Vai ser no sendMessage()
-         */
-        // this.http.post()
+          let { a, b } = await AuthClass.verifyToken(this.$store.getters.token);
+          let res = await this.http.post(
+            `${this.$store.getters.url}msg/getmessages`,
+            { token: this.$store.getters.token, c: a * b }
+          );
+          console.log("MESSAGES !!!", res);
+          if (res.success) {
+            this.messages = res.data.data;
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: "Couldn't fetch Last Messages, sory!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("ERROU", error);
       }
-
       /** Importante
        *  Vou ter que criar sessões */
     },
@@ -161,15 +158,18 @@ export default {
           empresa: "TBD",
           compId: -1,
           name: "TBD",
-          self: true
+          self: true,
         };
 
         /** Enviar para o client Socket IO */
 
         this.messages.push(messageObj);
-        
+
         /** Acho que vai haver um stress aqui que vai ser a mensagem vai acabar a ir para todos os utilizadores */
-        this.socketClient.emit('mess', {text: this.textMessage, token: this.$store.getters.token})
+        this.socketClient.emit("mess", {
+          text: this.textMessage,
+          token: this.$store.getters.token,
+        });
         //Limpar a caixa de texto
 
         this.textMessage = "";
@@ -178,16 +178,16 @@ export default {
     },
     receiveMessages(text) {
       let messageObj = {
-          message: text,
-          date: new Date().toISOString(),
-          empresa: "TBD",
-          compId: -1,
-          name: "TBD",
-          self: false
-        };
+        message: text,
+        date: new Date().toISOString(),
+        empresa: "TBD",
+        compId: -1,
+        name: "TBD",
+        self: false,
+      };
 
-        this.messages.push(messageObj);
-        this.scrollDownMessageContainer();
+      this.messages.push(messageObj);
+      this.scrollDownMessageContainer();
     },
     closeMessages() {
       this.showMessages = false;

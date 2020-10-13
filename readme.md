@@ -135,3 +135,31 @@ O Importante é  a parte que diz que no futuro os erros não lidados corretament
 promise which was not handled with .catch(). (rejection id: 2)
 (node:16200) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 ```
+
+### Meesage Array "template"
+```
+{ message: "ola", date: "2020/08/31", self: false },
+{
+    message:
+    "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
+    date: "2020/08/31",
+    self: true,
+},
+{ message: "ola", date: "2020/08/31", self: true },
+{ message: "ola", date: "2020/08/31", self: true },
+{ message: "ola", date: "2020/08/31", self: true },
+{
+    message:
+    "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
+    date: "2020/08/31",
+    self: true,
+},
+{ message: "ola", date: "2020/08/31", self: true },
+{
+    message:
+    "asdlklaksjdoaijsldknalksndlaknlaksndlkknalsdknaoilknalksnls lkmalskdm",
+    date: "2020/08/31",
+    self: false,
+},
+{ message: "ola", date: "2020/08/31", self: true },
+```

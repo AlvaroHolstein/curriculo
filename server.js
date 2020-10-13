@@ -19,8 +19,8 @@ server.use(bodyParser.json())
 const httpServer = require("http").createServer(server);
 
 const io = require("socket.io")(httpServer);
-    const socketIODisc = require("./server/socket")(io);
-
+let { socketIODisc } = require("./server/socket")
+let MyDisc = new socketIODisc(io);
 
 
 
@@ -33,7 +33,7 @@ const escolaRoute = require("./server/routes/escola.route");
 const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
 const competenciasRoute = require("./server/routes/competencias.route");
-const messagesRoute = require("./server/routes/message.route");
+const messagesRoute = require("./server/routes/message.route")(MyDisc);
 // const socketInicialization = require("./server/socket");
 
 

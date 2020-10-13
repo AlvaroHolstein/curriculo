@@ -10,10 +10,9 @@ import Competencias from "./views/competencias.vue";
 import Detalhes from "./views/detalhes.vue";
 import InformacaoAdicional from "./views/informacao_adicional.vue";
 
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
-import envs from '../dev.env';
+import {AuthClass} from './classes/auth.class';
 
 Vue.use(Router);
 
@@ -62,18 +61,7 @@ const router = new Router({
     ]
 })
 
-function verifyToken(token) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, envs.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(decoded);
-            return;
-        })
-    })
-}
+
 
 router.beforeEach(async (to, from, next) => {
     try {
@@ -93,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
 
         if (to.name != 'auth' && store.getters.logged == true) {
             //1. Veirficar Token
-            let jwtVerified = await verifyToken(store.getters.token);
+            let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
 
             //Ainda tenho que criar a rota
