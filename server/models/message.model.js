@@ -4,23 +4,29 @@ const { Schema, model } = require("../mongoConfig");
 const messageSchema = new Schema({
     /** Aqui vou querer receber o _id do mongo */
     message: {
-        type: String
+        type: String,
+        required: true
     },
     self: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
-    name: {
-        type: String
+    username: {
+        type: String,
+        required: true
     },
     empresa: {
         type: String
     },
     date: {
         type: Date,
+        /** Porque é a data em que realmente chega ao servidor */
         default: new Date().toISOString()
     },
-    compId: {
-        type: Number
+    // Vai ser o elemento unico para além do _id
+    channelName: {
+        type: String,
+        required: true
     }
 });
 

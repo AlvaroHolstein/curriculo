@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Curriculo</a>
+    <a class="navbar-brand" href="#">{{$store.getters.username == null ? Curriculo : $store.getters.username}}</a>
 
     <!-- Burguer Button -->
     <button

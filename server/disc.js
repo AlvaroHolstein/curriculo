@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+const messageController = require("./controller/message.controller");
+
 const discordToken = process.env.DISCORD_TOKEN;
 const chanelId = process.env.DISCORD_CHANEL_ID;
 
@@ -14,24 +16,31 @@ function discordInit(socket) {
         console.log("O Discord Já está a correr sem erros em principio");
     })
 
-    client.on("message", (msg) => {
-        /** Aqui vai ser onde a minha mensagem é recebida e depois enviada para 
+    client.on("message", async (msg) => {
+        try {
+            /** Aqui vai ser onde a minha mensagem é recebida e depois enviada para 
          * o frontend
          */
-        // console.log("CHegou uma mensagem ao discord disc.js", msg.author);
-        /**
-         * Para diferenciar quando é uma mensagem enviada por mim ou pelo bot
-         * msg.author.bot ...
-         */
+            // console.log("CHegou uma mensagem ao discord disc.js", msg.author);
+            /**
+             * Para diferenciar quando é uma mensagem enviada por mim ou pelo bot
+             * msg.author.bot ...
+             */
 
-        // Enviar a mensagem para o frontend
-        if (msg.author.bot) {
-            // console.log("AIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
-        }
-        else {
-            // Tenho que fazer uma funcçã oque envie as mensagens para frontend
-            // console.log(msg.content)
-            socket.emit("messageDisc", msg.content)
+            // Enviar a mensagem para o frontend
+            if (msg.author.bot) {
+                // console.log("AIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+            }
+            else {
+                // Tenho que fazer uma funcçã oque envie as mensagens para frontend
+                console.log({msg})
+                // Vou precisar do nome do canal para saber para onde eu mandei as mensagens
+                await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name);
+                socket.emit("messageDisc", msg.content)
+            }
+        } catch (error) {
+            console.log("Aconteceu um erro no discord no .on('message')", error);
+            throw error;
         }
     })
 

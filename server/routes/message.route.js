@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 
+const messageController = require("../controller/message.controller");
 // const messageController = require("../controller/message.controller");
 
 /**
@@ -50,9 +51,9 @@ function MessageConstructor(chatMessage) {
             let {username, idM} = await jwt.verify(req.body.token, process.env.JWT_SECRET);
             let chName = (username+idM).toLowerCase();
             console.log("chname", chName);
-            let response = await chatMessage.getMessagesByCh((username+idM).toLowerCase())
 
-            console.log("MENSAGENS",response,"MENSAGENS!!!!");
+            let response = await messageController.getMessages(chName);
+            
             res.json({ success: true, data: response });
         } catch (err) {
             console.log('ERRO!!!!!!!!!!!!!!!!!!!!!!!!!', err)

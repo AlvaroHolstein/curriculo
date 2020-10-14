@@ -85,7 +85,7 @@ module.exports = {
 
                     let newUser = new user({ username, email, password: hash });
 
-                    // console.log({ newUser, username, email, password, hash });
+                    console.log({ newUser, username, email, password, hash });
 
                     /** Vou ter que usar o bcrypt se op validate do mongoose der fixe */
                     newUser.save(err => {
@@ -104,6 +104,7 @@ module.exports = {
                         }
 
                         returnModel.success = true;
+                        returnModel.data = newUser;
                         resolve(returnModel);
                         return
                     })

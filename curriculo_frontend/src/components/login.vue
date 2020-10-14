@@ -51,13 +51,13 @@ export default {
       console.log(auth.data);
 
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
-       * Passo 1. das mensagens 
+       * Passo 1. das mensagens
        */
       if (auth.data.success) {
-        this.$store.commit("login");
+        this.$store.commit("setToken", auth.data.jwt);
+        await this.$store.commit("login");
 
         /** Passo 2. das Mensagens */
-        this.$store.commit("setToken", auth.data.jwt);
         this.$router.push({ name: "experiencia" });
       }
     },

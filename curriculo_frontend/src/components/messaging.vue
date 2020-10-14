@@ -127,7 +127,7 @@ export default {
             { token: this.$store.getters.token, c: a * b }
           );
           console.log("MESSAGES !!!", res);
-          if (res.success) {
+          if (res.data.success) {
             this.messages = res.data.data;
           } else {
             Swal.fire({
@@ -158,7 +158,7 @@ export default {
           empresa: "TBD",
           compId: -1,
           name: "TBD",
-          self: true,
+          self: false,
         };
 
         /** Enviar para o client Socket IO */
@@ -183,7 +183,7 @@ export default {
         empresa: "TBD",
         compId: -1,
         name: "TBD",
-        self: false,
+        self: true,
       };
 
       this.messages.push(messageObj);
@@ -253,10 +253,10 @@ div.fab.close-messaging {
 
 div.message-text-container {
   &.theirs {
-    text-align: left;
+    text-align: right;
   }
   &.self {
-    text-align: right;
+    text-align: left;
   }
 }
 div.message-text {

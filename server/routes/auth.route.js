@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { register } = require("../controller/auth.controller");
 const authController = require("../controller/auth.controller");
 
 router.post("/login", async (req, res, next) => {
@@ -51,12 +52,14 @@ router.post("/register", async (req, res, next) => {
         }
         else {
             let registerSuccess = await authController.register(req.body);
+            console.log({registerSuccess})
             /** Devo conseguir fazer um código mai lindo aqui em baixo, com um destructuring */
             let token = null;
             if (registerSuccess.success) {
-                token = await authController.createJWT({ username: req.body.username })
+                token = await authController.createJWT({ username: registerSuccess.data.username, idM: registerSuccess.data._id })
             }
-            res.json({ success: registerSuccess.success, data: registerSuccess.data })
+            // Depois o token vai em cookies e não aqui
+            res.json({ success: registerSuccess.success, data: registerSuccess.data, token: token })
         }
     } catch (error) {
         next(error)

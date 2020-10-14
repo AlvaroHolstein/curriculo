@@ -13,11 +13,11 @@
  * @return {bool} some bool
  */
 const Discord = require("discord.js");
+const jwt = require("jsonwebtoken");
 
 // Este channelId já não vai ser preciso, e dai pode servir para ser o default channel ...
 let { discInit, defaultChanelId } = require("./disc.js");
-const jwt = require("jsonwebtoken");
-
+const messageController = require("./controller/message.controller");
 
 class socketInicialization {
 
@@ -39,65 +39,72 @@ class socketInicialization {
              */
             console.log("Entrou Mais um", socket.id);
             socket.on("mess", async ({ text, token }) => {
-                let chanelExists = false;
-                let chanelId = null;
-                // console.log("Receive Message On Socket file !!!!!")
-                /**
-                 * Vai ser aqui que vou receber as mensagens dos utilizadores,
-                 * por isso é aqui que antes de enviar uma mensagem para um certo canal,
-                 * tenho que verificar se o canal já existe ou não,
-                 * e agir consoante isso
-                 */
+                try {
+                    let chanelExists = false;
+                    let chanelId = null;
+                    // console.log("Receive Message On Socket file !!!!!")
+                    /**
+                     * Vai ser aqui que vou receber as mensagens dos utilizadores,
+                     * por isso é aqui que antes de enviar uma mensagem para um certo canal,
+                     * tenho que verificar se o canal já existe ou não,
+                     * e agir consoante isso
+                     */
 
-                let decoded = await jwt.verify(token, process.env.JWT_SECRET);
-                let { username, idM } = decoded;
-                let chanelName = username + idM;
+                    let decoded = await jwt.verify(token, process.env.JWT_SECRET);
+                    let { username, idM } = decoded;
+                    let chanelName = username + idM;
 
-                /** Este forEach e o acima acabam por fazer um bocado a mesma coisa,
-                 * mas o que eu quero é sós gerir o "ServidorBot"
-                 * Se o fizer aqui o "gerenciamento" vai acontecer de toda a vez que o user mandar uma mensagem,
-                 * mas se o fizer na função acima (.on("connection")) só acontece a primeira vez
-                 * que um user connectar 
-                 * 
-                 * Por agora vou usar esta forma para fazer as cenas, a outra vai estar guardada no readme.md
-                 */
-                let mainGuild = null;
-                this.client.guilds.cache.forEach((guild) => {
-                    if (guild.name == "ServidorBot") {
-                        mainGuild = guild;
-                        guild.channels.cache.forEach((ch) => {
-                            /** IMPORTANTE:
-                             * 
-                             * Os nomes dos canais são sempre em minusculas
-                             */
-                            if (ch.type == 'text' && ch.name == chanelName.toLowerCase()) {
-                                chanelId = ch.id
-                                chanelExists = true;
-                            }
-                        })
-                    }
-                })
+                    /** Este forEach e o acima acabam por fazer um bocado a mesma coisa,
+                     * mas o que eu quero é sós gerir o "ServidorBot"
+                     * Se o fizer aqui o "gerenciamento" vai acontecer de toda a vez que o user mandar uma mensagem,
+                     * mas se o fizer na função acima (.on("connection")) só acontece a primeira vez
+                     * que um user connectar 
+                     * 
+                     * Por agora vou usar esta forma para fazer as cenas, a outra vai estar guardada no readme.md
+                     */
+                    let mainGuild = null;
+                    this.client.guilds.cache.forEach((guild) => {
+                        if (guild.name == "ServidorBot") {
+                            mainGuild = guild;
+                            guild.channels.cache.forEach((ch) => {
+                                /** IMPORTANTE:
+                                 * 
+                                 * Os nomes dos canais são sempre em minusculas
+                                 */
+                                if (ch.type == 'text' && ch.name == chanelName.toLowerCase()) {
+                                    chanelId = ch.id
+                                    chanelExists = true;
+                                }
+                            })
+                        }
+                    })
 
-                if (!chanelExists) {
-                    mainGuild.channels.create(chanelName, {
-                        type: 'text',
-                        reason: 'Little Talks'
-                    }).then((newCh) => {
+                    if (!chanelExists) {
+                        let newCh = await mainGuild.channels.create(chanelName,
+                            {
+                                type: 'text',
+                                reason: 'Little Talks'
+                            })
                         console.log(defaultChanelId)
-                        this.client.channels.cache.get(newCh.id).send(text)
+                        await this.saveMessage(text, username, chanelName)
+                        this.client.channels.cache.get(newCh.id).send(text);
                         this.client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
-                    }).catch((err) => {
+
                         /** Vou ter que melhorar esta parte em termos de error handling 
                             * O erro que ás vezes dá é o que está no readme
                            */
-                        console.log("ERROR Ao CRIAR UM CANAL!!!!!")
-                        throw err;
-                    })
-                }
-                else {
-                    /** Vem do parametro da funçoum */
-                    chanelId = chanelId == null ? defaultChanelId : chanelId
-                    this.client.channels.cache.get(chanelId).send(text)
+                        // console.log("ERROR Ao CRIAR UM CANAL!!!!!")
+                        // throw err;
+                    }
+                    else {
+                        /** Vem do parametro da funçoum */
+                        chanelId = chanelId == null ? defaultChanelId : chanelId
+                        await this.saveMessage(text, username, chanelName)
+                        this.client.channels.cache.get(chanelId).send(text)
+                    }
+                } catch (error) {
+                    // Mais uma vez acho que isto não resolve o problema do error handling
+                    throw error;
                 }
             })
 
@@ -114,6 +121,22 @@ class socketInicialization {
         })
     }
 
+    /** Vou fazer aqui fora a função para guardar as mensagens que depois é usada em cima */
+    async saveMessage(message, username, channelName) {
+        try {
+            /** Se a mensagem não for guardada copm sucesso vou ter que fazer algo que 
+             * avise o user disso
+             */
+            let saveMsg = await messageController.saveMessages(message, false, username, channelName);
+        } catch (error) {
+            /**
+            * Não acho que isto eseja bem apanhado, sou capaz de ter que juntar 
+            * ao error handleer que já fiz, um "próprio" do node e depois enviar a partir dai as cenas para o error handler do express
+            */
+            throw error;
+        }
+    }
+
     /** Mandar para aqui a funcção para ir buscar msg's ao discord e o nome do canal
      * 
      * @param {String} channelName
@@ -126,10 +149,10 @@ class socketInicialization {
          *  como os nomes dos canais vêm no token (username+idM) tenho como
          *  ir buscar o canal certo depois de um forEach
         */
-        const filter = m => m ? true: false;
+        const filter = m => m ? true : false;
         return new Promise((res, rej) => {
             if (this.client) {
-                console.log("CHNAME!!!!!!!!!!!!!!!!!!!!",channelName)
+                console.log("CHNAME!!!!!!!!!!!!!!!!!!!!", channelName)
 
                 this.client.guilds.cache.forEach((guild) => {
                     if (guild.name == "ServidorBot") {
