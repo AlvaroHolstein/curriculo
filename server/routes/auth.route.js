@@ -11,9 +11,7 @@ router.post("/login", async (req, res, next) => {
          * erro, se houver,
          * pronto é  isso por agora
          */
-        console.log(req.cookies)
         let authSuccess = await authController.authenticate(username, password)
-        console.log(authSuccess)
         if (authSuccess.success) {
             let token = await authController.createJWT(
                 {
@@ -52,7 +50,7 @@ router.post("/register", async (req, res, next) => {
         }
         else {
             let registerSuccess = await authController.register(req.body);
-            console.log({registerSuccess})
+
             /** Devo conseguir fazer um código mai lindo aqui em baixo, com um destructuring */
             let token = null;
             if (registerSuccess.success) {
@@ -69,7 +67,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/verify", async (req, res, next) => {
     try {
         let ver = await authController.verifyJWT(req.body);
-        console.log(ver);
+        // console.log(ver);
 
         if (ver) {
             res.json({ success: true });

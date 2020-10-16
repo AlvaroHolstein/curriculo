@@ -20,9 +20,8 @@ module.exports = {
             console.log("Está a faltar a empresa")
         }
 
-        console.log({message, self, username, channelName, empresa});
+        // console.log({message, self, username, channelName, empresa});
         return new Promise((res, rej) => {
-            console.log("1º Etapa", message);
 
             let newMessage = new messageModel({
                 message: message,

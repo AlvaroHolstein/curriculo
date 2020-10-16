@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 // const discordClient = require("./server/disc.js")
@@ -65,8 +66,33 @@ server.use("/api/msg", messagesRoute);
 
 
 server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dist/")))
+
 server.get("/api/", (req, res) => {
     res.json({ success: true, msg: "A funcionar, bem vindo À api!!!" })
+})
+
+// Just to get the Changes to be done file (changes-missing.md)
+server.get("/api/extra-info", async (req, res, next) => {
+    /** Ler o que o ficheiro contém e enviar lo na resposta */
+    function readFile() {
+        return new Promise((res, rej) => {
+            const filePath = path.join(__dirname, 'server/changes-missing.md')
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if(err) {
+                    rej(err);
+                    return;
+                }
+
+                res(data)
+            })
+        })
+    }
+    try {
+        let fileData = await readFile();
+        res.json({ success: true, data: fileData })
+    } catch (err) {
+        res.json({success: false, error: err})
+    }
 })
 
 // server.get('/api/disc/numberusers', (req, res) => {

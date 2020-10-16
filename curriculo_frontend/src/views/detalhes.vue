@@ -1,5 +1,5 @@
 <template>
-  <div class="detalhes-wrapper">{{detalhes[0] == undefined ? "" : detalhes[0].resumo}}</div>
+  <div class="detalhes-wrapper" v-html="detalhes[0] == undefined ? 'Ocorreu um erro ao carregar esta informação' : detalhes[0].resumo"></div>
 </template>
 <script>
 export default {

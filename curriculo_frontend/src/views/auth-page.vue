@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm all-container">
     <div class="row main-container">
-        <Login v-if="login" />
+        <Login v-if="login"  />
         <Register v-if="!login" />
     </div>
     <div class="text-center log-reg-btn">
@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss">
 div.main-container {
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 div.actual-auth {
   border: 1px solid black;

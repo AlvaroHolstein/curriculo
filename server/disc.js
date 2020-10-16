@@ -33,7 +33,6 @@ function discordInit(socket) {
             }
             else {
                 // Tenho que fazer uma funcçã oque envie as mensagens para frontend
-                console.log({msg})
                 // Vou precisar do nome do canal para saber para onde eu mandei as mensagens
                 await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name);
                 socket.emit("messageDisc", msg.content)

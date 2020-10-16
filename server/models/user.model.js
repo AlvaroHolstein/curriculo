@@ -13,6 +13,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    empresa: {
+        type: String
+    },
     lastLogin: {
         type: Date
     },

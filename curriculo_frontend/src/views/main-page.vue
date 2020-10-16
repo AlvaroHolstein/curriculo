@@ -3,12 +3,23 @@
     <Navbar />
     <div id="app" class="container-sm">
       <div class="row curriculo-header">
-        <div class="col-sm image-div">
-          <img alt="My Face" src="../assets/logo.png" />
+        <div class="col-sm-6 image-div">
+          <img alt="My Face" src="../assets/mim.jpg" />
         </div>
-        <div class="col-sm">
+        <div class="col-sm-6">
           <ul class="first-info">
+            <!-- Nome -->
             <li>Álvaro Diogo Gomes Ferreira de Sousa Holstein</li>
+
+            <!-- Contactos -->
+            <li>{{detalhes['telemovel']}}</li>
+            <li>{{detalhes['email']}}</li>
+            <li>{{detalhes['morada']}}</li>
+
+
+            <!-- Repositórios -->
+            <li><a :href="detalhes['github']">GitHub </a></li>
+            <li><a :href="detalhes['bitbucket']">Bitbucket </a></li>
           </ul>
         </div>
       </div>
@@ -81,14 +92,23 @@ export default {
   data() {
     // console.log(process.env.NODE_ENV, process.env)
     return {
-      // url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/"
+      url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/",
+      detalhes: null
     };
+  },
+  async created() {
+    let res = await this.http.get(`${this.url}infoextra`);
+
+    if (res.data.success) {
+      this.detalhes = res.data.data[0];
+      console.log(this.detalhes);
+    }
   },
   computed: {},
 };
 </script>
 
-<style>
+<style lang="scss">
 /* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -102,6 +122,12 @@ div.curriculo-header {
 }
 div.image-div {
   text-align: center;
+
+  > img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 50%;
+  }
 }
 ul.first-info {
   list-style: none;
@@ -109,5 +135,14 @@ ul.first-info {
 }
 hr.separator {
   border-top: 1px dashed red;
+}
+
+@media (min-width: 570px) {
+  div.image-div {
+
+    > img {
+      max-height: 350px;
+    }
+  }
 }
 </style>

@@ -6,6 +6,25 @@ const experienciaSchema = new Schema({
     },
     empresa: {
         type: String
+    },
+    // Isto vai servir para agrupar os trabalhos no frontend
+    identifier: {
+        type: String
+    },
+    data_inicio: {
+        type: Date
+    },
+    data_fim: {
+        type: Date
+    },
+    resumo: {
+        type: String
+    },
+    cargo: {
+        type: String
+    },
+    img: {
+        type: String
     }
 })
 

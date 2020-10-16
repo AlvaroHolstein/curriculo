@@ -1,15 +1,25 @@
 <template>
   <div class="escolas-wrapper">
-    <ul class="escolas-list">
-      <li v-for="(escola, index) in escolas" v-bind:key="index">
-        <h4>{{escola.nome_curso}}</h4>
-        <span>{{escola.nome}}</span>
-        <div>
-          {{escola.data_inicio}} - {{escola.data_fim}}
-        </div>
-        <hr v-if="index < escolas.length -1" class="separator" />
-      </li>
-    </ul>
+
+    <b-card
+      no-body
+      v-for="(escola, index) in escolas"
+      v-bind:key="index"
+      class="overflow-hidden outter-card"
+    >
+      <b-row>
+        <b-col md="12">
+          <b-card-body v-bind:title="escola.nome_curso">
+              <h5>{{escola.nome}}</h5>
+              <b-card-text class="datas">
+                <span class="data-inicio">{{escola.data_inicio}}</span>
+                até
+                <span class="data-fim">{{escola.data_inicio}}</span>
+              </b-card-text>
+          </b-card-body>
+        </b-col>
+      </b-row>
+    </b-card>
   </div>
 </template>
 
@@ -18,7 +28,10 @@ export default {
   data: () => {
     return {
       escolas: [],
-      url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/"
+      url:
+        process.env.NODE_ENV == "production"
+          ? "https://alvarocurriculo.herokuapp.com/api/"
+          : "http://localhost:5000/api/",
     };
   },
   async created() {

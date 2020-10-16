@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 actual-auth">
+  <div class="col-12 actual-auth">
     <h2 class="text-center">Register</h2>
     <form class="register-form" v-on:submit="registerUser($event)">
       <label for="username-register">Username</label>
@@ -13,6 +13,9 @@
 
       <label for="email">Email</label>
       <input v-model="email" type="email" id="email" class="form-control" required />
+
+      <label for="empresa">Empresa</label>
+      <input type="text" id="empresa" class="form-control" v-model="empresa" />
 
       <label for="password">Password</label>
       <input
@@ -33,7 +36,7 @@
 
       <div class="text-center btns-div">
         <button type="submit" class="btn btn-success">
-          Registar Oh maninho
+          Registar
         </button>
       </div>
     </form>
@@ -46,6 +49,7 @@ export default {
     return {
       username: "",
       email: "",
+      empresa: "",
       password: "",
       passwordRecheck: "",
     };
@@ -61,6 +65,7 @@ export default {
         let res = await this.http.post("http://localhost:5000/api/auth/register", {
           username: this.username,
           password: this.password,
+          empresa: this.empresa,
           email: this.email
         });
         console.log(res);

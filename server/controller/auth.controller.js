@@ -30,7 +30,6 @@ module.exports = {
             else if (loginField == 2) {
                 fieldToLookfor = { email: username }
             }
-            console.log(fieldToLookfor)
             user.find(fieldToLookfor, (err, collection) => {
                 if (err) {
                     returnModel.err = err;
@@ -67,7 +66,7 @@ module.exports = {
     },
 
     /** Registar um novo madafakas */
-    register({ username, email, password }) {
+    register({ username, email, empresa, password }) {
         return new Promise((resolve, reject) => {
             const saltRounds = 10;
             let returnModel = {
@@ -83,9 +82,7 @@ module.exports = {
                         return;
                     }
 
-                    let newUser = new user({ username, email, password: hash });
-
-                    console.log({ newUser, username, email, password, hash });
+                    let newUser = new user({ username, email, password: hash, empresa });
 
                     /** Vou ter que usar o bcrypt se op validate do mongoose der fixe */
                     newUser.save(err => {
@@ -155,13 +152,11 @@ module.exports = {
         return new Promise((resolve, reject) => {
             //1. Verificar a validade do token
             // A função assim é sincrona
-            console.log(token, c)
             let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
                 if(err) {
                     reject(err)
                 }
                 //2. Se válido, testar a resposta que veio no body
-                console.log(ver);
                 if (c == ver.a * ver.b) {
                     resolve(true)
                 }
@@ -204,14 +199,12 @@ module.exports = {
         payload.b = b;
 
         return new Promise((resolve, reject) => {
-            console.log("payload", payload)
             jwt.sign(payload, process.env.JWT_SECRET, options, (err, token) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                console.log(token)
                 resolve(token)
             })
         })

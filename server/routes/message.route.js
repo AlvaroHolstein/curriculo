@@ -50,7 +50,7 @@ function MessageConstructor(chatMessage) {
 
             let {username, idM} = await jwt.verify(req.body.token, process.env.JWT_SECRET);
             let chName = (username+idM).toLowerCase();
-            console.log("chname", chName);
+            // console.log("chname", chName);
 
             let response = await messageController.getMessages(chName);
             

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 actual-auth">
+  <div class="col-12 actual-auth">
     <h2 class="text-center">Login</h2>
     <form class="login-form" v-on:submit="login($event)">
       <label for="login-part1">Email/Username</label>

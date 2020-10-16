@@ -27,6 +27,11 @@ const messageSchema = new Schema({
     channelName: {
         type: String,
         required: true
+    },
+    seen: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

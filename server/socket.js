@@ -85,7 +85,6 @@ class socketInicialization {
                                 type: 'text',
                                 reason: 'Little Talks'
                             })
-                        console.log(defaultChanelId)
                         await this.saveMessage(text, username, chanelName)
                         this.client.channels.cache.get(newCh.id).send(text);
                         this.client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
@@ -152,7 +151,6 @@ class socketInicialization {
         const filter = m => m ? true : false;
         return new Promise((res, rej) => {
             if (this.client) {
-                console.log("CHNAME!!!!!!!!!!!!!!!!!!!!", channelName)
 
                 this.client.guilds.cache.forEach((guild) => {
                     if (guild.name == "ServidorBot") {
@@ -162,11 +160,9 @@ class socketInicialization {
                              * Os nomes dos canais são sempre em minusculas
                              */
                             if (ch.type == 'text' && ch.name == channelName) {
-                                console.log(ch.type, ch.name, channelName, ch.name == channelName)
 
                                 let txtCh = new Discord.TextChannel(guild, null)
                                 let msgCh = new Discord.Message(this.client, null, txtCh);
-                                console.log(msgCh, "txt", msgCh.messages.cache)
                                 // txtCh.fet00.forEach(msg => {
                                 //     console.log("MSG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", msg)
                                 // })

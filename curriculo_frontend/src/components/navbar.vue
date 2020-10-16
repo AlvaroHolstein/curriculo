@@ -1,6 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">{{$store.getters.username == null ? Curriculo : $store.getters.username}}</a>
+    <a class="navbar-brand" href="#">{{
+      $store.getters.username == null ? Curriculo : $store.getters.username
+    }}</a>
 
     <!-- Burguer Button -->
     <button
@@ -15,8 +17,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse row" id="navbarSupportedContent">
-      <div class="form-container col-10">
+    <!-- Ficava fixe, como se fosse pesquisar por documentação -->
+    <div
+      class="collapse navbar-collapse text-right"
+      id="navbarSupportedContent"
+    >
+      <!--<div class="form-container col-10">
         <form class="form-de-pesquisa">
           <input
             class="form-control"
@@ -28,15 +34,13 @@
             Search
           </button>
         </form>
-      </div>
+      </div> -->
 
-      <div class="col-2 mr-right">
-        <ul class="navbar-nav navbar-list">
-          <li class="nav-item active logout-btn" v-on:click="logout()">
-            <span>Logout</span>
-          </li>
-        </ul>
-      </div>
+      <ul class="navbar-nav navbar-list">
+        <li class="nav-item active logout-btn" v-on:click="logout()">
+          <span>Logout</span>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
@@ -44,23 +48,19 @@
 <script>
 export default {
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
-      logout() {
-          this.$store.commit("logout");
-          this.$router.push({name: 'auth'});
-      }
-  }
+    logout() {
+      this.$store.commit("logout");
+      this.$router.push({ name: "auth" });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 ul.navbar-list {
-  right: 5px;
-
   li.logout-btn {
     width: 100%;
     text-align: right;
@@ -76,13 +76,20 @@ div.form-container {
   text-align: center;
 
   form.form-de-pesquisa {
-     
-      > input {
-          max-width: 50%;
-          margin: 0px !important;
-           display: inline-block;
-      } 
+    > input {
+      max-width: 50%;
+      margin: 0px !important;
+      display: inline-block;
+    }
   }
+}
+
+@media (min-width: 990px) {
+
+ul.navbar-list {
+  right: 10px;
+  position: absolute;
+}
 }
 /** Podia ter aqui uma lista com os vários tamanhos das colunas do bootstrap */
 </style>
