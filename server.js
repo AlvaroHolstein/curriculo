@@ -7,7 +7,9 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-const port = process.env.NODE_ENV == 'production' ? process.env.portProd : process.env.PORT || 8000;
+// Acho que isto está a foder o deploy no heroku
+// const port = process.env.NODE_ENV == 'production' ? process.env.portProd : process.env.PORT || 8000;
+
 
 
 const server = express();
