@@ -49,6 +49,8 @@ export default {
         } /*, {withCredentials: true}*/
       );
 
+      console.log(auth)
+
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
        * Passo 1. das mensagens
        */
