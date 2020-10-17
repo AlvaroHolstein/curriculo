@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "rm -drfv ./curriculo_frontend/dist/ && cd curriculo_frontend/ && npm run build && cd .. && node server.js"
+    "start": "rm -drfv ./curriculo_frontend/dist/ && cd curriculo_frontend/ && npm install @vue/cli && npm run build && cd .. && node server.js"
   },
   "repository": {
     "type": "git",
