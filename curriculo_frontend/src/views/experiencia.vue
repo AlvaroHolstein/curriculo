@@ -34,9 +34,9 @@
               <div v-for="(data, index2) of trabalho.datas" v-bind:key="index2"> 
                 <b-card-text class="datas"
                   >
-                  <span class="data-inicio">{{ data.data_inicio == undefined ? "merda_inicio": data.data_inicio.split("T")[0] }}</span>
+                  <span class="data-inicio">{{ data.data_inicio == undefined ? "little error": data.data_inicio.split("T")[0] }}</span>
                    até
-                  <span class="data-fim">{{ data.data_fim == undefined ? "merda_fim": data.data_fim.split("T")[0] }}</span>
+                  <span class="data-fim">{{ data.data_fim == undefined ? "little error": data.data_fim.split("T")[0] }}</span>
                 </b-card-text>
                 <b-card-text class="resumo">
                   {{ data.resumo }}
@@ -71,13 +71,9 @@ export default {
   },
   computed: {
     filterTrabalhos() {
-      /** Vou ter que fazer um campo aqui que seja um array para trabalhos "repetidos"
-       * O que vou meter para o array secundário:
-       * Data,
-       * resumo
-       */
       let trbs = this.trabalhos;
       let trabs = trbs.sort((trab1, trab2) => {
+
         return (
           new Date(trab2.data_inicio).getTime() -
           new Date(trab1.data_inicio).getTime()

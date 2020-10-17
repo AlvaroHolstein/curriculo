@@ -10,23 +10,21 @@
           <ul class="first-info">
             <!-- Nome -->
             <li>Álvaro Diogo Gomes Ferreira de Sousa Holstein</li>
-
+            <hr />
             <!-- Contactos -->
             <li>{{detalhes['telemovel']}}</li>
             <li>{{detalhes['email']}}</li>
             <li>{{detalhes['morada']}}</li>
 
-
+            <hr />
             <!-- Repositórios -->
             <li><a :href="detalhes['github']">GitHub </a></li>
             <li><a :href="detalhes['bitbucket']">Bitbucket </a></li>
           </ul>
         </div>
       </div>
-      <!-- Só pa bere <HelloWorld msg="Welcome to Your Vue.js App"/> -->
       <div class="row">
         <!-- Em cada tab vai estar uma view -->
-
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <router-link
@@ -79,10 +77,9 @@
 </template>
 
 <script>
-// Só pa bere import HelloWorld from './components/HelloWorld.vue'
 import Messaging from "../components/messaging.vue";
 import Navbar from "../components/navbar.vue";
-// A ma Gonna make the messaging madafakas
+
 export default {
   //   name: "App",
   components: {
@@ -101,7 +98,6 @@ export default {
 
     if (res.data.success) {
       this.detalhes = res.data.data[0];
-      console.log(this.detalhes);
     }
   },
   computed: {},
@@ -109,14 +105,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
 div.curriculo-header {
   margin-top: 20px;
 }
@@ -131,6 +119,7 @@ div.image-div {
 }
 ul.first-info {
   list-style: none;
+  padding: 0px;
   margin-top: 10px;
 }
 hr.separator {

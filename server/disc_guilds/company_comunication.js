@@ -34,7 +34,6 @@ class ChatMessage  {
 
         //1. Ver canais
         //1.1 Se o channelId for null em principio vai ser para criar um canal para o user
-        console.log(discCli);
         // discCli
     }
 

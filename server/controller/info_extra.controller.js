@@ -6,7 +6,6 @@ const infoExtraController = {
         return new Promise((resolve, reject) => {
             infoExtra.find({}, (err, collection) => {
                 if(err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }

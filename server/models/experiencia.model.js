@@ -12,10 +12,10 @@ const experienciaSchema = new Schema({
         type: String
     },
     data_inicio: {
-        type: Date
+        type: String
     },
     data_fim: {
-        type: Date
+        type: String
     },
     resumo: {
         type: String

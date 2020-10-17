@@ -38,7 +38,6 @@ module.exports = {
                 }
 
                 if (collection.length == 0) {
-                    console.log(collection, err)
                     returnModel.err = "No User Found!";
                     reject(returnModel);
                     return;
@@ -166,6 +165,11 @@ module.exports = {
                 //3. Tótil seguro :)
             });
         })
+    },
+    middlewareVerification(req, res, next) {
+        console.log(req.cookies)
+        /** Fazer uma voisa para dev e outra para PROD? */
+        next()
     },
     /** E uma funcção para criar também, só para ter isto limpinho
      * esta funcção vai ser usada no login e no register

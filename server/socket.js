@@ -37,12 +37,11 @@ class socketInicialization {
             /**
              * Aqui os utilizadores só são conectados depois de passarem da página auth
              */
-            console.log("Entrou Mais um", socket.id);
+            // console.log("Entrou Mais um", socket.id);
             socket.on("mess", async ({ text, token }) => {
                 try {
                     let chanelExists = false;
                     let chanelId = null;
-                    // console.log("Receive Message On Socket file !!!!!")
                     /**
                      * Vai ser aqui que vou receber as mensagens dos utilizadores,
                      * por isso é aqui que antes de enviar uma mensagem para um certo canal,
@@ -113,7 +112,6 @@ class socketInicialization {
 
             /** Disconnect  */
             socket.on("disconnect", () => {
-                console.log("Saiu um")
 
                 socket.broadcast.emit("user left", "A user left")
             })
@@ -163,14 +161,10 @@ class socketInicialization {
 
                                 let txtCh = new Discord.TextChannel(guild, null)
                                 let msgCh = new Discord.Message(this.client, null, txtCh);
-                                // txtCh.fet00.forEach(msg => {
-                                //     console.log("MSG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", msg)
-                                // })
+
                                 msgCh.fetch().then(messages => {
-                                    console.log(messages)
                                     res(messages)
                                 }).catch(err => {
-                                    console.log("FODEU", err);
                                     rej(err)
                                 })
                             }

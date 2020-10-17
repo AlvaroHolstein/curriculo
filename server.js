@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan")
 // const discordClient = require("./server/disc.js")
 require("dotenv").config();
 
@@ -11,6 +12,8 @@ const port = process.env.PORT || 8000;
 
 
 const server = express();
+
+server.use(morgan('tiny'))
 
 server.use(cookieParser()); // Não sei se vai ficar só assim no fim
 server.use(cors());
@@ -35,8 +38,8 @@ const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
 const competenciasRoute = require("./server/routes/competencias.route");
 const messagesRoute = require("./server/routes/message.route")(MyDisc);
-// const socketInicialization = require("./server/socket");
 
+const authMiddleware = require('./server/controller/auth.controller').middlewareVerification;
 
 /** Cookie management
  * Ver se depois não é preciso passar isto para outro ficheiro
@@ -58,11 +61,11 @@ server.use((req, res, next) => {
 
 server.use("/api/auth/", authenticationRoute);
 
-server.use("/api/escola/", escolaRoute);
-server.use("/api/infoextra/", infoExtraRoute);
-server.use("/api/exp/", experienciaRoute);
-server.use("/api/competencias/", competenciasRoute);
-server.use("/api/msg", messagesRoute);
+server.use("/api/escola/", authMiddleware ,escolaRoute);
+server.use("/api/infoextra/", authMiddleware ,infoExtraRoute);
+server.use("/api/exp/", authMiddleware ,experienciaRoute);
+server.use("/api/competencias/", authMiddleware ,competenciasRoute);
+server.use("/api/msg", authMiddleware ,messagesRoute);
 
 
 server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dist/")))
@@ -95,12 +98,13 @@ server.get("/api/extra-info", async (req, res, next) => {
     }
 })
 
+/** Era engraçado ter isto */
 // server.get('/api/disc/numberusers', (req, res) => {
 //     res.json({success: true, n: socketIODisc.getUsersCon()})
 // })
 
 server.use((err, req, res, next) => {
-    console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);
+    // console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);
     res.json({ success: false, err: err })
 })
 

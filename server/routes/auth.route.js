@@ -67,7 +67,6 @@ router.post("/register", async (req, res, next) => {
 router.post("/verify", async (req, res, next) => {
     try {
         let ver = await authController.verifyJWT(req.body);
-        // console.log(ver);
 
         if (ver) {
             res.json({ success: true });

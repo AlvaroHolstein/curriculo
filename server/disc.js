@@ -28,9 +28,7 @@ function discordInit(socket) {
              */
 
             // Enviar a mensagem para o frontend
-            if (msg.author.bot) {
-                // console.log("AIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
-            }
+            if (msg.author.bot) { }
             else {
                 // Tenho que fazer uma funcçã oque envie as mensagens para frontend
                 // Vou precisar do nome do canal para saber para onde eu mandei as mensagens

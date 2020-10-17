@@ -16,9 +16,9 @@ module.exports = {
          */
         // 1. Inserir dados que faltem na mensagem
         channelName = channelName.toLowerCase()
-        if(empresa == null) {
-            console.log("Está a faltar a empresa")
-        }
+        // if(empresa == null) {
+        //     console.log("Está a faltar a empresa")
+        // }
 
         // console.log({message, self, username, channelName, empresa});
         return new Promise((res, rej) => {
