@@ -4,16 +4,19 @@ const path = require("path");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const morgan = require("morgan")
-// const discordClient = require("./server/disc.js")
+
 require("dotenv").config();
 
-const port = process.env.PORT || 8000;
+const port = process.env.NODE_ENV == 'production' ? process.env.portProd : process.env.PORT || 8000;
 
 
 const server = express();
 
-server.use(morgan('tiny'))
+if (process.env.NODE_ENV != 'production') {
+    const morgan = require("morgan")
+
+    server.use(morgan('tiny'))
+}
 
 server.use(cookieParser()); // Não sei se vai ficar só assim no fim
 server.use(cors());
@@ -45,10 +48,11 @@ const authMiddleware = require('./server/controller/auth.controller').middleware
  * Ver se depois não é preciso passar isto para outro ficheiro
  */
 server.use((req, res, next) => {
-
-    // Este header estava a não deixar pedidos de outros dominios por ser demasiado abrangente xD
-    // res.header('Access-Control-Allow-Origin', "*/*");
-
+    
+    if (process.env.NODE_ENV) {
+        // Este header estava a não deixar pedidos de outros dominios por ser demasiado abrangente xD
+        res.header('Access-Control-Allow-Origin', "*");
+    }
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -61,11 +65,11 @@ server.use((req, res, next) => {
 
 server.use("/api/auth/", authenticationRoute);
 
-server.use("/api/escola/", authMiddleware ,escolaRoute);
-server.use("/api/infoextra/", authMiddleware ,infoExtraRoute);
-server.use("/api/exp/", authMiddleware ,experienciaRoute);
-server.use("/api/competencias/", authMiddleware ,competenciasRoute);
-server.use("/api/msg", authMiddleware ,messagesRoute);
+server.use("/api/escola/", authMiddleware, escolaRoute);
+server.use("/api/infoextra/", authMiddleware, infoExtraRoute);
+server.use("/api/exp/", authMiddleware, experienciaRoute);
+server.use("/api/competencias/", authMiddleware, competenciasRoute);
+server.use("/api/msg", authMiddleware, messagesRoute);
 
 
 server.use("/", express.static(path.join(process.cwd(), "/curriculo_frontend/dist/")))
@@ -81,7 +85,7 @@ server.get("/api/extra-info", async (req, res, next) => {
         return new Promise((res, rej) => {
             const filePath = path.join(__dirname, 'server/changes-missing.md')
             fs.readFile(filePath, 'utf8', (err, data) => {
-                if(err) {
+                if (err) {
                     rej(err);
                     return;
                 }
@@ -94,7 +98,7 @@ server.get("/api/extra-info", async (req, res, next) => {
         let fileData = await readFile();
         res.json({ success: true, data: fileData })
     } catch (err) {
-        res.json({success: false, error: err})
+        res.json({ success: false, error: err })
     }
 })
 

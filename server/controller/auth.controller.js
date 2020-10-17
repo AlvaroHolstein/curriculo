@@ -217,7 +217,7 @@ module.exports = {
     /** Vou ter que matar aqui o token */
     logout(token) {
         // Acho que  que vou fazer vai ser por a data de expiração para agora
-        //naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
+        //naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah, siiiiiiiiiiiiiiiiiim.....
         return new Promise((res, rej) => {
 
         })
