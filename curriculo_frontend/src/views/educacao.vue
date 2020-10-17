@@ -27,15 +27,11 @@
 export default {
   data: () => {
     return {
-      escolas: [],
-      url:
-        process.env.NODE_ENV == "production"
-          ? "https://alvarocurriculo.herokuapp.com/api/"
-          : "http://localhost:5000/api/",
+      escolas: []
     };
   },
   async created() {
-    let res = await fetch(`${this.url}escola`);
+    let res = await fetch(`${this.$store.getters.url}escola`);
     let data = await res.json();
 
     if (data.success) {

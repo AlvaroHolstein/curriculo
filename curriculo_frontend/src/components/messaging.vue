@@ -56,10 +56,6 @@ export default {
       socketClient: null,
       messages: [],
       showMessages: false,
-      url:
-        process.env.NODE_ENV == "production"
-          ? "https://alvarocurriculo.herokuapp.com/api/"
-          : "http://localhost:5000/api/",
     };
   },
   async created() {
@@ -73,7 +69,7 @@ export default {
      * https://socket.io/docs/logging-and-debugging/
      */
 
-    this.socketClient = await io.connect("http://127.0.0.1:5000/", {
+    this.socketClient = await io.connect(this.$store.getters.url.split('/api')[0], {
       withCredentials: false,
       secure: false,
       rejectUnauthorized: false,
@@ -108,8 +104,6 @@ export default {
   },
   methods: {
     async openMessages() {
-      // let messageWrapper = document.querySelector("#messaging");
-      // console.log(messageWrapper);
       try {
         this.showMessages = !this.showMessages;
 
@@ -119,14 +113,12 @@ export default {
 
           /** Primeira vez que se abre as mensagens por isso carregar agora as mensagens
            */
-          console.log("MESSAGES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
           let { a, b } = await AuthClass.verifyToken(this.$store.getters.token);
           let res = await this.http.post(
             `${this.$store.getters.url}msg/getmessages`,
             { token: this.$store.getters.token, c: a * b }
           );
-          console.log("MESSAGES !!!", res);
+
           if (res.data.success) {
             this.messages = res.data.data;
           } else {

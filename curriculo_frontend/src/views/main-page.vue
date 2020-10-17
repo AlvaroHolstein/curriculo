@@ -89,12 +89,11 @@ export default {
   data() {
     // console.log(process.env.NODE_ENV, process.env)
     return {
-      url: process.env.NODE_ENV == "production" ? "https://alvarocurriculo.herokuapp.com/api/" : "http://localhost:5000/api/",
-      detalhes: null
+      detalhes: {}
     };
   },
   async created() {
-    let res = await this.http.get(`${this.url}infoextra`);
+    let res = await this.http.get(`${this.$store.getters.url}infoextra`);
 
     if (res.data.success) {
       this.detalhes = res.data.data[0];

@@ -62,7 +62,7 @@ export default {
       let successRegister = false;
       if ((this.password != "" && this.passwordRecheck != "") && (this.password == this.passwordRecheck)) {
         successRegister = true;
-        let res = await this.http.post("http://localhost:5000/api/auth/register", {
+        let res = await this.http.post(`${this.$store.getters.url}auth/register`, {
           username: this.username,
           password: this.password,
           empresa: this.empresa,

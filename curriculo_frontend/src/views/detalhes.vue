@@ -5,15 +5,11 @@
 export default {
   data() {
     return {
-      detalhes: [],
-      url:
-        process.env.NODE_ENV == "production"
-          ? "https://alvarocurriculo.herokuapp.com/api/"
-          : "http://localhost:5000/api/",
-    };
+      detalhes: []
+    }
   },
   async created() {
-    let res = await fetch(`${this.url}infoextra`);
+    let res = await fetch(`${this.$store.getters.url}infoextra`);
     let data = await res.json();
 
     if (data.success) {

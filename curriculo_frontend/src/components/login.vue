@@ -20,7 +20,7 @@
 
       <div class="text-center btns-div">
         <button class="btn btn-outline-success" type="submit">
-          Fazer login oh mano
+          Login
         </button>
       </div>
     </form>
@@ -42,13 +42,12 @@ export default {
     async login(eve) {
       eve.preventDefault();
       let auth = await this.http.post(
-        "http://localhost:5000/api/auth/login",
+        `${this.$store.getters.url}auth/login`,
         {
           username: this.loginPart1,
           password: this.pass,
         } /*, {withCredentials: true}*/
       );
-      console.log(auth.data);
 
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
        * Passo 1. das mensagens

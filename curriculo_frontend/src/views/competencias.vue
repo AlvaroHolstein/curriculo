@@ -19,14 +19,10 @@ export default {
     return {
       competencias: [],
       maxScore: 5,
-      url:
-        process.env.NODE_ENV == "production"
-          ? "https://alvarocurriculo.herokuapp.com/api/"
-          : "http://localhost:5000/api/",
     };
   },
   async created() {
-    let res = await fetch(`${this.url}competencias`);
+    let res = await fetch(`${this.$store.getters.url}competencias`);
     let data = await res.json();
 
     if (data.success) {
