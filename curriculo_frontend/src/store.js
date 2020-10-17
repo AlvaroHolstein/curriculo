@@ -13,8 +13,6 @@ const store = new Vuex.Store({
     },
     mutations: {
         async login(state) {
-            // Filha da puta do lint de merda, a dizer que não é necessário o try/catch...................................................
-            // try {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
             console.log({ jwtVerified })
@@ -22,11 +20,6 @@ const store = new Vuex.Store({
                 state.logged = true;
                 state.username = jwtVerified.username;
             }
-
-            // } catch (err) {
-            /** Podia estar melhor apanhado */
-            // throw err;
-            // }
         },
         logout(state) {
             state.logged = false;

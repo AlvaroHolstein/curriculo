@@ -11,11 +11,10 @@ import markyIt from 'markdown-it';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-
-
 dotenv.config()
 Vue.config.productionTip = false
 
+console.log(process.env)
 Vue.prototype.http = axios;
 Vue.prototype.jwt = jwt;
 Vue.prototype.$Swal = Swal;

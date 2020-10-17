@@ -66,9 +66,7 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
     try {
         let letgo = true;
-
-        console.log({ to, from, next }, to.name, store)
-
+        console.log(process.env)
         /** Em desenvolvimento isto vai ser de uma forma, 
          * depois em produção vai ser de outra maneira
          */
@@ -77,8 +75,6 @@ router.beforeEach(async (to, from, next) => {
         }
 
         /** Fazer a conflirmação das cookies aqui */
-        // fetch()
-
         if (to.name != 'auth' && store.getters.logged == true) {
             //1. Veirficar Token
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
