@@ -27,6 +27,6 @@ pnpm-debug.log*
 /curriculo_frontend/*.env*
 /curriculo_frontend/.gitignore
 /curriculo_frontend/src/assets
-/curriculo_frontend/
 curriculo_frontend/public/*
 !/curriculo_frontend/public/index.html
+!/curriculo_frontend/dist/
