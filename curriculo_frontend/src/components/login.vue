@@ -41,7 +41,6 @@ export default {
   methods: {
     async login(eve) {
       eve.preventDefault();
-      console.log("Bamo lá \n Iniciar login")
       let auth = await this.http.post(
         `${this.$store.getters.url}auth/login`,
         {
@@ -50,7 +49,6 @@ export default {
         } /*, {withCredentials: true}*/
       );
 
-      console.log("Mostrar respossta ao login", auth)
 
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
        * Passo 1. das mensagens

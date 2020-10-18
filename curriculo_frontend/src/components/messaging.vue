@@ -75,16 +75,16 @@ export default {
       rejectUnauthorized: false,
     });
     // console.log(this.socketClient)
-    this.socketClient.on("connection", (socket) => {
-      console.log("connected", socket);
-    });
-    this.socketClient.on("user left", (socket) =>
-      console.log("Alguem saiu", socket)
-    );
+    // this.socketClient.on("connection", (socket) => {
+    //   // console.log("connected", socket);
+    // });
+    // this.socketClient.on("user left", (socket) =>
+    //   // console.log("Alguem saiu", socket)
+    // );
 
     /** Receive message from discord */
     this.socketClient.on("messageDisc", (data) => {
-      console.log("data", data);
+      // console.log("data", data);
 
       /** Inserir esta mensagem no  */
       this.receiveMessages(data);

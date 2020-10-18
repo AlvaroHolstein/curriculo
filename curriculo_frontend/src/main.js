@@ -15,7 +15,7 @@ let path = { path: "/"};
 dotenv.config({path})
 Vue.config.productionTip = false
 
-console.log("process.en no main.js", process.env)
+// Já funcionou a parte das env variables
 Vue.prototype.http = axios;
 Vue.prototype.jwt = jwt;
 Vue.prototype.$Swal = Swal;

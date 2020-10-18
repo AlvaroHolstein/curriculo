@@ -66,7 +66,6 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
     try {
         let letgo = true;
-        console.log(process.env)
         /** Em desenvolvimento isto vai ser de uma forma, 
          * depois em produção vai ser de outra maneira
          */
@@ -82,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
 
             //Ainda tenho que criar a rota
             let {a, b} = jwtVerified;
-            console.log({a, b, jwtVerified}); 
+            // console.log({a, b, jwtVerified}); 
             let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a*b});
 
             if(!authRes.data.success) {

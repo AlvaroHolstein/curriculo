@@ -68,7 +68,7 @@ export default {
           empresa: this.empresa,
           email: this.email
         });
-        console.log(res);
+
         if (res.data.success) {
           this.$store.commit("setToken", res.data.token);
           await this.$store.commit("login");

@@ -111,7 +111,7 @@ server.get("/api/extra-info", async (req, res, next) => {
 // })
 
 server.use((err, req, res, next) => {
-    console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);
+    // console.log("Ocorreu um erro que foi apanhado no server.js Error middleware!!!", err);
     res.json({ success: false, err: err })
 })
 

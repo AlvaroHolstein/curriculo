@@ -129,7 +129,6 @@ export default {
           }
         }
       }
-      console.log(grouping);
       return grouping;
     },
   },

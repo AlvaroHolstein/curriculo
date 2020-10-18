@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import { PROD_URL } from '../dev.env';
 import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
-console.log(process.env, PROD_URL)
 const store = new Vuex.Store({
     state: {
         logged: false,
@@ -15,7 +14,6 @@ const store = new Vuex.Store({
         async login(state) {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
-            console.log({ jwtVerified })
             if (jwtVerified) {
                 state.logged = true;
                 state.username = jwtVerified.username;

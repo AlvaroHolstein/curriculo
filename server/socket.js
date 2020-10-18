@@ -51,7 +51,13 @@ class socketInicialization {
 
                     let decoded = await jwt.verify(token, process.env.JWT_SECRET);
                     let { username, idM } = decoded;
-                    let chanelName = username + idM;
+                    let channelName = (username + idM).toLowerCase();
+
+                    if(channelName.includes(" ")) {
+                        channelName = channelName.trim().split(" ").join("-");
+                    }
+
+                    
 
                     /** Este forEach e o acima acabam por fazer um bocado a mesma coisa,
                      * mas o que eu quero é sós gerir o "ServidorBot"
@@ -70,7 +76,8 @@ class socketInicialization {
                                  * 
                                  * Os nomes dos canais são sempre em minusculas
                                  */
-                                if (ch.type == 'text' && ch.name == chanelName.toLowerCase()) {
+                                
+                                if (ch.type == 'text' && ch.name == channelName) {
                                     chanelId = ch.id
                                     chanelExists = true;
                                 }
@@ -79,12 +86,12 @@ class socketInicialization {
                     })
 
                     if (!chanelExists) {
-                        let newCh = await mainGuild.channels.create(chanelName,
+                        let newCh = await mainGuild.channels.create(channelName,
                             {
                                 type: 'text',
                                 reason: 'Little Talks'
                             })
-                        await this.saveMessage(text, username, chanelName)
+                        await this.saveMessage(text, username, channelName)
                         this.client.channels.cache.get(newCh.id).send(text);
                         this.client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
 
@@ -97,7 +104,7 @@ class socketInicialization {
                     else {
                         /** Vem do parametro da funçoum */
                         chanelId = chanelId == null ? defaultChanelId : chanelId
-                        await this.saveMessage(text, username, chanelName)
+                        await this.saveMessage(text, username, channelName)
                         this.client.channels.cache.get(chanelId).send(text)
                     }
                 } catch (error) {

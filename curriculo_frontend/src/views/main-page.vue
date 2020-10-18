@@ -87,7 +87,6 @@ export default {
     Navbar,
   },
   data() {
-    // console.log(process.env.NODE_ENV, process.env)
     return {
       detalhes: {}
     };
