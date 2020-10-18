@@ -188,7 +188,7 @@ module.exports = {
                 if (req.body.token) {
                     truBody = req.body;
                 }
-                else if (req.cookies.token) {
+                else if (req.cookies.jwt) {
                     truBody = req.cookies;
                 }
                 else {
