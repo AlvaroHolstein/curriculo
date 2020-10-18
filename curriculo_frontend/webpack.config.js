@@ -1,8 +1,5 @@
 const path = require("path");
-const dotenv = require('dotenv').config({
-  path: path.join(__dirname, '.dev.env.js')
-})
-
+const Dotenv = require('dotenv-webpack');
 module.exports = {
     module: {
       rules: [
@@ -21,9 +18,7 @@ module.exports = {
       ]
     },
     plugins: [
-      new webpack.DefinePlugin( {
-        "process.env": dotenv.parsed
-      } ),
+      new Dotenv({ systemvars: true })
     ],
     // plugin omitted
   }

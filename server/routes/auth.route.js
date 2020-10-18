@@ -18,13 +18,13 @@ router.post("/login", async (req, res, next) => {
             let token = await authController.createJWT(
                 {
                     username: username,
-                    idM: authSuccess.data._id 
+                    idM: authSuccess.data._id
                 });
 
             console.log("successo na autenticaçãpo", authSuccess)
             // Só estou a conseguir fazer cookies em produção por isso por agora também vai passar a ir no body da resposta, tenho que mudar depois. Devo ter que criar um branch para produção
-            res.cookie("jwt", token, { httpOnly: false, maxAge: 900000, path: "/" })
-                .send({ success: true, msg: username, data: authSuccess.data, jwt: token })
+            res.cookie("jwt", token, { httpOnly: false, maxAge: 900000, path: "/" });
+            res.send({ success: true, msg: username, data: authSuccess.data, jwt: token })
         }
         else {
             next("User nao encontrado");
@@ -62,7 +62,7 @@ router.post("/register", async (req, res, next) => {
                 console.log("Este é o token", token)
             }
 
-            console.log("parte final de registo", {registerSuccess});
+            console.log("parte final de registo", { registerSuccess });
             // Depois o token vai em cookies e não aqui
             res.json({ success: registerSuccess.success, data: registerSuccess.data, token: token })
         }
@@ -92,8 +92,8 @@ router.post("/verify", async (req, res, next) => {
 router.post("/logout", async (req, res, next) => {
     try {
 
-    } catch(error) {
+    } catch (error) {
         next(error);
-    } 
+    }
 })
 module.exports = router;

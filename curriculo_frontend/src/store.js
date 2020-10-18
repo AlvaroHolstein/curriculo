@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import { PROD_URL } from '../dev.env';
 import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
-console.log(process.env)
+console.log(process.env, PROD_URL)
 const store = new Vuex.Store({
     state: {
         logged: false,
