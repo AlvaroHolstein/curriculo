@@ -11,7 +11,9 @@ router.post("/login", async (req, res, next) => {
          * erro, se houver,
          * pronto é  isso por agora
          */
+        console.log("entrou no login")
         let authSuccess = await authController.authenticate(username, password)
+        console.log("Depois de ver o user", authSuccess)
         if (authSuccess.success) {
             let token = await authController.createJWT(
                 {
@@ -19,7 +21,7 @@ router.post("/login", async (req, res, next) => {
                     idM: authSuccess.data._id 
                 });
 
-
+            console.log("successo na autenticaçãpo", authSuccess)
             // Só estou a conseguir fazer cookies em produção por isso por agora também vai passar a ir no body da resposta, tenho que mudar depois. Devo ter que criar um branch para produção
             res.cookie("jwt", token, { httpOnly: false, maxAge: 900000, path: "/" })
                 .send({ success: true, msg: username, data: authSuccess.data, jwt: token })
@@ -37,6 +39,8 @@ router.post("/register", async (req, res, next) => {
         let exists = await Promise.all([authController.existsUsername(req.body.username), authController.existsEmail(req.body.email)])
         let errorMsg = "";
 
+        console.log("Entrou no Register")
+
         if (exists[0] == true) {
             /** é esta a ordem porque é  a primeira função no array do promise all */
             errorMsg = "Já existe um utilizador com esse Username \n";
@@ -50,16 +54,20 @@ router.post("/register", async (req, res, next) => {
         }
         else {
             let registerSuccess = await authController.register(req.body);
-
+            console.log("Resposta ao criar user", registerSuccess)
             /** Devo conseguir fazer um código mai lindo aqui em baixo, com um destructuring */
             let token = null;
             if (registerSuccess.success) {
                 token = await authController.createJWT({ username: registerSuccess.data.username, idM: registerSuccess.data._id })
+                console.log("Este é o token", token)
             }
+
+            console.log("parte final de registo", {registerSuccess});
             // Depois o token vai em cookies e não aqui
             res.json({ success: registerSuccess.success, data: registerSuccess.data, token: token })
         }
     } catch (error) {
+        console.log("Fodeu no Register (catch final no auth route)", error)
         next(error)
     }
 })

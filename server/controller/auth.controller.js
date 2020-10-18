@@ -30,15 +30,19 @@ module.exports = {
             else if (loginField == 2) {
                 fieldToLookfor = { email: username }
             }
+
+            console.log("Fieldtolookfor", fieldToLookfor)
             user.find(fieldToLookfor, (err, collection) => {
                 if (err) {
                     returnModel.err = err;
+                    console.log("Ocorreu um erro no login!", returnModel)
                     reject(returnModel);
                     return;
                 }
 
                 if (collection.length == 0) {
                     returnModel.err = "No User Found!";
+                    console.log("Não foi encontrado o user", returnModel)
                     reject(returnModel);
                     return;
                 }
@@ -46,15 +50,18 @@ module.exports = {
                 /** Só depois disto é que o user pode passar à parte 
                  * de Brincar com as cookies e JWT (funções à parte)
                  */
+                console.log("Chegamos á parte do bcrypt")
                 bcrypt.compare(pass, collection[0].password, (errorBcrypt, result /** true ou false */) => {
                     if (result) {
                         returnModel.success = true;
                         returnModel.data = collection[0];
+                        console.log("Funcionou o bcrypt", returnModel)
                         resolve(returnModel);
                         return;
                     }
                     else {
                         returnModel.err = errorBcrypt;
+                        console.log("Fodeu no bcrypt", returnModel);
                         reject(returnModel);
                         return;
                     }
@@ -84,6 +91,8 @@ module.exports = {
                     let newUser = new user({ username, email, password: hash, empresa });
 
                     /** Vou ter que usar o bcrypt se op validate do mongoose der fixe */
+
+                    console.log("Antes de tentar gravar o user")
                     newUser.save(err => {
                         /** Ainda tenho que decidir o que fazer depois do register:
                          * - Mandar o user diretamente para a página de login
@@ -95,12 +104,15 @@ module.exports = {
                          */
                         if (err) {
                             returnModel.err = err;
+                            console.log("Ocorreu um erro ao gravar o user")
                             reject(returnModel);
                             return;
                         }
 
                         returnModel.success = true;
                         returnModel.data = newUser;
+
+                        console.log("Correu tudo bem ao gravar o user", returnModel)
                         resolve(returnModel);
                         return
                     })
