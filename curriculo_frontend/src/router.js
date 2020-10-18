@@ -83,7 +83,7 @@ router.beforeEach(async (to, from, next) => {
             let {a, b} = jwtVerified;
             // console.log({a, b, jwtVerified}); 
             let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a*b});
-
+            console.log("Token verification router.js", authRes)
             if(!authRes.data.success) {
                 letgo = false;
             }
