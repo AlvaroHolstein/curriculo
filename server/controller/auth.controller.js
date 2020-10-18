@@ -164,7 +164,7 @@ module.exports = {
             //1. Verificar a validade do token
             // A função assim é sincrona
             let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
-                if(err) {
+                if (err) {
                     reject(err)
                 }
                 //2. Se válido, testar a resposta que veio no body
@@ -178,10 +178,37 @@ module.exports = {
             });
         })
     },
-    middlewareVerification(req, res, next) {
-        // console.log(req.cookies)
-        /** Fazer uma voisa para dev e outra para PROD? */
-        next()
+    async middlewareVerification(req, res, next) {
+        try {
+            // console.log(req.cookies)
+            /** Fazer uma voisa para dev e outra para PROD? */
+            if (process.env.NODE_ENV == 'production') { //eheh
+                let truBody = null;
+
+                if (req.body.token) {
+                    truBody = req.body;
+                }
+                else if (req.cookies.token) {
+                    truBody = req.cookies;
+                }
+                else {
+                    console.log("em lado enhum")
+                }
+                // 1. Token e items para a conta super secreta xD
+                let verification = await this.verifyJWT(req.body);
+                console.log(verification)
+                if (!verification) {
+                    next("ERR: JWT - O resultado final está mal")
+                    return;
+                }
+            }
+            else {
+                /** Por fgazer, mas isto é só um atalho para testar os caminhos */
+            }
+            next();
+        } catch (error) {
+            next(error);
+        }
     },
     /** E uma funcção para criar também, só para ter isto limpinho
      * esta funcção vai ser usada no login e no register
