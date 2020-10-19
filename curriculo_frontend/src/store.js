@@ -18,7 +18,7 @@ const store = new Vuex.Store({
             if (jwtVerified) {
                 state.logged = true;
                 state.username = jwtVerified.username;
-                state.contaValue = jwtVerified.a * jwtVerified * blur;
+                state.contaValue = jwtVerified.a * jwtVerified.b;
             }
         },
         logout(state) {
@@ -53,7 +53,7 @@ const store = new Vuex.Store({
         // Usado para além de enviar o token que já vai nas cookies,
         // envio também o resultado da conta que é necessário para verificar o token
         cookieValue(state) {
-            return { 'Set-Cookie': `c=${state.contaValue};` };
+            return { 'Cookie': `c=${state.contaValue};` };
         }
     }
 })

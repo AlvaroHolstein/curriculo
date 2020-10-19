@@ -22,6 +22,7 @@ export default {
     };
   },
   async created() {
+    console.log(this.$store.getters.cookieValue)
     let res = await this.http.get(`${this.$store.getters.url}competencias`, {headers: this.$store.getters.cookieValue});
 
     if (res.data.success) {
