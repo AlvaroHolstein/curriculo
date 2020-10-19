@@ -9,11 +9,10 @@ export default {
     }
   },
   async created() {
-    let res = await fetch(`${this.$store.getters.url}infoextra`);
-    let data = await res.json();
+    let res = await this.http.get(`${this.$store.getters.url}infoextra`);
 
-    if (data.success) {
-      this.detalhes = data.data;
+    if (res.data.success) {
+      this.detalhes = res.data.data;
     }
   },
 };

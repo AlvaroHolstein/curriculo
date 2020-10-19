@@ -15,7 +15,10 @@ let path = { path: "/"};
 dotenv.config({path})
 Vue.config.productionTip = false
 
-// Já funcionou a parte das env variables
+if(process.env.NODE_ENV == 'production') {
+  axios.defaults.withCredentials = true;
+}
+// Já funcionou a parte das env variables, como ao cert ....
 Vue.prototype.http = axios;
 Vue.prototype.jwt = jwt;
 Vue.prototype.$Swal = Swal;

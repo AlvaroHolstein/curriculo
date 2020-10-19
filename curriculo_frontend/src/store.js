@@ -8,7 +8,8 @@ const store = new Vuex.Store({
         logged: false,
         url: process.env.NODE_ENV == 'production' ? PROD_URL : 'http://localhost:5000/api/',
         token: null,
-        username: null
+        username: null,
+        contaValue: null
     },
     mutations: {
         async login(state) {
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
             if (jwtVerified) {
                 state.logged = true;
                 state.username = jwtVerified.username;
+                state.contaValue = jwtVerified.a * jwtVerified * blur;
             }
         },
         logout(state) {
@@ -30,7 +32,10 @@ const store = new Vuex.Store({
         },
         clearToken(state) {
             state.token = null;
-        }
+        },
+        // setContaValue(state) {
+        //     state
+        // }
     },
     getters: {
         logged(state) {
@@ -44,6 +49,11 @@ const store = new Vuex.Store({
         },
         username(state) {
             return state.username;
+        },
+        // Usado para além de enviar o token que já vai nas cookies,
+        // envio também o resultado da conta que é necessário para verificar o token
+        cookieValue(state) {
+            return { 'Set-Cookie': state.contaValue };
         }
     }
 })

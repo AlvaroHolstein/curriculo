@@ -58,11 +58,10 @@ export default {
     };
   },
   async created() {
-    let res = await fetch(`${this.$store.getters.url}exp`);
-    let data = await res.json();
+    let res = await this.http.get(`${this.$store.getters.url}exp`);
 
-    if (data.success) {
-      this.trabalhos = data.data;
+    if (res.data.success) {
+      this.trabalhos = res.data.data;
     }
   },
   computed: {

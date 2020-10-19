@@ -191,13 +191,13 @@ module.exports = {
                     truBody = req.body;
                 }
                 else if (req.cookies.jwt) {
-                    truBody = req.cookies;
+                    truBody.token = req.cookies.jwt;
                 }
                 else {
                     console.log("em lado enhum")
                 }
                 // 1. Token e items para a conta super secreta xD
-                let verification = await this.verifyJWT(req.body);
+                let verification = await this.verifyJWT(truBody);
                 console.log(verification)
                 if (!verification) {
                     next("ERR: JWT - O resultado final está mal")

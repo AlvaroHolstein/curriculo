@@ -22,11 +22,10 @@ export default {
     };
   },
   async created() {
-    let res = await fetch(`${this.$store.getters.url}competencias`);
-    let data = await res.json();
+    let res = await this.http.get(`${this.$store.getters.url}competencias`, {headers: this.$store.getters.cookieValue});
 
-    if (data.success) {
-      this.competencias = data.data;
+    if (res.data.success) {
+      this.competencias = res.data.data;
     }
   },
 };

@@ -31,11 +31,10 @@ export default {
     };
   },
   async created() {
-    let res = await fetch(`${this.$store.getters.url}escola`);
-    let data = await res.json();
+    let res = await this.http.get(`${this.$store.getters.url}escola`);
 
-    if (data.success) {
-      this.escolas = data.data;
+    if (res.data.success) {
+      this.escolas = res.data.data;
     }
   },
   methods: {},
