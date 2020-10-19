@@ -178,6 +178,7 @@ module.exports = {
             });
         })
     },
+    thisVerification: this.verifyJWT,
     async middlewareVerification(req, res, next) {
         try {
             // console.log(req.cookies)
@@ -197,7 +198,27 @@ module.exports = {
                 }
                 // 1. Token e items para a conta super secreta xD
                 console.log("TruBody !!!!", truBody)
-                let verification = await this.verifyJWT(truBody);
+                let verification = await verifyJWT(truBody);
+
+                let ver = await (() => {
+                    return new Promise((resolve, reject) => {
+                        //1. Verificar a validade do token
+                        // A função assim é sincrona
+                        let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
+                            if (err) {
+                                reject(err)
+                            }
+                            //2. Se válido, testar a resposta que veio no body
+                            if (c == ver.a * ver.b) {
+                                resolve(true)
+                            }
+                            else {
+                                resolve(false)
+                            }
+                            //3. Tótil seguro :)
+                        });
+                    })
+                })();
                 console.log(verification)
                 if (!verification) {
                     next("ERR: JWT - O resultado final está mal")
@@ -206,11 +227,31 @@ module.exports = {
             }
             else {
                 /** Por fgazer, mas isto é só um atalho para testar os caminhos */
+                // let ver = await (() => {
+                //     return new Promise((resolve, reject) => {
+                //         //1. Verificar a validade do token
+                //         // A função assim é sincrona
+                //         let ver = jwt.verify("token", process.env.JWT_SECRET, (err, ver) => {
+                //             if (err) {
+                //                 reject(err)
+                //             }
+                //             //2. Se válido, testar a resposta que veio no body
+                //             if (c == ver.a * ver.b) {
+                //                 resolve(true)
+                //             }
+                //             else {
+                //                 resolve(false)
+                //             }
+                //             //3. Tótil seguro :)
+                //         });
+                //     })
+                // })();
+                // console.log(ver)
             }
             console.log("e passou a verification")
             next();
         } catch (error) {
-            console.log("Fodeu na verificação", error)
+            // console.log("Fodeu na verificação", error)
             next(error);
         }
     },
