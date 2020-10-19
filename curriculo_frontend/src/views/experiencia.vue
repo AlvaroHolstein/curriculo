@@ -31,6 +31,7 @@
           </b-col>
           <b-col md="6">
             <b-card-body v-bind:title="trabalho.cargo">
+              <h6>{{trabalho.empresa ? trabalho.empresa : ""}}</h6>
               <div v-for="(data, index2) of trabalho.datas" v-bind:key="index2"> 
                 <b-card-text class="datas"
                   >
@@ -112,6 +113,7 @@ export default {
                       data_inicio: trab2.data_inicio,
                       data_fim: trab2.data_fim,
                       resumo: trab2.resumo,
+                      empresa: trab2.empresa
                     });
                     if (trab2.img != "") {
                       // grouping[i].img = `require('@/assets/${trab2.img}')`;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div id="app" class="container-sm">
+    <div id="app" class="container-sm main-page-wrapper">
       <div class="row curriculo-header">
         <div class="col-sm-6 image-div">
           <img alt="My Face" src="../assets/mim.jpg" />
@@ -18,8 +18,8 @@
 
             <hr />
             <!-- Repositórios -->
-            <li><a :href="detalhes['github']">GitHub </a></li>
-            <li><a :href="detalhes['bitbucket']">Bitbucket </a></li>
+            <li><b><a :href="detalhes['github']">GitHub </a></b></li>
+            <li><b><a :href="detalhes['bitbucket']">Bitbucket </a></b></li>
           </ul>
         </div>
       </div>
@@ -103,6 +103,9 @@ export default {
 </script>
 
 <style lang="scss">
+div.main-page-wrapper {
+  margin-bottom: 30px;
+} 
 div.curriculo-header {
   margin-top: 20px;
 }

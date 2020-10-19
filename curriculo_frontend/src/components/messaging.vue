@@ -47,7 +47,7 @@
 <script>
 import io from "socket.io-client";
 import { AuthClass } from "../classes/auth.class";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -69,11 +69,14 @@ export default {
      * https://socket.io/docs/logging-and-debugging/
      */
 
-    this.socketClient = await io.connect(this.$store.getters.url.split('/api')[0], {
-      withCredentials: false,
-      secure: false,
-      rejectUnauthorized: false,
-    });
+    this.socketClient = await io.connect(
+      this.$store.getters.url.split("/api")[0],
+      {
+        withCredentials: false,
+        secure: false,
+        rejectUnauthorized: false,
+      }
+    );
     // console.log(this.socketClient)
     // this.socketClient.on("connection", (socket) => {
     //   // console.log("connected", socket);
@@ -218,7 +221,7 @@ div.message-container {
 
   /** Só para não ser demasiado seco
   Mas não está a funcionar */
-  transition: all 5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 div.message-container-header {
   width: 299px;
@@ -233,6 +236,7 @@ div.message-container-header {
 
 div.message-container-body {
   margin: 5px;
+  padding-bottom: 5px;
   overflow-y: scroll;
   height: 320px;
 }
@@ -318,5 +322,74 @@ div.fab.message-icon > i {
 div.fab.message-icon:hover /*, div.fab > i:hover*/ {
   box-shadow: 0 6px 14px 0 #666;
   /* transform: scale(1.05); */
+}
+
+/** OHHHHH the media */
+@media only screen and (max-width: 530px) {
+  div.message-container {
+    width: 300px;
+    height: 400px;
+
+    right: 80px;
+    bottom: 20px;
+  }
+
+  div.fab.message-icon {
+    right: 20px;
+    bottom: 20px;
+
+    > i {
+      right: 30px;
+      bottom: 30px;
+    }
+  }
+}
+@media only screen and (max-width: 415px) {
+  div.message-container {
+    width: 250px;
+    height: 350px;
+
+    right: 63px;
+    bottom: 20px;
+  }
+
+  div.message-container-header {
+    width: 249px;
+    height: 40px;
+    /* position: relative; */
+  }
+
+  div.message-container-body {
+    height: 270px;
+  }
+
+  div.write-message-container {
+    height: 30px; // Por agora este valor para a altura está fixi
+    width: 249px;
+    // margin: 0px;
+
+    // Depois tenho que melhorar a interação com a caixa de texto para quando à um texto maior.
+    > input.text-message {
+      width: 100%;
+    }
+  }
+
+  div.fab.message-icon {
+    //Size
+    width: 40px;
+    height: 40px;
+
+    font-size: 25px;
+
+    // Position
+    right: 20px;
+    bottom: 20px;
+
+    // Message Icon position
+    > i {
+      right: 27px;
+      bottom: 27px;
+    }
+  }
 }
 </style>

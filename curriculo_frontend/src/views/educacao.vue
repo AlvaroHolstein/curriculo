@@ -1,6 +1,5 @@
 <template>
   <div class="escolas-wrapper">
-
     <b-card
       no-body
       v-for="(escola, index) in escolas"
@@ -10,12 +9,12 @@
       <b-row>
         <b-col md="12">
           <b-card-body v-bind:title="escola.nome_curso">
-              <h5>{{escola.nome}}</h5>
-              <b-card-text class="datas">
-                <span class="data-inicio">{{escola.data_inicio}}</span>
-                até
-                <span class="data-fim">{{escola.data_inicio}}</span>
-              </b-card-text>
+            <h5>{{ escola.nome }}</h5>
+            <b-card-text class="datas">
+              <span class="data-inicio">{{ escola.data_inicio }}</span>
+              até
+              <span class="data-fim">{{ escola.data_inicio }}</span>
+            </b-card-text>
           </b-card-body>
         </b-col>
       </b-row>
@@ -27,14 +26,23 @@
 export default {
   data: () => {
     return {
-      escolas: []
+      escolas: [],
     };
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}escola${this.$store.getters.contaValueParams}`);
+    let res = await this.http.get(
+      `${this.$store.getters.url}escola${this.$store.getters.contaValueParams}`
+    );
 
     if (res.data.success) {
-      this.escolas = res.data.data;
+      this.escolas = res.data.data.sort((ed1, ed2) => {
+        console.log(new Date(ed2.data_inicio).getTime(), ed2.data_inicio)
+        console.log(new Date(ed1.data_inicio).getTime(), ed1.data_inicio)
+        return (
+          new Date(ed2.data_inicio).getTime() -
+          new Date(ed1.data_inicio).getTime()
+        );
+      });
     }
   },
   methods: {},

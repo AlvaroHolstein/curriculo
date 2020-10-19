@@ -36,6 +36,8 @@
 
       <div class="text-center btns-div">
         <button type="submit" class="btn btn-success">
+          <span class="spinner-border spinner-border-sm loading-register"></span>
+
           Registar
         </button>
       </div>
@@ -58,6 +60,8 @@ export default {
     async registerUser(eve) {
       eve.preventDefault();
       /** Registar um user com o post e está na altura e instalar o axios  */
+      this.showLoader();
+
       let errorMsg = null;
       let successRegister = false;
       if ((this.password != "" && this.passwordRecheck != "") && (this.password == this.passwordRecheck)) {
@@ -72,6 +76,8 @@ export default {
         if (res.data.success) {
           this.$store.commit("setToken", res.data.token);
           await this.$store.commit("login");
+
+          this.hideLoader();
 
           this.$router.push({ name: "experiencia" });
         } else {
@@ -94,6 +100,18 @@ export default {
         });
       }
     },
+    showLoader() {
+      let loadingDiv = document.querySelector("span.loading-register");
+      if (loadingDiv) {
+        loadingDiv.style.display = "inline-block";
+      }
+    },
+    hideLoader() {
+      let loadingDiv = document.querySelector("span.loading-register");
+      if (loadingDiv) {
+        loadingDiv.style.display = "none";
+      }
+    },
   },
   computed: {},
   created() {},
@@ -101,4 +119,7 @@ export default {
 </script>
 
 <style lang="scss">
+span.loading-register {
+  display: none;
+}
 </style>

@@ -19,7 +19,17 @@
       />
 
       <div class="text-center btns-div">
+        <!-- <div class="loader-wrapper row">
+          <div
+            class="spinner-border text-success loading-login mr-auto"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div> -->
         <button class="btn btn-outline-success" type="submit">
+          <span class="spinner-border spinner-border-sm loading-login"></span>
+
           Login
         </button>
       </div>
@@ -41,6 +51,7 @@ export default {
   methods: {
     async login(eve) {
       eve.preventDefault();
+      this.showLoader();
       let auth = await this.http.post(
         `${this.$store.getters.url}auth/login`,
         {
@@ -48,7 +59,7 @@ export default {
           password: this.pass,
         } /*, {withCredentials: true}*/
       );
-
+      await setTimeout(() => console.log("esperando"), 1000);
 
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
        * Passo 1. das mensagens
@@ -56,9 +67,28 @@ export default {
       if (auth.data.success) {
         this.$store.commit("setToken", auth.data.jwt);
         await this.$store.commit("login");
+        this.hideLoader();
 
         /** Passo 2. das Mensagens */
         this.$router.push({ name: "experiencia" });
+      } else {
+        this.$Swal.fire(
+          "There was something wrong with your credentials",
+          "",
+          "error"
+        );
+      }
+    },
+    showLoader() {
+      let loadingDiv = document.querySelector("span.loading-login");
+      if (loadingDiv) {
+        loadingDiv.style.display = "inline-block";
+      }
+    },
+    hideLoader() {
+      let loadingDiv = document.querySelector("span.loading-login");
+      if (loadingDiv) {
+        loadingDiv.style.display = "none";
       }
     },
   },
@@ -68,5 +98,8 @@ export default {
 <style lang="scss">
 div.btns-div {
   margin: 10px 0px;
+}
+span.loading-login {
+  display: none;
 }
 </style>
