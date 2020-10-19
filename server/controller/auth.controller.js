@@ -187,10 +187,7 @@ module.exports = {
 
                 let truBody = null;
 
-                if (req.body.token) {
-                    truBody = req.body;
-                }
-                else if (req.cookies.jwt) {
+                if (req.cookies.jwt) {
                     console.log("Cookies no middlewareVerification", req.cookies, req.params)
                     truBody.token = req.cookies.jwt;
                     truBody.c = req.cookies.c || req.params.c;
@@ -199,6 +196,7 @@ module.exports = {
                     console.log("em lado enhum")
                 }
                 // 1. Token e items para a conta super secreta xD
+                console.log("TruBody !!!!", truBody)
                 let verification = await this.verifyJWT(truBody);
                 console.log(verification)
                 if (!verification) {
@@ -212,6 +210,7 @@ module.exports = {
             console.log("e passou a verification")
             next();
         } catch (error) {
+            console.log("Fodeu na verificação", error)
             next(error);
         }
     },
