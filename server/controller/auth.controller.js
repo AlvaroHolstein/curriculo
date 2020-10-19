@@ -198,18 +198,18 @@ module.exports = {
                 }
                 // 1. Token e items para a conta super secreta xD
                 console.log("TruBody !!!!", truBody)
-                let verification = await verifyJWT(truBody);
+                // let verification = await verifyJWT(truBody);
 
-                let ver = await (() => {
+                let verification = await ((body) => {
                     return new Promise((resolve, reject) => {
                         //1. Verificar a validade do token
                         // A função assim é sincrona
-                        let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
+                        jwt.verify(body.token, process.env.JWT_SECRET, (err, ver) => {
                             if (err) {
                                 reject(err)
                             }
                             //2. Se válido, testar a resposta que veio no body
-                            if (c == ver.a * ver.b) {
+                            if (body.c == ver.a * ver.b) {
                                 resolve(true)
                             }
                             else {
@@ -218,7 +218,7 @@ module.exports = {
                             //3. Tótil seguro :)
                         });
                     })
-                })();
+                })(truBody);
                 console.log(verification)
                 if (!verification) {
                     next("ERR: JWT - O resultado final está mal")
