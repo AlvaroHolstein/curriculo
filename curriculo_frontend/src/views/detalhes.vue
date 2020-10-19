@@ -9,7 +9,7 @@ export default {
     }
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}infoextra`);
+    let res = await this.http.get(`${this.$store.getters.url}infoextra${this.$store.getters.contaValueParams}`);
 
     if (res.data.success) {
       this.detalhes = res.data.data;

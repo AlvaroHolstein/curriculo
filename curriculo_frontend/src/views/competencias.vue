@@ -26,7 +26,7 @@ export default {
   async created() {
     console.log(this.$store.getters.headersValue);
     // https://github.com/axios/axios/issues/319#issuecomment-442915750
-    let res = await this.http.get(`${this.$store.getters.url}competencias`, {
+    let res = await this.http.get(`${this.$store.getters.url}competencias${this.$store.getters.contaValueParams}`, {
       headers: this.$store.getters.headersValue,
       credentials: "same-origin"
     });

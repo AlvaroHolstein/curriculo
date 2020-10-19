@@ -31,7 +31,7 @@ export default {
     };
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}escola`);
+    let res = await this.http.get(`${this.$store.getters.url}escola${this.$store.getters.contaValueParams}`);
 
     if (res.data.success) {
       this.escolas = res.data.data;

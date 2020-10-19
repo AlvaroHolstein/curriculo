@@ -61,10 +61,10 @@ server.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     /** Vai servir para ir vendo as cookies */
-    console.log("Cookies: ", req.cookies);
-    console.log("Signed Cookies: ", req.signedCookies);
-    console.log("Headers Cookies:", req.headers.cookie)
-    console.log("Headers: ", req.headers)
+    // console.log("Cookies: ", req.cookies);
+    // console.log("Signed Cookies: ", req.signedCookies);
+    // console.log("Headers Cookies:", req.headers.cookie)
+    // console.log("Headers: ", req.headers)
     next();
 })
 

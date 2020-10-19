@@ -24,6 +24,7 @@ const store = new Vuex.Store({
         logout(state) {
             state.logged = false;
             state.username = null;
+            state.contaValue = null;
         },
 
         /** Token Shananigans */
@@ -60,6 +61,13 @@ const store = new Vuex.Store({
                 Accept: "/",
                 "Cache-Control": "no-cache",
             };
+        },
+        /** Return = ?c=contaValue
+         * 
+         * @param {*} state 
+         */
+        contaValueParams(state) {
+            return `?c=${state.contaValue}`;
         }
     }
 })

@@ -115,7 +115,7 @@ export default {
            */
           let { a, b } = await AuthClass.verifyToken(this.$store.getters.token);
           let res = await this.http.post(
-            `${this.$store.getters.url}msg/getmessages`,
+            `${this.$store.getters.url}msg/getmessages${this.$store.getters.contaValueParams}`,
             { token: this.$store.getters.token, c: a * b }
           );
 

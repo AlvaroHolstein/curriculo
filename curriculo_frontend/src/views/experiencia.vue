@@ -58,7 +58,7 @@ export default {
     };
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}exp`);
+    let res = await this.http.get(`${this.$store.getters.url}exp${this.$store.getters.contaValueParams}`);
 
     if (res.data.success) {
       this.trabalhos = res.data.data;
