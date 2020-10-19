@@ -64,6 +64,7 @@ server.use((req, res, next) => {
     console.log("Cookies: ", req.cookies);
     console.log("Signed Cookies: ", req.signedCookies);
     console.log("Headers Cookies:", req.headers.cookie)
+    console.log("Headers: ", req.headers)
     next();
 })
 
