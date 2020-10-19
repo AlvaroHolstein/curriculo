@@ -185,7 +185,7 @@ module.exports = {
             if (process.env.NODE_ENV == 'production') { //eheh
                 console.log("Verification")
 
-                let truBody = null;
+                let truBody = {};
 
                 if (req.cookies.jwt) {
                     console.log("Cookies no middlewareVerification", req.cookies, req.params)
