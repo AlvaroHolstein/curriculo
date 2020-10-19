@@ -55,6 +55,7 @@ server.use((req, res, next) => {
     if (process.env.NODE_ENV) {
         // Este header estava a não deixar pedidos de outros dominios por ser demasiado abrangente xD
         res.header('Access-Control-Allow-Origin', "*");
+        console.log("Cookies: ", req.cookies )
     }
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

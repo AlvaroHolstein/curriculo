@@ -191,7 +191,9 @@ module.exports = {
                     truBody = req.body;
                 }
                 else if (req.cookies.jwt) {
+                    console.log("Cookies no middlewareVerification", req.cookies)
                     truBody.token = req.cookies.jwt;
+                    truBody.c = req.cookies.c
                 }
                 else {
                     console.log("em lado enhum")
