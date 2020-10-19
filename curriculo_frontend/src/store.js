@@ -52,8 +52,13 @@ const store = new Vuex.Store({
         },
         // Usado para além de enviar o token que já vai nas cookies,
         // envio também o resultado da conta que é necessário para verificar o token
-        cookieValue(state) {
-            return { 'Cookie': `c=${state.contaValue};Set-Cookie=${state.contaValue}` };
+        headersValue(state) {
+            return {
+                'Cookie': `c=${state.contaValue};Set-Cookie=${state.contaValue}`,
+                "content-Type": "application/json",
+                Accept: "/",
+                "Cache-Control": "no-cache",
+            };
         }
     }
 })

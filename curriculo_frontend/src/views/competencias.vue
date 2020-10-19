@@ -2,13 +2,15 @@
   <div class="competencias-wrapper">
     <div v-for="(comp, index) in competencias" v-bind:key="index">
       <div class="competencias-list row">
-        <div class="col-3">{{comp.name}}</div>
-        <div class="col-8"><span
-          v-for="(i, ind) in maxScore"
-          v-bind:key="ind"
-          class="circle"
-          v-bind:class="{fill: comp.current >= i}"
-        ></span></div>
+        <div class="col-3">{{ comp.name }}</div>
+        <div class="col-8">
+          <span
+            v-for="(i, ind) in maxScore"
+            v-bind:key="ind"
+            class="circle"
+            v-bind:class="{ fill: comp.current >= i }"
+          ></span>
+        </div>
       </div>
     </div>
   </div>
@@ -22,8 +24,12 @@ export default {
     };
   },
   async created() {
-    console.log(this.$store.getters.cookieValue)
-    let res = await this.http.get(`${this.$store.getters.url}competencias`, {headers: this.$store.getters.cookieValue, withCredentials: true});
+    console.log(this.$store.getters.headersValue);
+    // https://github.com/axios/axios/issues/319#issuecomment-442915750
+    let res = await this.http.get(`${this.$store.getters.url}competencias`, {
+      headers: this.$store.getters.headersValue,
+      credentials: "same-origin"
+    });
 
     if (res.data.success) {
       this.competencias = res.data.data;
