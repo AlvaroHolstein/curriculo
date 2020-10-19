@@ -6,6 +6,7 @@ const escolasController = {
         return new Promise((resolve, reject) => {
             escola.find({}, (err, data) => {
                 // Apanhar este erro nos routes e enviar num next
+                console.log("escolas controller", err, data)
                 if(err) reject(err);
                 resolve(data);
             })

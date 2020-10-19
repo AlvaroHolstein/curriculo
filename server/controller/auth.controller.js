@@ -183,6 +183,8 @@ module.exports = {
             // console.log(req.cookies)
             /** Fazer uma voisa para dev e outra para PROD? */
             if (process.env.NODE_ENV == 'production') { //eheh
+                console.log("Verification")
+
                 let truBody = null;
 
                 if (req.body.token) {
@@ -205,6 +207,7 @@ module.exports = {
             else {
                 /** Por fgazer, mas isto é só um atalho para testar os caminhos */
             }
+            console.log("e passou a verification")
             next();
         } catch (error) {
             next(error);
