@@ -64,6 +64,7 @@ ul.navbar-list {
   li.logout-btn {
     width: 100%;
     text-align: right;
+    cursor: pointer;
 
     &:hover {
       color: red;

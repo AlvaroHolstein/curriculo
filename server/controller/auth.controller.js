@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
  * Por agora a unica diferença é que o uitilizador vai ter um nome quando mandar mensagem,
  * enquanto que um guest não o vai ter xD
  */
+let tokenBlacklist = [];
 module.exports = {
     /** Vai servir para fazer o Logine */
     authenticate(username, pass) {
@@ -163,6 +164,12 @@ module.exports = {
         return new Promise((resolve, reject) => {
             //1. Verificar a validade do token
             // A função assim é sincrona
+            console.log("verifyJWT()", tokenBlacklist)
+            if(tokenBlacklist.includes(token)) {
+                reject(false);
+                return;
+            }
+            
             let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
                 if (err) {
                     reject(err)
@@ -178,7 +185,6 @@ module.exports = {
             });
         })
     },
-    thisVerification: this.verifyJWT,
     async middlewareVerification(req, res, next) {
         try {
             // console.log(req.cookies)
@@ -302,8 +308,16 @@ module.exports = {
     logout(token) {
         // Acho que  que vou fazer vai ser por a data de expiração para agora
         //naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah, siiiiiiiiiiiiiiiiiim.....
-        return new Promise((res, rej) => {
+        // naaaaaaaaaaaaaah v2 xD
 
-        })
+        console.log("FDS", !tokenBlacklist.includes(token), tokenBlacklist)
+        if(!tokenBlacklist.includes(token)) {
+            tokenBlacklist.push(token)
+        }
+
+        if(tokenBlacklist.length >= 100) {
+            // Para quando começar a ficar muito cheio
+            tokenBlacklist.splice(0, 5);
+        }
     }
 }

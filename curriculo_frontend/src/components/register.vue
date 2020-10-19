@@ -20,7 +20,7 @@
       <label for="password">Password</label>
       <input
         v-model="password"
-        type="text"
+        type="password"
         id="password"
         class="form-control"
       />
@@ -28,7 +28,7 @@
       <label for="password-recheck">ReCheck Password</label>
       <input
         v-model="passwordRecheck"
-        type="text"
+        type="password"
         id="password-recheck"
         class="form-control"
         required
@@ -91,7 +91,8 @@ export default {
       }
 
       if (!successRegister) {
-        this.$Swal.fire({
+       this.hideLoader();
+       this.$Swal.fire({
           position: "top-end",
           icon: "error",
           title: errorMsg,

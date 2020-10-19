@@ -92,7 +92,9 @@ router.post("/verify", async (req, res, next) => {
 /** Vou precisar disto para "matar" tokens */
 router.post("/logout", async (req, res, next) => {
     try {
-
+        // Alterar a 
+        let logout =  authController.logout(req.body.token);
+        res.json({success: true})
     } catch (error) {
         next(error);
     }

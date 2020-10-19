@@ -18,8 +18,8 @@
 
             <hr />
             <!-- Repositórios -->
-            <li><b><a :href="detalhes['github']">GitHub </a></b></li>
-            <li><b><a :href="detalhes['bitbucket']">Bitbucket </a></b></li>
+            <li><b><a :href="detalhes['github']" target="_blank">GitHub</a></b></li>
+            <li><b><a :href="detalhes['bitbucket']" target="_blank">Bitbucket</a></b></li>
           </ul>
         </div>
       </div>

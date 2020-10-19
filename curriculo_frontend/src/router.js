@@ -12,7 +12,7 @@ import InformacaoAdicional from "./views/informacao_adicional.vue";
 
 import axios from 'axios';
 
-import {AuthClass} from './classes/auth.class';
+import { AuthClass } from './classes/auth.class';
 
 Vue.use(Router);
 
@@ -66,35 +66,76 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
     try {
         let letgo = true;
+
+        let tokenNameLs = "elto";
+
+        let lsToken = "";
+        if (localStorage.getItem(tokenNameLs)) {
+            lsToken = JSON.parse(localStorage.getItem(tokenNameLs));
+            console.log(lsToken);
+        }
         /** Em desenvolvimento isto vai ser de uma forma, 
          * depois em produção vai ser de outra maneira
          */
+        console.log(to.name != "auth" && store.getters.logged == false, to.name, store.getters.logged)
         if (to.name != "auth" && store.getters.logged == false) {
-            letgo = false;
+            if (lsToken != "") {
+                console.log("que foda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+                let jwtVerified = await AuthClass.verifyToken(lsToken);
+
+                console.log('ata', jwtVerified)
+                let { a, b } = jwtVerified;
+                let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: lsToken, c: a * b });
+
+                if (!authRes.data.success) {
+                    letgo = false;
+                }
+                else {
+                    // Se for este o caso então significa que pode ir direto para a conta
+                    store.commit("setToken", lsToken);
+                    await store.commit("login");
+
+                    /** Passo 2. das Mensagens */
+                    router.push({ name: "experiencia" });
+                }
+            }
+            else {
+                console.log("que foda - " + lsToken, lsToken == "")
+
+                letgo = false;
+            }
         }
 
+        // if (to.name == "auth" && store.getters.logged == false) {
+
+
+        // }
+
         /** Fazer a conflirmação das cookies aqui */
-        if (to.name != 'auth' && store.getters.logged == true) {
+        if ((to.name != 'auth' && store.getters.logged == true) || store.getters.logged == true) {
             //1. Veirficar Token
+            console.log("ATA!1111111!!!!!!!!!!!!!!")
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
 
             //Ainda tenho que criar a rota
-            let {a, b} = jwtVerified;
+            let { a, b } = jwtVerified;
             // console.log({a, b, jwtVerified}); 
-            let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a*b});
-            console.log("Token verification router.js", authRes)
-            if(!authRes.data.success) {
+            let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a * b });
+            // console.log("Token verification router.js", authRes)
+            if (!authRes.data.success) {
                 letgo = false;
             }
         }
         next(letgo)
-        if (!letgo && from.name != "auth") {
+        if (!letgo && to.name != 'auth') {
             router.push({ name: 'auth' })
         }
     } catch (error) {
-        console.error(error)
-        next(false)
+        console.log("FDP!!!!!!!!!!!!!!!!!!!!!", error.stack)
+        next(false);
+        router.push({ name: 'auth' })
     }
 })
 export default router;

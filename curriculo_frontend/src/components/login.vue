@@ -13,20 +13,13 @@
       <label for="password-login">Password</label>
       <input
         v-model="pass"
-        type="text"
+        type="password"
         id="password-login"
         class="form-control"
       />
 
       <div class="text-center btns-div">
-        <!-- <div class="loader-wrapper row">
-          <div
-            class="spinner-border text-success loading-login mr-auto"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div> -->
+
         <button class="btn btn-outline-success" type="submit">
           <span class="spinner-border spinner-border-sm loading-login"></span>
 
@@ -59,7 +52,6 @@ export default {
           password: this.pass,
         } /*, {withCredentials: true}*/
       );
-      await setTimeout(() => console.log("esperando"), 1000);
 
       /** Não vai ser assim em produção, mas em desenvolvimento vou usar esta maneira
        * Passo 1. das mensagens
@@ -72,6 +64,7 @@ export default {
         /** Passo 2. das Mensagens */
         this.$router.push({ name: "experiencia" });
       } else {
+        this.hideLoader();
         this.$Swal.fire(
           "There was something wrong with your credentials",
           "",
