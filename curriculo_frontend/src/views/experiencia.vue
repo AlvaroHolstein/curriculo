@@ -40,7 +40,7 @@
                   <span class="data-fim">{{ data.data_fim == undefined ? "little error": data.data_fim.split("T")[0] }}</span>
                 </b-card-text>
                 <b-card-text class="resumo">
-                  {{ data.resumo }}
+                  {{ data.resumo[$store.getters.language] }}
                 </b-card-text>
               </div>
             </b-card-body>
@@ -112,7 +112,10 @@ export default {
                     grouping[i].datas.push({
                       data_inicio: trab2.data_inicio,
                       data_fim: trab2.data_fim,
-                      resumo: trab2.resumo,
+                      resumo: {
+                        pt: trab2.resumo,
+                        en: trab2.resumo_en
+                      },
                       empresa: trab2.empresa
                     });
                     if (trab2.img != "") {

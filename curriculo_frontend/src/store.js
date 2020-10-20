@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     mutations: {
         async login(state) {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
-            console.log(jwtVerified)
+            // console.log(jwtVerified)
             if (jwtVerified) {
                 state.logged = true;
                 state.username = jwtVerified.username;

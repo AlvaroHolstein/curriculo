@@ -225,7 +225,7 @@ module.exports = {
                         });
                     })
                 })(truBody);
-                console.log(verification)
+                // console.log(verification)
                 if (!verification) {
                     next("ERR: JWT - O resultado final está mal")
                     return;
@@ -254,7 +254,7 @@ module.exports = {
                 // })();
                 // console.log(ver)
             }
-            console.log("e passou a verification")
+            // console.log("e passou a verification")
             next();
         } catch (error) {
             // console.log("Fodeu na verificação", error)

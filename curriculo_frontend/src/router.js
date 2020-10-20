@@ -72,19 +72,19 @@ router.beforeEach(async (to, from, next) => {
         let lsToken = "";
         if (localStorage.getItem(tokenNameLs)) {
             lsToken = JSON.parse(localStorage.getItem(tokenNameLs));
-            console.log(lsToken);
+            // console.log(lsToken);
         }
         /** Em desenvolvimento isto vai ser de uma forma, 
          * depois em produção vai ser de outra maneira
          */
-        console.log(to.name != "auth" && store.getters.logged == false, to.name, store.getters.logged)
+        // console.log(to.name != "auth" && store.getters.logged == false, to.name, store.getters.logged)
         if (to.name != "auth" && store.getters.logged == false) {
             if (lsToken != "") {
-                console.log("que foda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                // console.log("que foda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
                 let jwtVerified = await AuthClass.verifyToken(lsToken);
 
-                console.log('ata', jwtVerified)
+                // console.log('ata', jwtVerified)
                 let { a, b } = jwtVerified;
                 let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: lsToken, c: a * b });
 
@@ -115,7 +115,7 @@ router.beforeEach(async (to, from, next) => {
         /** Fazer a conflirmação das cookies aqui */
         if ((to.name != 'auth' && store.getters.logged == true) || store.getters.logged == true) {
             //1. Veirficar Token
-            console.log("ATA!1111111!!!!!!!!!!!!!!")
+            // console.log("ATA!1111111!!!!!!!!!!!!!!")
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
 
@@ -133,7 +133,7 @@ router.beforeEach(async (to, from, next) => {
             router.push({ name: 'auth' })
         }
     } catch (error) {
-        console.log("FDP!!!!!!!!!!!!!!!!!!!!!", error.stack)
+        // console.log("FDP!!!!!!!!!!!!!!!!!!!!!", error.stack)
         next(false);
         router.push({ name: 'auth' })
     }

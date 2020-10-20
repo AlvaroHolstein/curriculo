@@ -18,6 +18,12 @@ const escolaSchema = new Schema({
     },
     localidade: {
         type: String
+   },
+   detalhes: {
+       type: String
+   },
+   detalhes_en: {
+        type: String
    }
 })
 

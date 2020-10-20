@@ -2,15 +2,22 @@
   <div class="escolas-wrapper">
     <b-card
       no-body
-      v-for="(escola, index) in escolas"
+      v-for="(escola, index) in escolasArr"
       v-bind:key="index"
       class="overflow-hidden outter-card"
     >
-      <b-row>
+      <b-row v-if="escola">
         <b-col md="12">
           <b-card-body v-bind:title="escola.nome_curso">
             <h5>{{ escola.nome }}</h5>
             <b-card-text class="datas">
+              <p>
+                {{
+                  escola.details == undefined
+                    ? ""
+                    : escola.details[$store.getters.language]
+                }}
+              </p>
               <span class="data-inicio">{{ escola.data_inicio }}</span>
               até
               <span class="data-fim">{{ escola.data_inicio }}</span>
@@ -36,14 +43,30 @@ export default {
 
     if (res.data.success) {
       this.escolas = res.data.data.sort((ed1, ed2) => {
-        console.log(new Date(ed2.data_inicio).getTime(), ed2.data_inicio)
-        console.log(new Date(ed1.data_inicio).getTime(), ed1.data_inicio)
         return (
           new Date(ed2.data_inicio).getTime() -
           new Date(ed1.data_inicio).getTime()
         );
       });
     }
+  },
+  computed: {
+    escolasArr() {
+      let arr = [];
+      let anadaOne = this.escolas;
+
+      for (let i = 0; i < anadaOne.length; i++) {
+        anadaOne[i]['details'] = {};
+        let aux = {
+            pt: anadaOne[i].detalhes == undefined ? "" : anadaOne[i].detalhes,
+            en: anadaOne[i].detalhes_en == undefined ? "" : anadaOne[i].detalhes_en
+        }
+        anadaOne[i].details = aux;
+
+        arr.push(anadaOne[i]);
+      }
+      return arr;
+    },
   },
   methods: {},
 };

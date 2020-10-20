@@ -20,6 +20,9 @@ const experienciaSchema = new Schema({
     resumo: {
         type: String
     },
+    resumo_en: {
+        type: String
+    },
     cargo: {
         type: String
     },
