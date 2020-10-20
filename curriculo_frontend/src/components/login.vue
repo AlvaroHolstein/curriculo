@@ -66,7 +66,7 @@ export default {
       } else {
         this.hideLoader();
         this.$Swal.fire(
-          "There was something wrong with your credentials",
+          this.$t('credential_error_login'),
           "",
           "error"
         );

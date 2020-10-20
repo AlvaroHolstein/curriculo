@@ -2,6 +2,8 @@ import Vue from 'vue'
 import router from './router'
 import App from './App.vue'
 import Vuex from 'vuex';
+import i18n from './i18n'
+
 import store from './store';
 import axios from "axios";
 import jwt from 'jsonwebtoken'
@@ -11,7 +13,7 @@ import markyIt from 'markdown-it';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-let path = { path: "/"}; 
+let path = { path: "/"};
 dotenv.config({path})
 Vue.config.productionTip = false
 
@@ -34,7 +36,8 @@ Vue.use(IconsPlugin)
 
 // Vue.prototype.$store = Vuex;
 new Vue({
-  render: h => h(App),
   router,
+  i18n,
   store,
+  render: h => h(App),
 }).$mount('#app')

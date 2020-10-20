@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import i18n from './i18n';
 import { PROD_URL } from '../dev.env';
 import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
@@ -10,7 +11,10 @@ const store = new Vuex.Store({
         token: null,
         username: null,
         contaValue: null,
-        lsToken: 'elto'
+        lsToken: 'elto',
+
+        // Também vai estar na localStorage, assim o default vai ser pt
+        language: localStorage['language'] ? localStorage['language'] : 'pt'
     },
     mutations: {
         async login(state) {
@@ -50,9 +54,17 @@ const store = new Vuex.Store({
         clearToken(state) {
             state.token = null;
         },
-        // setContaValue(state) {
-        //     state
-        // }
+        changeLanguage(state, lang) {
+            // Dentro da store
+            state.language = lang;
+            localStorage.setItem("language", state.language);
+
+            // Agora o que realmente vai fazer mudar a linguagem
+            // this.$i18n.locale = state.language
+            // console.log(i18n.locale, state.language, lang)
+            // Funcionando
+            i18n.locale = state.language;
+        }
     },
     getters: {
         logged(state) {
@@ -84,6 +96,9 @@ const store = new Vuex.Store({
          */
         contaValueParams(state) {
             return `?c=${state.contaValue}`;
+        },
+        language(state) {
+            return state.language;
         }
     }
 })

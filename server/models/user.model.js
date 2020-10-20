@@ -16,6 +16,9 @@ const userSchema = new Schema({
     empresa: {
         type: String
     },
+    telemovel: {
+        type:String
+    },
     lastLogin: {
         type: Date
     },

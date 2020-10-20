@@ -14,6 +14,12 @@ export default {
   data() {
     return {};
   },
+  created() {
+    /** Veirificar Linguagem */
+    if(localStorage['language']) {
+      this.$store.commit("changeLanguage", localStorage['language'])
+    }
+  },
   computed: {},
 };
 </script>

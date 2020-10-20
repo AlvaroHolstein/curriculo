@@ -73,7 +73,7 @@ module.exports = {
     },
 
     /** Registar um novo madafakas */
-    register({ username, email, empresa, password }) {
+    register({ username, email, empresa, telemovel, password }) {
         return new Promise((resolve, reject) => {
             const saltRounds = 10;
             let returnModel = {
@@ -89,7 +89,7 @@ module.exports = {
                         return;
                     }
 
-                    let newUser = new user({ username, email, password: hash, empresa });
+                    let newUser = new user({ username, email, telemovel, password: hash, empresa });
 
                     /** Vou ter que usar o bcrypt se op validate do mongoose der fixe */
 

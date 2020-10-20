@@ -51,7 +51,7 @@ function discordInit(socket) {
                  * - id
                  */
                 if (!isDuplicated(msg)) {
-                    await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name);
+                    await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name, "", msg.id);
                     socket.emit("messageDisc", msg.content) // é o que manda pro fronted
                 }
 

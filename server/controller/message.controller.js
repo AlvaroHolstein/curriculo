@@ -10,7 +10,7 @@ module.exports = {
      * @param {String} channelName 
      * @param {?String} empresa 
      */
-    saveMessages(message, self, username, channelName = null, empresa = null) {
+    saveMessages(message, self, username, channelName = null, empresa = null, idMsgDisc) {
         /** Vou guardar as mensagens no Mongo
          * E este método vai ser o que vai ser chamado sempre que guardar uma mensagem.
          */
@@ -29,7 +29,10 @@ module.exports = {
                 username: username,
                 empresa: empresa,
                 // só falta a data aqui
-                channelName: channelName
+                channelName: channelName,
+
+                // Debuggin porpuse
+                idMsgDisc: idMsgDisc
             })
 
             newMessage.save(err => {

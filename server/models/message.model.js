@@ -32,6 +32,14 @@ const messageSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    idMsgDisc: {
+        type: String
+    },
+    // Depois posso eliminar todas as mensagens que não tenham sido gravadas com a app em Produçaõ
+    prod: {
+        type: Boolean,
+        required: true
     }
 });
 
