@@ -18,6 +18,7 @@ function discordInit(socket) {
     // Vou limpar quando chegar ás 20 mensagens
     let contadorParaLimparMensagens = 0;
     let msgArr = [];
+    let successfullyStarted = false;
 
     /** Criar um novo token para o bot do discord
      * Tenho que criar os chats
@@ -25,7 +26,14 @@ function discordInit(socket) {
      * ou seja, para o ServidorBot > (Canal de texto) curriculo
      */
     client.on('ready', () => {
+        successfullyStarted = true;
         console.log("O Discord Já está a correr sem erros em principio");
+    })
+
+    client.on('error', (error) => {
+        /** Vou ter que fazer uma coisa mais bonita para os logs de erros 
+         * e depois também para o logs de entrada, last login e por ai adiante
+         */
     })
 
     client.on("message", async (msg) => {
@@ -93,7 +101,9 @@ function discordInit(socket) {
         return isDuplicated;
     }
 
-    client.login(discordToken);
+    if (!successfullyStarted) {
+        client.login(discordToken);
+    }
     return client;
 }
 

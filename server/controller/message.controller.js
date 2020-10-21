@@ -32,7 +32,8 @@ module.exports = {
                 channelName: channelName,
 
                 // Debuggin porpuse
-                idMsgDisc: idMsgDisc
+                idMsgDisc: idMsgDisc,
+                prod: process.env.NODE_ENV == 'production' ? true : false
             })
 
             newMessage.save(err => {

@@ -90,6 +90,7 @@ router.beforeEach(async (to, from, next) => {
 
                 if (!authRes.data.success) {
                     letgo = false;
+                    // console.log("atatata")
                 }
                 else {
                     // Se for este o caso então significa que pode ir direto para a conta
@@ -101,7 +102,7 @@ router.beforeEach(async (to, from, next) => {
                 }
             }
             else {
-                console.log("que foda - " + lsToken, lsToken == "")
+                // console.log("que foda - " + lsToken, lsToken == "")
 
                 letgo = false;
             }
@@ -129,6 +130,9 @@ router.beforeEach(async (to, from, next) => {
             }
         }
         next(letgo)
+        /** Isto devia sempre mandar as pessoas para a página de login
+         * quando alguma coisa corre mal com o token
+         */
         if (!letgo && to.name != 'auth') {
             router.push({ name: 'auth' })
         }

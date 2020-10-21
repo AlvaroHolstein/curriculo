@@ -26,7 +26,7 @@ export class AuthClass {
      */
     static logout(http, url, token) {
         return new Promise((res, rej) => {
-            console.log(token, this.lsToken);
+            // console.log(token, this.lsToken);
             http.post(`${url}auth/logout`, { token: token })
                 .then(killToken => {
                     console.log(killToken)
