@@ -52,7 +52,7 @@ function MessageConstructor(chatMessage) {
             let chName = (username+idM).toLowerCase();
             // console.log("chname", chName);
 
-            let response = await messageController.getMessages(chName);
+            let response = await messageController.getMessages(chName, req.body.prod);
             
             res.json({ success: true, data: response });
         } catch (err) {

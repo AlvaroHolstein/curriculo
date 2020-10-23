@@ -131,8 +131,9 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
 
         })
 
-        socket.on("mess", async ({ text, token }) => {
+        socket.on("mess", async ({ text, token, env }) => {
             try {
+
                 let chanelExists = false;
                 let chanelId = null;
                 /**
@@ -185,7 +186,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
                             type: 'text',
                             reason: 'Little Talks'
                         })
-                    await socketFromAbove.saveMessage(text, username, channelName)
+                    await socketFromAbove.saveMessage(text, username, channelName, env)
                     client.channels.cache.get(newCh.id).send(text);
                     client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
 
@@ -198,15 +199,15 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
                 else {
                     /** Vem do parametro da funçoum */
                     chanelId = chanelId == null ? defaultChanelId : chanelId
-                    await socketFromAbove.saveMessage(text, username, channelName)
-                    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    await socketFromAbove.saveMessage(text, username, channelName, env)
+                    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
                     client.channels.cache.get(chanelId).send(text)
                     let ids = [];
                     for(let sc of socketArr) {
-                        console.log(sc.roomName, channelName)
+                        // console.log(sc.roomName, channelName)
                         if(sc.roomName === channelName) {
-                            console.log(sc.roomName)
+                            // console.log(sc.roomName)
                             ids.push(sc.id)
                         }
                     }

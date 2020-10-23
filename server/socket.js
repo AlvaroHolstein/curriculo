@@ -31,13 +31,13 @@ class SocketInicialization {
     }
 
     /** Vou fazer aqui fora a função para guardar as mensagens que depois é usada em cima */
-    async saveMessage(message, username, channelName) {
+    async saveMessage(message, username, channelName, env) {
         try {
             /** Se a mensagem não for guardada copm sucesso vou ter que fazer algo que 
              * avise o user disso
              */
             // console.log("Gravaer", message)
-            await messageController.saveMessages(message, false, username, channelName);
+            await messageController.saveMessages(message, false, username, channelName, "", "", env);
         } catch (error) {
             /**
             * Não acho que isto eseja bem apanhado, sou capaz de ter que juntar 

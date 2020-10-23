@@ -11,7 +11,7 @@ module.exports = {
      * @param {String} channelName 
      * @param {?String} empresa 
      */
-    saveMessages(message, self, username, channelName = null, empresa = null, idMsgDisc) {
+    saveMessages(message, self, username, channelName = null, empresa = null, idMsgDisc, env) {
         /** Vou guardar as mensagens no Mongo
          * E este método vai ser o que vai ser chamado sempre que guardar uma mensagem.
          */
@@ -62,7 +62,7 @@ module.exports = {
      * 
      * @param {String} channelName 
      */
-    getMessages(channelName) {
+    getMessages(channelName, prod) {
         channelName = channelName.toLowerCase();
 
         if (channelName.split(" ").length > 1) {
@@ -86,7 +86,7 @@ module.exports = {
         // console.log("GETMESSAGES", newName)
         return new Promise((res, rej) => {
             // console.log("Names !!!!!!!!!!", newName, channelName)
-            messageModel.find({ $or: [{ "channelName": channelName }, { "channelName": newName }] }, (err, collection) => {
+            messageModel.find({ $or: [{ "channelName": channelName, prod: prod }, { "channelName": newName, prod: prod }] }, (err, collection) => {
                 if (err) {
                     rej(err);
                     return;

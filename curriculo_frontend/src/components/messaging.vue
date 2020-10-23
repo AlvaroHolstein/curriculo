@@ -113,15 +113,15 @@ export default {
     });
 
     this.socketClient.on("ownMessage", data => {
-      console.log("data", data, this.socketClient.id)
+      // console.log("data", data, this.socketClient.id)
       if(data.scIds.includes(this.socketClient.id)) {
         if(data.roomName == this.socketClient.id) {
-          console.log("Chegou como deve ser")
+          // console.log("Chegou como deve ser")
           this.receiveMessages(data.msg, data.self)
         }
       } 
       else {
-        console.log("NADAAAAAAAAAAAA")
+        // console.log("NADAAAAAAAAAAAA")
       // this.receiveMessages(data.msg, data.self);
       }
     })
@@ -165,12 +165,13 @@ export default {
           let { a, b } = await AuthClass.verifyToken(this.$store.getters.token);
           let res = await this.http.post(
             `${this.$store.getters.url}msg/getmessages${this.$store.getters.contaValueParams}`,
-            { token: this.$store.getters.token, c: a * b }
+            { token: this.$store.getters.token, c: a * b, prod: process.env.NODE_ENV == 'production' ? true : false}
           );
 
           if (res.data.success) {
             this.messages = res.data.data;
           } else {
+            // console.log(res.data)
             Swal.fire({
               position: "top-end",
               icon: "error",
@@ -181,7 +182,7 @@ export default {
           }
         }
       } catch (error) {
-        // console.error("ERROU", error);
+        console.error("ERROU", error);
       }
       /** Importante
        *  Vou ter que criar sessões */
@@ -213,6 +214,7 @@ export default {
         this.socketClient.emit("mess", {
           text: this.textMessage,
           token: this.$store.getters.token,
+          env: process.env.NODE_ENV
         });
         //Limpar a caixa de texto
 
