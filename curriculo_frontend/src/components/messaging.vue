@@ -78,7 +78,7 @@ export default {
         query: `roomName=${this.$store.getters.discChannel}_:${Math.random()}`,
       }
     );
-    console.log(this.$store.getters.discChannel);
+    // console.log(this.$store.getters.discChannel);
     this.socketClient.on("connection", (/*socket*/) => {
       // console.log("connected", socket);
     });
@@ -167,7 +167,7 @@ export default {
           }
         }
       } catch (error) {
-        console.error("ERROU", error);
+        // console.error("ERROU", error);
       }
       /** Importante
        *  Vou ter que criar sessões */

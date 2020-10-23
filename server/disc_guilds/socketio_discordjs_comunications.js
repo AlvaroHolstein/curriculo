@@ -56,7 +56,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
                     //     socketArrQuiters.splice(index2, 1);
                     // }
 
-                    console.log(sc.id, sc.roomName, msg.channel.name, sc.socket._rooms/*, sc.roomName, msg.channel.name, msg.content*/)
+                    // console.log(sc.id, sc.roomName, msg.channel.name, sc.socket._rooms/*, sc.roomName, msg.channel.name, msg.content*/)
                     // console.log("---------------------------------------------------------------------------------")
                     if(sc.roomName.split(" ").length > 1) {
                         sc.roomName = sc.roomName.split(" ").join("-")
@@ -79,13 +79,13 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
                         // selectedOne = sc.socket;
 
 
-                        console.log("Vai mandar mensaem para o user.", contador, msg.channel.name, sc.socket._rooms);
+                        // console.log("Vai mandar mensaem para o user.", contador, msg.channel.name, sc.socket._rooms);
                         if(sc.socket._rooms.length == 0) {
-                            console.log("WITHOUT ROOMS !!!!!!!!!!!!!!!")
+                            // console.log("WITHOUT ROOMS !!!!!!!!!!!!!!!")
                             sc.socket.emit('messageDisc', { msg: msg.content, scId: sc.id });
                         }
                         else {
-                            console.log("WITH ROOM !!!!")
+                            // console.log("WITH ROOM !!!!")
                             sc.socket.to(sc.roomName).emit('messageDisc', { msg: msg.content, scId: null });
                         }
                     }
