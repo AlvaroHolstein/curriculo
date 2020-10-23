@@ -9,5 +9,5 @@
     - <b>(DONEEEE)</b>
 - Do geust Account?
 - Use Algolia or another "text indexer" and bring back the search
-- make the AGE in additional information not be hard coded (tricky)
+- make the AGE in additional information not be hard coded (tricky) <b> (DONE) </b>
 - Docker the hell out of this.

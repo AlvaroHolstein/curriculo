@@ -84,13 +84,13 @@ export default {
     });
 
     // Fazer um evento para as reconexões
-    this.socketClient.emit("yo", {
-      yo:
-        "yo from created " +
-        "     " +
-        this.$store.getters.discChannel,
-      roomName: this.$store.getters.discChannel,
-    });
+    // this.socketClient.emit("yo", {
+    //   yo:
+    //     "yo from created " +
+    //     "     " +
+    //     this.$store.getters.discChannel,
+    //   roomName: this.$store.getters.discChannel,
+    // });
     // this.socketClient.on("user left", (socket) =>
     //   // console.log("Alguem saiu", socket)
     // );
@@ -111,6 +111,20 @@ export default {
       this.receiveMessages(data.msg);
       }
     });
+
+    this.socketClient.on("ownMessage", data => {
+      console.log("data", data, this.socketClient.id)
+      if(data.scIds.includes(this.socketClient.id)) {
+        if(data.roomName == this.socketClient.id) {
+          console.log("Chegou como deve ser")
+          this.receiveMessages(data.msg, data.self)
+        }
+      } 
+      else {
+        console.log("NADAAAAAAAAAAAA")
+      // this.receiveMessages(data.msg, data.self);
+      }
+    })
   },
   mounted() {
     document.querySelector("#text").addEventListener("keypress", (event) => {
@@ -121,11 +135,11 @@ export default {
   },
   updated() {
     // console.log("UPDATED !!!!")
-    this.socketClient.emit("yo", {
-          yo:
-            "yo from UPDATED!!!" + "     " + this.$store.getters.discChannel,
-          roomName: this.$store.getters.discChannel,
-        });
+    // this.socketClient.emit("yo", {
+    //       yo:
+    //         "yo from UPDATED!!!" + "     " + this.$store.getters.discChannel,
+    //       roomName: this.$store.getters.discChannel,
+    //     });
   },
   destroyed() {
     // console.log("Destruido")
@@ -206,14 +220,14 @@ export default {
         this.scrollDownMessageContainer();
       }
     },
-    receiveMessages(text) {
+    receiveMessages(text, self = null) {
       let messageObj = {
         message: text,
         date: new Date().toISOString(),
         empresa: "TBD",
         compId: -1,
         name: "TBD",
-        self: true,
+        self: self == null ? true : false,
       };
 
       this.messages.push(messageObj);

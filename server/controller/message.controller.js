@@ -1,3 +1,4 @@
+const { collection } = require("../models/message.model");
 const messageModel = require("../models/message.model");
 
 module.exports = {
@@ -22,7 +23,11 @@ module.exports = {
 
         // console.log({message, self, username, channelName, empresa});
         return new Promise((res, rej) => {
-
+            // Assim evita duplicações de certeza
+            // messageModel.find({idMsgDisc: idMsgDisc}, (error, collection) => {
+            //     if(error) rej(error)
+            // console.log("coo", collection)
+            // if(collection.length == 0) {
             let newMessage = new messageModel({
                 message: message,
                 self: self,
@@ -37,15 +42,19 @@ module.exports = {
             })
 
             newMessage.save(err => {
-                if(err) {
+                if (err) {
                     rej(err);
                     return;
                 }
 
+                // console.log("GRAVOUUUUUUUUUUUU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 res(newMessage);
                 return;
             })
+            // }
+            // res({succes: false})
         })
+        // })
     },
 
 
@@ -56,19 +65,19 @@ module.exports = {
     getMessages(channelName) {
         channelName = channelName.toLowerCase();
 
-        if(channelName.split(" ").length > 1) {
+        if (channelName.split(" ").length > 1) {
             channelName = channelName.split(" ").join("-")
         }
         let auxName = channelName.split('5f');
         let newName = "";
 
-        if(channelName.split("_").length == 1) {
+        if (channelName.split("_").length == 1) {
 
-            for(let i = 0; i<auxName.length; i++) {
-                if(i == 0) {
+            for (let i = 0; i < auxName.length; i++) {
+                if (i == 0) {
                     newName = auxName[i] + "_5f"
                 }
-                else{
+                else {
                     newName += auxName[i]
                 }
             }
@@ -77,8 +86,8 @@ module.exports = {
         // console.log("GETMESSAGES", newName)
         return new Promise((res, rej) => {
             // console.log("Names !!!!!!!!!!", newName, channelName)
-            messageModel.find({$or: [{"channelName": channelName}, {"channelName": newName}]}, (err, collection) => {
-                if(err) {
+            messageModel.find({ $or: [{ "channelName": channelName }, { "channelName": newName }] }, (err, collection) => {
+                if (err) {
                     rej(err);
                     return;
                 }
@@ -86,6 +95,6 @@ module.exports = {
                 res(collection);
                 return;
             })
-        })    
+        })
     }
 }

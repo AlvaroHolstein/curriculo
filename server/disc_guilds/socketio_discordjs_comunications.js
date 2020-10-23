@@ -198,9 +198,19 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
                 else {
                     /** Vem do parametro da funçoum */
                     chanelId = chanelId == null ? defaultChanelId : chanelId
-                    // console.log()
                     await socketFromAbove.saveMessage(text, username, channelName)
+                    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
                     client.channels.cache.get(chanelId).send(text)
+                    let ids = [];
+                    for(let sc of socketArr) {
+                        console.log(sc.roomName, channelName)
+                        if(sc.roomName === channelName) {
+                            console.log(sc.roomName)
+                            ids.push(sc.id)
+                        }
+                    }
+                    socket.emit('ownMessage', { msg: text, scIds: ids, self: false });
                 }
             } catch (error) {
                 // Mais uma vez acho que isto não resolve o problema do error handling
