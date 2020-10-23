@@ -26,6 +26,9 @@ const experienciaSchema = new Schema({
     cargo: {
         type: String
     },
+    cargo_en: {
+        type: String
+    },
     img: {
         type: String
     }

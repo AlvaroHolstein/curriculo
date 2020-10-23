@@ -14,39 +14,46 @@
       <hr v-if="index < trabalhos.length - 1" />
     </div> -->
     <!-- <div> -->
-      <b-card
-        no-body
-        v-for="(trabalho, index) in filterTrabalhos"
-        v-bind:key="index"
-        class="overflow-hidden outter-card"
-      >
-        <b-row no-gutters>
-          <b-col md="6">
-            <!-- para resolver esta merda https://stackoverflow.com/questions/40491506/vue-js-dynamic-images-not-working -->
-            <b-card-img
-              :src="getImgUrl(trabalho.img)"
-              alt="Image"
-              class="rounded-0"
-            ></b-card-img>
-          </b-col>
-          <b-col md="6">
-            <b-card-body v-bind:title="trabalho.cargo">
-              <h6>{{trabalho.empresa ? trabalho.empresa : ""}}</h6>
-              <div v-for="(data, index2) of trabalho.datas" v-bind:key="index2"> 
-                <b-card-text class="datas"
-                  >
-                  <span class="data-inicio">{{ data.data_inicio == undefined ? "little error": data.data_inicio.split("T")[0] }}</span>
-                   até
-                  <span class="data-fim">{{ data.data_fim == undefined ? "little error": data.data_fim.split("T")[0] }}</span>
-                </b-card-text>
-                <b-card-text class="resumo">
-                  {{ data.resumo[$store.getters.language] }}
-                </b-card-text>
-              </div>
-            </b-card-body>
-          </b-col>
-        </b-row>
-      </b-card>
+    <b-card
+      no-body
+      v-for="(trabalho, index) in filterTrabalhos"
+      v-bind:key="index"
+      class="overflow-hidden outter-card"
+    >
+      <b-row no-gutters>
+        <b-col md="6">
+          <!-- para resolver esta merda https://stackoverflow.com/questions/40491506/vue-js-dynamic-images-not-working -->
+          <b-card-img
+            :src="getImgUrl(trabalho.img)"
+            alt="Image"
+            class="rounded-0"
+          ></b-card-img>
+        </b-col>
+        <b-col md="6">
+          <b-card-body v-bind:title="trabalho.cargo[$store.getters.language]">
+            <h6>{{ trabalho.empresa ? trabalho.empresa : "" }}</h6>
+            <div v-for="(data, index2) of trabalho.datas" v-bind:key="index2">
+              <b-card-text class="datas">
+                <span class="data-inicio">{{
+                  data.data_inicio == undefined
+                    ? "little error"
+                    : data.data_inicio.split("T")[0]
+                }}</span>
+                até
+                <span class="data-fim">{{
+                  data.data_fim == undefined
+                    ? "little error"
+                    : data.data_fim.split("T")[0]
+                }}</span>
+              </b-card-text>
+              <b-card-text class="resumo">
+                {{ data.resumo[$store.getters.language] }}
+              </b-card-text>
+            </div>
+          </b-card-body>
+        </b-col>
+      </b-row>
+    </b-card>
     <!-- </div> -->
   </div>
 </template>
@@ -59,7 +66,9 @@ export default {
     };
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}exp${this.$store.getters.contaValueParams}`);
+    let res = await this.http.get(
+      `${this.$store.getters.url}exp${this.$store.getters.contaValueParams}`
+    );
 
     if (res.data.success) {
       this.trabalhos = res.data.data;
@@ -69,7 +78,6 @@ export default {
     filterTrabalhos() {
       let trbs = this.trabalhos;
       let trabs = trbs.sort((trab1, trab2) => {
-
         return (
           new Date(trab2.data_inicio).getTime() -
           new Date(trab1.data_inicio).getTime()
@@ -85,7 +93,10 @@ export default {
       for (let trab1 of trabs) {
         let model = {
           empresa: "",
-          cargo: "",
+          cargo: {
+            pt: "",
+            en: "",
+          },
           datas: [
             // data_inicio,
             // data_fim,
@@ -100,7 +111,12 @@ export default {
           -1
         ) {
           model.empresa = trab1.empresa;
-          model.cargo = trab1.cargo;
+          if (trab1.cargo != undefined && trab1.cargo != "") {
+            model.cargo["pt"] = trab1.cargo;
+          }
+          if (trab1.cargo_en != undefined && trab1.cargo_en != "") {
+            model.cargo["en"] = trab1.cargo_en;
+          }
           model.identifier = trab1.identifier;
 
           grouping.push(model);
@@ -109,14 +125,21 @@ export default {
               if (grouping.length > 0) {
                 for (let i = 0; i < grouping.length; i++) {
                   if (grouping[i].identifier == trab2.identifier) {
+                    if (trab2.cargo != undefined && trab2.cargo != "") {
+                      grouping[i].cargo["pt"] = trab2.cargo;
+                    }
+                    if (trab2.cargo_en != undefined && trab2.cargo_en != "") {
+                      grouping[i].cargo["en"] = trab2.cargo_en;
+                    }
+
                     grouping[i].datas.push({
                       data_inicio: trab2.data_inicio,
                       data_fim: trab2.data_fim,
                       resumo: {
                         pt: trab2.resumo,
-                        en: trab2.resumo_en
+                        en: trab2.resumo_en,
                       },
-                      empresa: trab2.empresa
+                      empresa: trab2.empresa,
                     });
                     if (trab2.img != "") {
                       // grouping[i].img = `require('@/assets/${trab2.img}')`;

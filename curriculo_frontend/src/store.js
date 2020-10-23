@@ -14,14 +14,18 @@ const store = new Vuex.Store({
         lsToken: 'elto',
 
         // Também vai estar na localStorage, assim o default vai ser pt
-        language: localStorage['language'] ? localStorage['language'] : 'pt'
+        language: localStorage['language'] ? localStorage['language'] : 'pt',
+
+        // Will solve the bug of everybody receive all messages from discord
+        idM: ""
     },
     mutations: {
-        async login(state) {
+        async login(state, idM) {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
-            // console.log(jwtVerified)
+            // console.log(idM)
             if (jwtVerified) {
                 state.logged = true;
+                state.idM = idM;
                 state.username = jwtVerified.username;
                 state.contaValue = jwtVerified.a * jwtVerified.b;
                 localStorage.setItem("elto", JSON.stringify(store.getters.token));
@@ -35,11 +39,13 @@ const store = new Vuex.Store({
                     state.logged = false;
                     state.username = null;
                     state.contaValue = null;
+                    state.idM = "";
                 }
             } catch (error) {
                 state.logged = false;
                 state.username = null;
                 state.contaValue = null;
+                state.idM = "";
 
                 if(localStorage.getItem(state.lsToken)) {
                     localStorage.setItem(state.lsToken, "");
@@ -99,6 +105,16 @@ const store = new Vuex.Store({
         },
         language(state) {
             return state.language;
+        },
+        idM(state) {
+            return state.idM;
+        },
+        discChannel(state) {
+            let name = (state.username+"_"+state.idM).toLowerCase();
+            if(name.split(" ").length > 1) {
+               name = name.split(" ").join("-")
+            }
+            return name;
         }
     }
 })

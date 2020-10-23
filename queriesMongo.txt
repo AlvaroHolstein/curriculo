@@ -1,0 +1,3 @@
+Queries
+1. {"date": {$gte: new Date("2020-10-21T14:09:55.075+01:00")}}
+2. {$or: [{channelName: "maria5f81d652349c2a3f28d3d09d"}, {channelName: "maria_5f81d652349c2a3f28d3d09d"}]}

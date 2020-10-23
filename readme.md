@@ -163,3 +163,9 @@ promise which was not handled with .catch(). (rejection id: 2)
 },
 { message: "ola", date: "2020/08/31", self: true },
 ```
+
+# 21/10
+
+[Só porque sinhe JSON parser for circular objects](https://www.npmjs.com/package/json-prune)
+[Discord CheatSheet](https://gist.github.com/koad/316b265a91d933fd1b62dddfcc3ff584)
+[Ajudou a decidir e a criar os rooms para o socket io](https://stackoverflow.com/questions/13143945/dynamic-namespaces-socket-io)

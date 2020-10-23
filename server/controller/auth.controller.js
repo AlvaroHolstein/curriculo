@@ -164,22 +164,30 @@ module.exports = {
         return new Promise((resolve, reject) => {
             //1. Verificar a validade do token
             // A função assim é sincrona
-            console.log("verifyJWT()", tokenBlacklist)
+            // console.log("verifyJWT()", tokenBlacklist)
             if(tokenBlacklist.includes(token)) {
-                reject(false);
+                reject(err);
                 return;
             }
             
-            let ver = jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err, ver) => {
                 if (err) {
                     reject(err)
                 }
                 //2. Se válido, testar a resposta que veio no body
                 if (c == ver.a * ver.b) {
-                    resolve(true)
+                    user.findOne({username: ver.username}, (error, value) => {
+                        if(error) {
+                            reject(error);
+                            return;
+                        }
+
+                        // console.log(value)
+                        resolve({success: true, data: value})
+                    })
                 }
                 else {
-                    resolve(false)
+                    resolve({success: false})
                 }
                 //3. Tótil seguro :)
             });
@@ -190,7 +198,7 @@ module.exports = {
             // console.log(req.cookies)
             /** Fazer uma voisa para dev e outra para PROD? */
             if (process.env.NODE_ENV == 'production') { //eheh
-                console.log("Verification")
+                // console.log("Verification")
 
                 let truBody = {};
 
@@ -199,11 +207,11 @@ module.exports = {
                     truBody.token = req.cookies.jwt;
                     truBody.c = req.cookies.c || req.query.c;
                 }
-                else {
-                    console.log("em lado enhum")
-                }
+                // else {
+                //     console.log("em lado enhum")
+                // }
                 // 1. Token e items para a conta super secreta xD
-                console.log("TruBody !!!!", truBody)
+                // console.log("TruBody !!!!", truBody)
                 // let verification = await verifyJWT(truBody);
 
                 let verification = await ((body) => {
@@ -310,7 +318,7 @@ module.exports = {
         //naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah, siiiiiiiiiiiiiiiiiim.....
         // naaaaaaaaaaaaaah v2 xD
 
-        console.log("FDS", !tokenBlacklist.includes(token), tokenBlacklist)
+        // console.log("FDS", !tokenBlacklist.includes(token), tokenBlacklist)
         if(!tokenBlacklist.includes(token)) {
             tokenBlacklist.push(token)
         }

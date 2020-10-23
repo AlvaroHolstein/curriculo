@@ -55,13 +55,34 @@ module.exports = {
      */
     getMessages(channelName) {
         channelName = channelName.toLowerCase();
+
+        if(channelName.split(" ").length > 1) {
+            channelName = channelName.split(" ").join("-")
+        }
+        let auxName = channelName.split('5f');
+        let newName = "";
+
+        if(channelName.split("_").length == 1) {
+
+            for(let i = 0; i<auxName.length; i++) {
+                if(i == 0) {
+                    newName = auxName[i] + "_5f"
+                }
+                else{
+                    newName += auxName[i]
+                }
+            }
+
+        }
+        // console.log("GETMESSAGES", newName)
         return new Promise((res, rej) => {
-            messageModel.find({channelName: channelName}, (err, collection) => {
+            // console.log("Names !!!!!!!!!!", newName, channelName)
+            messageModel.find({$or: [{"channelName": channelName}, {"channelName": newName}]}, (err, collection) => {
                 if(err) {
                     rej(err);
                     return;
                 }
-
+                // console.log(collection)
                 res(collection);
                 return;
             })

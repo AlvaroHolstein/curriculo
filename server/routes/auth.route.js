@@ -59,7 +59,7 @@ router.post("/register", async (req, res, next) => {
             let token = null;
             if (registerSuccess.success) {
                 token = await authController.createJWT({ username: registerSuccess.data.username, idM: registerSuccess.data._id })
-                console.log("Este é o token", token)
+                // console.log("Este é o token", token)
             }
 
             // console.log("parte final de registo", { registerSuccess });
@@ -76,9 +76,8 @@ router.post("/register", async (req, res, next) => {
 router.post("/verify", async (req, res, next) => {
     try {
         let ver = await authController.verifyJWT(req.body);
-
-        if (ver) {
-            res.json({ success: true });
+        if (ver.success) {
+            res.json({ success: true, data: ver.data });
         }
         else {
             res.json({ success: false });

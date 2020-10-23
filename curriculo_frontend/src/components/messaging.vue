@@ -72,25 +72,44 @@ export default {
     this.socketClient = await io.connect(
       this.$store.getters.url.split("/api")[0],
       {
-        withCredentials: false,
-        secure: false,
-        rejectUnauthorized: false,
+        // withCredentials: false,
+        // secure: false,
+        // rejectUnauthorized: false,
+        query: `roomName=${this.$store.getters.discChannel}_:${Math.random()}`,
       }
     );
-    // console.log(this.socketClient)
-    // this.socketClient.on("connection", (socket) => {
-    //   // console.log("connected", socket);
-    // });
+    console.log(this.$store.getters.discChannel);
+    this.socketClient.on("connection", (/*socket*/) => {
+      // console.log("connected", socket);
+    });
+
+    // Fazer um evento para as reconexões
+    this.socketClient.emit("yo", {
+      yo:
+        "yo from created " +
+        "     " +
+        this.$store.getters.discChannel,
+      roomName: this.$store.getters.discChannel,
+    });
     // this.socketClient.on("user left", (socket) =>
     //   // console.log("Alguem saiu", socket)
     // );
 
     /** Receive message from discord */
+    // let uniqueChannel = `messageDisc_${this.$store.getters.discChannel}`
     this.socketClient.on("messageDisc", (data) => {
       // console.log("data", data);
 
       /** Inserir esta mensagem no  */
-      this.receiveMessages(data);
+      // console.log("Message", data);
+      if(data.scId != null) {
+        if(data.scId == this.socketClient.id) {
+          this.receiveMessages(data.msg)
+        }
+      } 
+      else {
+      this.receiveMessages(data.msg);
+      }
     });
   },
   mounted() {
@@ -99,6 +118,17 @@ export default {
         this.sendMessage();
       }
     });
+  },
+  updated() {
+    // console.log("UPDATED !!!!")
+    this.socketClient.emit("yo", {
+          yo:
+            "yo from UPDATED!!!" + "     " + this.$store.getters.discChannel,
+          roomName: this.$store.getters.discChannel,
+        });
+  },
+  destroyed() {
+    // console.log("Destruido")
   },
   computed: {
     messagesFilter() {
@@ -110,9 +140,11 @@ export default {
       try {
         this.showMessages = !this.showMessages;
 
+        
+
         if (this.firstTimeChatOpen) {
           this.scrollDownMessageContainer();
-          this.firstTimeChatOpen = false;
+          this.firstTimeChat= false;
 
           /** Primeira vez que se abre as mensagens por isso carregar agora as mensagens
            */
@@ -160,7 +192,10 @@ export default {
 
         this.messages.push(messageObj);
 
-        /** Acho que vai haver um stress aqui que vai ser a mensagem vai acabar a ir para todos os utilizadores */
+        /** Acho que vai haver um stress aqui que vai ser a mensagem vai acabar a ir para todos os utilizadores
+         * Update:
+         * Não porque só no server side é que estou à espera deste evento
+         */
         this.socketClient.emit("mess", {
           text: this.textMessage,
           token: this.$store.getters.token,

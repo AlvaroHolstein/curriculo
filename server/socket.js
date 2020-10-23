@@ -16,112 +16,17 @@ const Discord = require("discord.js");
 const jwt = require("jsonwebtoken");
 
 // Este channelId já não vai ser preciso, e dai pode servir para ser o default channel ...
-let { discInit, defaultChanelId } = require("./disc.js");
 const messageController = require("./controller/message.controller");
 
-class socketInicialization {
+class SocketInicialization {
 
     constructor(io) {
         this.io = io
 
-        this.io.on("connection", socket => {
-            /** Tá aqui a Inicialização do Discord Client para aqui, 
-             * Acho que deve ser sermpre esta "variável" que deve ser usada na aplicação
-             */
-            this.client = discInit(socket);
-
-            /** Vou ter que criar um role para atribuir aos canais criados penso eui de que mas aqu bai */
-            let role = null;
-
-            /** Perceber se este connect é só para os clientes, mas acho que sinhe */
-            /**
-             * Aqui os utilizadores só são conectados depois de passarem da página auth
-             */
-            // console.log("Entrou Mais um", socket.id);
-            socket.on("mess", async ({ text, token }) => {
-                try {
-                    let chanelExists = false;
-                    let chanelId = null;
-                    /**
-                     * Vai ser aqui que vou receber as mensagens dos utilizadores,
-                     * por isso é aqui que antes de enviar uma mensagem para um certo canal,
-                     * tenho que verificar se o canal já existe ou não,
-                     * e agir consoante isso
-                     */
-
-                    let decoded = await jwt.verify(token, process.env.JWT_SECRET);
-                    let { username, idM } = decoded;
-                    let channelName = (username + idM).toLowerCase();
-
-                    if(channelName.includes(" ")) {
-                        channelName = channelName.trim().split(" ").join("-");
-                    }
-
-                    
-
-                    /** Este forEach e o acima acabam por fazer um bocado a mesma coisa,
-                     * mas o que eu quero é sós gerir o "ServidorBot"
-                     * Se o fizer aqui o "gerenciamento" vai acontecer de toda a vez que o user mandar uma mensagem,
-                     * mas se o fizer na função acima (.on("connection")) só acontece a primeira vez
-                     * que um user connectar 
-                     * 
-                     * Por agora vou usar esta forma para fazer as cenas, a outra vai estar guardada no readme.md
-                     */
-                    let mainGuild = null;
-                    this.client.guilds.cache.forEach((guild) => {
-                        if (guild.name == "ServidorBot") {
-                            mainGuild = guild;
-                            guild.channels.cache.forEach((ch) => {
-                                /** IMPORTANTE:
-                                 * 
-                                 * Os nomes dos canais são sempre em minusculas
-                                 */
-                                
-                                if (ch.type == 'text' && ch.name == channelName) {
-                                    chanelId = ch.id
-                                    chanelExists = true;
-                                }
-                            })
-                        }
-                    })
-
-                    if (!chanelExists) {
-                        let newCh = await mainGuild.channels.create(channelName,
-                            {
-                                type: 'text',
-                                reason: 'Little Talks'
-                            })
-                        await this.saveMessage(text, username, channelName)
-                        this.client.channels.cache.get(newCh.id).send(text);
-                        this.client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
-
-                        /** Vou ter que melhorar esta parte em termos de error handling 
-                            * O erro que ás vezes dá é o que está no readme
-                           */
-                        // console.log("ERROR Ao CRIAR UM CANAL!!!!!")
-                        // throw err;
-                    }
-                    else {
-                        /** Vem do parametro da funçoum */
-                        chanelId = chanelId == null ? defaultChanelId : chanelId
-                        await this.saveMessage(text, username, channelName)
-                        this.client.channels.cache.get(chanelId).send(text)
-                    }
-                } catch (error) {
-                    // Mais uma vez acho que isto não resolve o problema do error handling
-                    throw error;
-                }
-            })
-
-            /** Emitir Merdas */
-            /** Ao entrar alguém o melhor a fazer era criar um canal que ficasse com o historico das mensagens e depois nem tinha que ser eu a guardar las na BD talvez */
-            socket.emit("connection", `New Connection from ${socket.id}`)
-
-            /** Disconnect  */
-            socket.on("disconnect", () => {
-
-                socket.broadcast.emit("user left", "A user left")
-            })
+        // https://stackoverflow.com/questions/13745519/send-custom-data-along-with-handshakedata-in-socket-io
+        this.io.use((socket, next) => {
+            // console.log("Socket middleware");
+            next()
         })
     }
 
@@ -187,5 +92,5 @@ class socketInicialization {
 }
 
 module.exports = {
-    socketIODisc: socketInicialization,
+    SocketInit: SocketInicialization,
 };

@@ -28,12 +28,17 @@ server.use(bodyParser.json())
 
 const httpServer = require("http").createServer(server);
 
+// Este fica aqui por causa do httpServer
 const io = require("socket.io")(httpServer);
-let { socketIODisc } = require("./server/socket")
-let MyDisc = new socketIODisc(io);
+let { SocketInit } = require("./server/socket")
+let scInit = new SocketInit(io);
+
+// Assim o discord só inicia uma vez
+let { discInit, defaultChanelId } = require("./server/disc.js");
 
 
-
+let socketDiscComunications = require("./server/disc_guilds/socketio_discordjs_comunications");
+socketDiscComunications(scInit, discInit, defaultChanelId)
 
 const mongoConf = require("./server/mongoConfig");
 
@@ -43,7 +48,8 @@ const escolaRoute = require("./server/routes/escola.route");
 const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
 const competenciasRoute = require("./server/routes/competencias.route");
-const messagesRoute = require("./server/routes/message.route")(MyDisc);
+const socket = require("./server/socket");
+const messagesRoute = require("./server/routes/message.route")(scInit);
 
 const authMiddleware = require('./server/controller/auth.controller').middlewareVerification;
 
@@ -55,7 +61,7 @@ server.use((req, res, next) => {
     if (process.env.NODE_ENV) {
         // Este header estava a não deixar pedidos de outros dominios por ser demasiado abrangente xD
         res.header('Access-Control-Allow-Origin', "*");
-        console.log("Cookies: ", req.cookies )
+        // console.log("Cookies: ", req.cookies )
     }
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

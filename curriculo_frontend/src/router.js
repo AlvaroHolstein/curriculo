@@ -87,15 +87,16 @@ router.beforeEach(async (to, from, next) => {
                 // console.log('ata', jwtVerified)
                 let { a, b } = jwtVerified;
                 let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: lsToken, c: a * b });
-
+                // console.log(authRes)
                 if (!authRes.data.success) {
                     letgo = false;
                     // console.log("atatata")
                 }
                 else {
                     // Se for este o caso então significa que pode ir direto para a conta
+                    // console.log("Store", authRes.data.data._id)
                     store.commit("setToken", lsToken);
-                    await store.commit("login");
+                    await store.commit("login", authRes.data.data._id);
 
                     /** Passo 2. das Mensagens */
                     router.push({ name: "experiencia" });
@@ -107,12 +108,6 @@ router.beforeEach(async (to, from, next) => {
                 letgo = false;
             }
         }
-
-        // if (to.name == "auth" && store.getters.logged == false) {
-
-
-        // }
-
         /** Fazer a conflirmação das cookies aqui */
         if ((to.name != 'auth' && store.getters.logged == true) || store.getters.logged == true) {
             //1. Veirficar Token
@@ -129,6 +124,14 @@ router.beforeEach(async (to, from, next) => {
                 letgo = false;
             }
         }
+
+        if (!localStorage.getItem(tokenNameLs) && store.getters.token == "") {
+            letgo = false;
+        }
+        
+        if (to.name == "auth" && store.getters.logged == false) {
+            letgo = true;
+        }
         next(letgo)
         /** Isto devia sempre mandar as pessoas para a página de login
          * quando alguma coisa corre mal com o token
@@ -138,8 +141,8 @@ router.beforeEach(async (to, from, next) => {
         }
     } catch (error) {
         // console.log("FDP!!!!!!!!!!!!!!!!!!!!!", error.stack)
-        next(false);
-        router.push({ name: 'auth' })
+        if(to.name != "auth") router.push({ name: 'auth' })
+        else next()
     }
 })
 export default router;

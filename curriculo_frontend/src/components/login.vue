@@ -57,8 +57,9 @@ export default {
        * Passo 1. das mensagens
        */
       if (auth.data.success) {
+        // console.log("auth", auth.data.data._id)
         this.$store.commit("setToken", auth.data.jwt);
-        await this.$store.commit("login");
+        await this.$store.commit("login", auth.data.data._id);
         this.hideLoader();
 
         /** Passo 2. das Mensagens */

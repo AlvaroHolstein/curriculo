@@ -99,7 +99,7 @@ export default {
 
         if (res.data.success) {
           this.$store.commit("setToken", res.data.token);
-          await this.$store.commit("login");
+          await this.$store.commit("login", res.data.data._id);
 
           this.hideLoader();
 

@@ -29,7 +29,7 @@ export class AuthClass {
             // console.log(token, this.lsToken);
             http.post(`${url}auth/logout`, { token: token })
                 .then(killToken => {
-                    console.log(killToken)
+                    // console.log(killToken)
                     if(killToken.data.success) {
 
                         if(localStorage.getItem('elto')) {

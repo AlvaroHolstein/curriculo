@@ -12,9 +12,13 @@ const chanelId = process.env.DISCORD_CHANEL_ID;
  * este array vai ter  as uktimas mensagens recebidas
  * se as mensagens repetidas tiveram o mesmo id (do discord)
  * primeiro vou checkar se o id a gravar já exite e se existir nem mando nem guardo
+ * 
+ * 
+ * Discord Events
+ * https://gist.github.com/koad/316b265a91d933fd1b62dddfcc3ff584
  */
 
-function discordInit(socket) {
+function discordInit() {
     // Vou limpar quando chegar ás 20 mensagens
     let contadorParaLimparMensagens = 0;
     let msgArr = [];
@@ -34,51 +38,13 @@ function discordInit(socket) {
         /** Vou ter que fazer uma coisa mais bonita para os logs de erros 
          * e depois também para o logs de entrada, last login e por ai adiante
          */
+        console.log(error)
     })
 
-    client.on("message", async (msg) => {
-        try {
-            /** Aqui vai ser onde a minha mensagem é recebida e depois enviada para 
-         * o frontend
-         */
-            // console.log("CHegou uma mensagem ao discord disc.js", msg.author);
-            /**
-             * Para diferenciar quando é uma mensagem enviada por mim ou pelo bot
-             * msg.author.bot ...
-             */
-
-            // Enviar a mensagem para o frontend
-            if (msg.author.bot) { }
-            else {
-                // Tenho que fazer uma funcçã oque envie as mensagens para frontend
-                // Vou precisar do nome do canal para saber para onde eu mandei as mensagens
-                // console.log("Mensagem vinda do Discord", msg.author, msg.id)
-
-                /**
-                 * A msg tem:
-                 * - id
-                 */
-                if (!isDuplicated(msg)) {
-                    await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name, "", msg.id);
-                    socket.emit("messageDisc", msg.content) // é o que manda pro fronted
-                }
-
-                if (contadorParaLimparMensagens >= 20) {
-                    // Limpar arr
-                    msgArr = [];
-                    contadorParaLimparMensagens = 0;
-                }
-                else {
-                    contadorParaLimparMensagens++;
-                }
-                // console.log("contador" + contadorParaLimparMensagens);
-                // console.log("----------------------------------------")
-
-            }
-        } catch (error) {
-            // console.log("Aconteceu um erro no discord no .on('message')", error);
-            throw error;
-        }
+    client.on('disconnect', event => {
+        // Vou avisar quando não estiver online
+        // Mas posso tar no tele e não no pc, testar !!!
+        console.log("Disconectei me do discord e isto é o evento: ", event)
     })
 
 
