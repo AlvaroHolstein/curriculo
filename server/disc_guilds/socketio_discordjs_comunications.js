@@ -2,9 +2,10 @@
 
 const messageController = require("../controller/message.controller");
 const jwt = require("jsonwebtoken");
+
 // Este ficheiro vai conter uma função
 // Que só vai ser chamada uma vez
-module.exports = function (socketFromAbove, disc, defaultChanelId) {
+module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter) {
     /** Discord Comunication part */
     let client = disc();
     // console.log(socket.handshake.query)
@@ -239,4 +240,12 @@ module.exports = function (socketFromAbove, disc, defaultChanelId) {
             socket.broadcast.emit("user left", "A user left")
         })
     })
+
+
+    /** Receber evento para quando o utilizador faz login ou se regista */
+    eventEmitter.on("enteredApp", ({username, login}) => {
+        // se o login for false é por que é um user que acabou de se registar
+        client.channels.cache.get(defaultChanelId).send(`O ${username} ${login ? "voltou a fazer login" : "acabou de se registar"}`)
+    })
+
 };

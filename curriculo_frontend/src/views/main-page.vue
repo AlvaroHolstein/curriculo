@@ -3,23 +3,39 @@
     <Navbar />
     <div id="app" class="container-sm main-page-wrapper">
       <div class="row curriculo-header">
-        <div class="col-sm-6 image-div">
-          <img alt="My Face" src="../assets/mim.jpg" />
+        <div class="col-sm-6 image-div" v-on:click="imgChange">
+          <img alt="My Face" v-bind:src="img" data-toggle="tooltip" 
+          v-bind:title="$t('clickToChange')" />
         </div>
         <div class="col-sm-6">
           <ul class="first-info">
             <!-- Nome -->
-            <li><i class="fas fa-universal-access"></i>Álvaro Diogo Gomes Ferreira de Sousa Holstein</li>
+            <li>
+              <i class="fas fa-universal-access"></i>Álvaro Diogo Gomes Ferreira
+              de Sousa Holstein
+            </li>
             <hr />
             <!-- Contactos -->
-            <li><i class="fas fa-mobile-alt"></i>{{detalhes['telemovel']}}</li>
-            <li><i class="fas fa-at"></i>{{detalhes['email']}}</li>
-            <li><i class="fas fa-home"></i>{{detalhes['morada']}}</li>
+            <li>
+              <i class="fas fa-mobile-alt"></i>{{ detalhes["telemovel"] }}
+            </li>
+            <li><i class="fas fa-at"></i>{{ detalhes["email"] }}</li>
+            <li><i class="fas fa-home"></i>{{ detalhes["morada"] }}</li>
 
             <hr />
             <!-- Repositórios -->
-            <li><i class="fab fa-github"></i><b><a :href="detalhes['github']" target="_blank">GitHub</a></b></li>
-            <li><i class="fab fa-bitbucket"></i><b><a :href="detalhes['bitbucket']" target="_blank">Bitbucket</a></b></li>
+            <li>
+              <i class="fab fa-github"></i
+              ><b><a :href="detalhes['github']" target="_blank">GitHub</a></b>
+            </li>
+            <li>
+              <i class="fab fa-bitbucket"></i
+              ><b
+                ><a :href="detalhes['bitbucket']" target="_blank"
+                  >Bitbucket</a
+                ></b
+              >
+            </li>
           </ul>
         </div>
       </div>
@@ -31,7 +47,7 @@
               :to="{ name: 'experiencia' }"
               id="experiencia"
               class="nav-link"
-              >{{ $t('exp_prof') }}</router-link
+              >{{ $t("exp_prof") }}</router-link
             >
           </li>
           <li class="nav-item">
@@ -39,7 +55,7 @@
               :to="{ name: 'educacao' }"
               id="educacao"
               class="nav-link"
-              >{{ $t('educacao') }}</router-link
+              >{{ $t("educacao") }}</router-link
             >
           </li>
           <li class="nav-item">
@@ -47,7 +63,7 @@
               :to="{ name: 'competencias' }"
               id="competencias"
               class="nav-link"
-              >{{ $t('competencias')}}</router-link
+              >{{ $t("competencias") }}</router-link
             >
           </li>
           <li class="nav-item">
@@ -55,7 +71,7 @@
               :to="{ name: 'detalhes' }"
               id="detalhes"
               class="nav-link"
-              >{{ $t('detalhes')}}</router-link
+              >{{ $t("detalhes") }}</router-link
             >
           </li>
           <li class="nav-item">
@@ -63,7 +79,7 @@
               :to="{ name: 'info_adicional' }"
               id="info_adicional"
               class="nav-link"
-              >{{ $t('inf_ad')}}</router-link
+              >{{ $t("inf_ad") }}</router-link
             >
           </li>
         </ul>
@@ -88,24 +104,45 @@ export default {
   },
   data() {
     return {
-      detalhes: {}
+      detalhes: {},
+      img: "",
+      i: 1,
     };
   },
   async created() {
-    let res = await this.http.get(`${this.$store.getters.url}infoextra${this.$store.getters.contaValueParams}`);
+    let res = await this.http.get(
+      `${this.$store.getters.url}infoextra${this.$store.getters.contaValueParams}`
+    );
 
     if (res.data.success) {
       this.detalhes = res.data.data[0];
     }
+
+    this.img = this.getImgUrl("mim.jpg");
   },
   computed: {},
+  methods: {
+    imgChange() {
+      let img = ["mim.jpg", "mim1.jpg"];
+
+      if (this.i == 2) {
+        this.i = 0;
+      }
+      this.img = this.getImgUrl(img[this.i]);
+      this.i++;
+    },
+    getImgUrl(pet) {
+      var images = require.context("../assets/", false, /\.jpg$/);
+      return images("./" + pet);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 div.main-page-wrapper {
   margin-bottom: 30px;
-} 
+}
 div.curriculo-header {
   margin-top: 20px;
 }
@@ -123,7 +160,8 @@ ul.first-info {
   padding: 0px;
   margin-top: 10px;
 
-  li > i.fas, li > i.fab {
+  li > i.fas,
+  li > i.fab {
     margin-right: 5px;
   }
 }
@@ -133,7 +171,6 @@ hr.separator {
 
 @media (min-width: 570px) {
   div.image-div {
-
     > img {
       max-height: 350px;
     }
