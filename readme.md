@@ -169,3 +169,25 @@ promise which was not handled with .catch(). (rejection id: 2)
 [Só porque sinhe JSON parser for circular objects](https://www.npmjs.com/package/json-prune)
 [Discord CheatSheet](https://gist.github.com/koad/316b265a91d933fd1b62dddfcc3ff584)
 [Ajudou a decidir e a criar os rooms para o socket io](https://stackoverflow.com/questions/13143945/dynamic-namespaces-socket-io)
+
+# 31/01/2021
+- Na página de detalhes podia fazer um resumo dos commits para os meus repositórios, usando também um graph
+- E para ser ganda maluco, devia deixar as pessoas criar webhooks.
+    * Mas estas duas cenas só para users autenticados
+- Tenho que fazer a diferencação entre users que têm conta e os que não têm conta, ou seja, vou ter que deixar 
+os utilizadores verem o curriculo sem terem que fazer login e depois só permitir o acesso a certas páginas aos 
+utilizadores com conta.
+
+# 07/02
+- Vou tentar fazer esta parte da informação do github como uma função serverless,
+porque assim depois vou poder utilizar a informação que vai ser ai gerada em mais que um projeto 🎉
+
+- Que librarias e que vou usar:
+    * [Github.js](https://github-tools.github.io/github/) (Para ir buscar a informação sobre o meu Github)
+    * [VueJs 3](https://v3.vuejs.org/guide/migration/introduction.html) (Vou querer fazer a migração do Vue 2 para o Vue 3), o _Vue Router_ e _Vuex_ já estão na versão 3 
+    o Vue é que está na versão 2.6.
+    * [Bilboard.js](https://github.com/naver/billboard.js) (Tem como dependencia direta o [D3.js](https://github.com/d3/d3/wiki),
+    mas parece ser um wrapper fixe para descomplicar esta libraria que faz mais do que eu quero para este caso.)
+
+    * Para o _Host_ da __Serverless Function__ vou usar a amazon porque é o Host com que estou mais familiarizado.
+    
