@@ -13,7 +13,7 @@ import markyIt from 'markdown-it';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-let path = { path: "/"};
+let path = { path: "../"};
 dotenv.config({path})
 Vue.config.productionTip = false
 

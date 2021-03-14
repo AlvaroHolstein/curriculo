@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 export class AuthClass {
     constructor() {
         this.lsToken = 'elto';      
+        console.log(process.env)
     }
 
     static verifyToken(token) {
