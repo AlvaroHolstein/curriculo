@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     state: {
         logged: false,
         url: process.env.NODE_ENV == 'production' ? PROD_URL : 'http://localhost:5000/api/',
+        serverless_url: process.env.NODE_ENV == 'production' ? 'TBD' : 'http://localhost:8787/',
         token: null,
         username: null,
         contaValue: null,
@@ -78,6 +79,9 @@ const store = new Vuex.Store({
         },
         url(state) {
             return state.url;
+        },
+        serverless_url(state) {
+            return state.serverless_url;
         },
         token(state) {
             return state.token;

@@ -24,15 +24,7 @@ export default {
     } catch (error) {
       this.markdown = "Ocorreu um erro ao carregar esta informação";
     }
-  },
-  async updated() {
-    let res = await this.http({
-      method: "GET",
-      url: "http://localhost:8787/ga/repos"
-    })
-
-    console.log(res)
- }
+  }
 };
 </script>
 <style>

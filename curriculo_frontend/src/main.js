@@ -13,6 +13,8 @@ import markyIt from 'markdown-it';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
+import CustomError from './classes/custom-error.class';
+
 let path = { path: "../"};
 dotenv.config({path})
 Vue.config.productionTip = false
@@ -22,6 +24,8 @@ if(process.env.NODE_ENV == 'production') {
 }
 // Já funcionou a parte das env variables, como ao cert ....
 Vue.prototype.http = axios;
+Vue.prototype.CustomError = CustomError;
+
 Vue.prototype.jwt = jwt;
 Vue.prototype.$Swal = Swal;
 Vue.prototype.markyIt = new markyIt();
