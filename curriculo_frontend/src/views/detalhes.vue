@@ -55,7 +55,6 @@ export default {
     })
       .then((res) => {
         let response = res.data;
-        console.log(response);
         if (response.success) {
           this.lastUpdatedRepo = response.data;
         } else {
@@ -78,7 +77,6 @@ export default {
         let response = res.data;
         if (response.success) {
           this.allRepos = response.data;
-          console.log(this.allRepos);
 
           // Create Columns
           /*
@@ -103,30 +101,38 @@ export default {
 
           let labels = [];
           let datasets = [];
+          let myCommits = [];
           let colors = [];
           for (let repo of this.allRepos) {
             // columns.push([repo.name, repo.commits]);
             labels.push(repo.name);
             datasets.push(repo.commits);
+            myCommits.push(repo.myCommits);
             let newColor = this.colorGenerator();
             while (colors.indexOf(newColor) == -1) {
               colors.push(newColor);
-              console.log(newColor)
             }
           }
 
           let canvas = document.querySelector("#chart");
-          const chart = new chartjs(canvas, {
+          /*const chart =*/ new chartjs(canvas, {
             type: "bar",
             data: {
               labels: labels,
               datasets: [
                 {
-                  label: "# of Commits",
-                  data:datasets,
+                  label: "Total # of Commits",
+                  data: datasets,
                   backgroundColor: colors,
                   // borderColor: ["red", "green", "blue"],
                   borderWidth: 1.5,
+                },
+                {
+                  label: "My # of Commits",
+                  data: myCommits,
+                  backgroundColor: colors,
+                  // borderColor: ["red", "green", "blue"],
+                  borderWidth: 0.75,
                 },
               ],
             },
@@ -141,9 +147,23 @@ export default {
                   },
                 ],
               },
+              events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
+              onClick: (ev, activeElementsArr) => {
+                if (activeElementsArr.length > 0) {
+                  console.log(ev, activeElementsArr[0]._model);
+                  let clickedRepo = this.allRepos.find((repo) => {
+                    if (repo.name == activeElementsArr[0]._model.label)
+                      return true;
+                  });
+
+                  if (clickedRepo) {
+                    console.log(clickedRepo);
+                    window.open(clickedRepo.html_url, "_blank");
+                  }
+                }
+              },
             },
           });
-          console.log(chart);
         } else {
           throw new this.CustomError(
             "Erro ao ir buscar todos os public Repos!",
@@ -197,14 +217,31 @@ export default {
       return age;
     },
     colorGenerator() {
-      let colorSchema = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
-      let color = "#"; 
-      for(let i=0;i<6;i++) {
-        color += colorSchema[Math.floor(Math.random() * 17)] || 'F'
+      let colorSchema = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+      ];
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += colorSchema[Math.floor(Math.random() * 17)] || "F";
       }
 
       return color;
-    }
+    },
   },
 };
 </script>
