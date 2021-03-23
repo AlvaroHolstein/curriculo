@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="git-wrapper" v-if="this.lastUpdatedRepo && this.allRepos">
+    <div class="git-wrapper" v-show="this.lastUpdatedRepo && this.allRepos">
       <div class="last-updated-repo">
         <h5>Last Updated Repo</h5>
         <p>Nome: {{ this.lastUpdatedRepo.name }}</p>
@@ -9,13 +9,19 @@
           {{ this.lastUpdatedRepo.description }}
         </p>
       </div>
-      <div class="all-public-repos">
+      <div class="all-public-repos row">
         <!-- Devia meter aqui um gráfico -->
-        <div id="chart"></div>
+        <div class="col-md-12">
+          <!-- <div id="chart"></div> -->
+          <canvas id="chart" width="400" height="400"></canvas>
+        </div>
       </div>
       <hr />
     </div>
-    <div v-else class="text-center spinner-wrapper">
+    <div
+      v-show="Object.keys(this.lastUpdatedRepo).length && !this.allRepos"
+      class="text-center spinner-wrapper"
+    >
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -27,7 +33,8 @@
   </section>
 </template>
 <script>
-// import bb, { ba } from "billboard.js";
+// import bb, { bar } from "billboard.js";
+import chartjs from "chart.js";
 
 export default {
   data() {
@@ -36,12 +43,11 @@ export default {
         pt: "",
         en: "",
       },
-      lastUpdatedRepo: null,
+      lastUpdatedRepo: {},
       allRepos: null,
     };
   },
   async created() {
-
     // Get the latest Repo
     this.http({
       method: "GET",
@@ -60,27 +66,94 @@ export default {
         }
       })
       .catch((err) => {
-        console.warn(err.msg || 'err');
+        console.warn(err.msg || "err");
       });
 
     // Get All Repos commits
     this.http({
       method: "GET",
-      url: `${this.$store.getters.serverless_url}ga/commits`
-    }).then((res) => {
-      let response = res.data;
-      if (response.success) {
-        this.allRepos = response.data;
-        console.log(this.allRepos)
-
-        // Initiate Chart
-
-      } else {
-        throw new this.CustomError("Erro ao ir buscar todos os public Repos!", null)
-      }
-    }).catch((err) => {
-      console.error(err.msg)
+      url: `${this.$store.getters.serverless_url}ga/commits`,
     })
+      .then((res) => {
+        let response = res.data;
+        if (response.success) {
+          this.allRepos = response.data;
+          console.log(this.allRepos);
+
+          // Create Columns
+          /*
+        // Obj Model
+          {
+            id,
+            name,
+            description,
+            totalCommits
+          }
+
+        // Chart structure for each Repo
+        Labels: [repo_name, ....]
+        datastes: [
+          
+        ]
+          [
+            ["repo_name1", number_of_commits]
+            ["repo_name2", number_of_commits]
+          ]
+        */
+
+          let labels = [];
+          let datasets = [];
+          let colors = [];
+          for (let repo of this.allRepos) {
+            // columns.push([repo.name, repo.commits]);
+            labels.push(repo.name);
+            datasets.push(repo.commits);
+            let newColor = this.colorGenerator();
+            while (colors.indexOf(newColor) == -1) {
+              colors.push(newColor);
+              console.log(newColor)
+            }
+          }
+
+          let canvas = document.querySelector("#chart");
+          const chart = new chartjs(canvas, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "# of Commits",
+                  data:datasets,
+                  backgroundColor: colors,
+                  // borderColor: ["red", "green", "blue"],
+                  borderWidth: 1.5,
+                },
+              ],
+            },
+            options: {
+              legend: false,
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+              },
+            },
+          });
+          console.log(chart);
+        } else {
+          throw new this.CustomError(
+            "Erro ao ir buscar todos os public Repos!",
+            null
+          );
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
     let res = await this.http.get(
       `${this.$store.getters.url}infoextra${this.$store.getters.contaValueParams}`
@@ -123,6 +196,15 @@ export default {
       }
       return age;
     },
+    colorGenerator() {
+      let colorSchema = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+      let color = "#"; 
+      for(let i=0;i<6;i++) {
+        color += colorSchema[Math.floor(Math.random() * 17)] || 'F'
+      }
+
+      return color;
+    }
   },
 };
 </script>
