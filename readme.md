@@ -191,3 +191,14 @@ porque assim depois vou poder utilizar a informação que vai ser ai gerada em m
 
     * Para o _Host_ da __Serverless Function__ vou usar a amazon porque é o Host com que estou mais familiarizado.
     
+# 06/09
+- Devo ter que fazer sync deste ficheiro porque tenho quase a certeza que já escrevi para aqui merdas noutros 
+dias mas não cheguei a dar push...
+
+- __Não Esquecer__ de meter uma foto em algum lado a mostrar que as passwords estão completamente encriptadas...
+    - já não me lembro se consigo ver las facilmente porque tenho o segredo/keyword para as "desvendar" ou se fiz
+    mais alguma merda para não ser possivel que eu as veja... (não me cheira).
+
+- Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
+a lógica das mensagens, já ia ter que fazer isso.
+- Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
