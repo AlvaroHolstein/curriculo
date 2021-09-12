@@ -1,5 +1,5 @@
 // Mais tarde vai sair da pasta disc_guilds
-
+const user
 const messageController = require("../controller/message.controller");
 const jwt = require("jsonwebtoken");
 
@@ -145,7 +145,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                  */
 
                 let decoded = await jwt.verify(token, process.env.JWT_SECRET);
-                let { username, idM } = decoded;
+                let { username, idM } = decoded; // Vou ter que passar aqui o id do channel???
                 let channelName = (username + "_" + idM).toLowerCase();
 
                 if (channelName.includes(" ")) {
@@ -173,7 +173,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                              * Os nomes dos canais são sempre em minusculas
                              */
 
-                            if (ch.type == 'text' && (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName)) {
+                            if (ch.type == 'text' && (() || (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName))) {
                                 chanelId = ch.id
                                 chanelExists = true;
                             }
@@ -187,7 +187,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                             type: 'text',
                             reason: 'Little Talks'
                         })
-                    await socketFromAbove.saveMessage(text, username, channelName, env)
+                    await socketFromAbove.saveMessage(text, username, newCh.id, channelName, env)
                     client.channels.cache.get(newCh.id).send(text);
                     client.channels.cache.get(defaultChanelId).send(`Nova Mensagem from ${username}`)
 

@@ -36,7 +36,7 @@ class SocketInicialization {
             /** Se a mensagem não for guardada copm sucesso vou ter que fazer algo que 
              * avise o user disso
              */
-            // console.log("Gravaer", message)
+
             await messageController.saveMessages(message, false, username, channelName, "", "", env);
         } catch (error) {
             /**

@@ -24,6 +24,9 @@ const messageSchema = new Schema({
         default: new Date().toISOString()
     },
     // Vai ser o elemento unico para além do _id
+    channelId: {
+        type: String,
+    },
     channelName: {
         type: String,
         required: true

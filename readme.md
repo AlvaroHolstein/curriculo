@@ -191,3 +191,26 @@ porque assim depois vou poder utilizar a informação que vai ser ai gerada em m
 
     * Para o _Host_ da __Serverless Function__ vou usar a amazon porque é o Host com que estou mais familiarizado.
     
+# 18/06
+
+- A função `socket.js > saveMessages()` leva um username...
+    - Qual vai ser o username do Guest?
+
+- Criar branch para fazer os Guests, de maneira a ter o master pronto para release?
+
+
+- _Bug🐛:_ Em produção trocar mensagens com o utilizador _diogo_ fez com que 
+multiplos canais no discord fossem criados para o mesmo utilizador...
+    - Pensei que isto já estivesse corrigido.
+    - _Update:_ Bug descoberto, o nome do canal criado não pode ser dividido pelo `"_5f"` pois este no meio do nome tem um `"_60"` vou precisar de encontrar 
+    __algo que diferencie unicamente o canal__. 
+
+- Ainda não consegui fazer o correto logout por tempo a mais no frontend
+    - Pelo menos em produção.
+
+
+# 20/06
+- Acho que depois de criar um novo canal vou ter que ir ao user alterar lhe o 
+campo `channelId`, porque não dá para usar apenas o nome mais um identificador 
+unico no nome do canal, pelo menos da maneira com eu estou a fazer.
+    - Não esquecer de corrigir os erros provocados por estas ultimas alterações.

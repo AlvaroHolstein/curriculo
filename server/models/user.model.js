@@ -22,6 +22,9 @@ const userSchema = new Schema({
     lastLogin: {
         type: Date
     },
+    channelId: {
+        type: String
+    }
 })
 
 const user = model("utilizadores", userSchema);
