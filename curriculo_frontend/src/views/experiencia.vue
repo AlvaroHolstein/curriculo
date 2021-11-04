@@ -26,7 +26,7 @@
           <b-card-img
             :src="getImgUrl(trabalho.img)"
             alt="Image"
-            class="rounded-0"
+            class="rounded-0 work-picture"
           ></b-card-img>
         </b-col>
         <b-col md="6">
@@ -168,12 +168,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 div.experiencia-wrapper {
   margin-top: 15px;
 }
 b-card.outter-card {
   max-width: 540px;
+
+  img.card-img.work-picture {
+    width: 100%;
+  }
 }
 div.resumo {
   font-size: 12px;

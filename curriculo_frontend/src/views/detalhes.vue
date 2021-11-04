@@ -172,7 +172,14 @@ export default {
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.warn(err);
+        this.$Swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "Couldn't load Git information",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
 
     let res = await this.http.get(
