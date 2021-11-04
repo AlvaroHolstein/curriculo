@@ -116,9 +116,9 @@ ul.navbar-list {
       box-shadow: 0 6px 10px 0 #666;
     }
 
-    &:hover {
+    // &:hover {
       // transform: scale(1.5,1.5);
-    }
+    // }
   }
 
   li.logout-btn {

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import i18n from './i18n';
-import { PROD_URL } from '../dev.env';
+import { PROD_URL } from '../dev.env.js';
 import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
 const store = new Vuex.Store({

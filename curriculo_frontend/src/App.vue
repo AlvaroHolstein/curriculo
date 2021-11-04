@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 /** Não parece que isto esteja a fazer realmente alguma coisa 
-o que foi preciso foi ir buscar o bootstrap-vue no main.js */
+o que foi preciso foi ir buscar o bootstrap-vue no main.js  */
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/bootstrap-vue/src/index.scss";
 

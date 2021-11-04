@@ -52,7 +52,8 @@ function discordInit() {
     /** Se der return true não é para mandar nem gravar
      * se der false seguesse
      * 
-     * @param {msg} param0 
+     * @param {object} param0 - Message Instance i think... 
+     * @return {boolean} isDuplicated - Needs to be `false` to save ...
      */
     function isDuplicated({ id }) {
         // console.log("id da mensagem", id);

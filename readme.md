@@ -192,6 +192,20 @@ porque assim depois vou poder utilizar a informação que vai ser ai gerada em m
     * Para o _Host_ da __Serverless Function__ vou usar a amazon porque é o Host com que estou mais familiarizado.
     
 # 18/06
+
+# 20/06
+- Acho que depois de criar um novo canal vou ter que ir ao user alterar lhe o 
+campo `channelId`, porque não dá para usar apenas o nome mais um identificador 
+unico no nome do canal, pelo menos da maneira com eu estou a fazer.
+    - Não esquecer de corrigir os erros provocados por estas ultimas alterações.
+- __Não Esquecer__ de meter uma foto em algum lado a mostrar que as passwords estão completamente encriptadas...
+    - já não me lembro se consigo ver las facilmente porque tenho o segredo/keyword para as "desvendar" ou se fiz
+    mais alguma merda para não ser possivel que eu as veja... (não me cheira).
+
+- Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
+a lógica das mensagens, já ia ter que fazer isso.
+- Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
+
 # 06/09
 - Devo ter que fazer sync deste ficheiro porque tenho quase a certeza que já escrevi para aqui merdas noutros 
 dias mas não cheguei a dar push...
@@ -212,15 +226,6 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
     - Pelo menos em produção.
 
 
-# 20/06
-- Acho que depois de criar um novo canal vou ter que ir ao user alterar lhe o 
-campo `channelId`, porque não dá para usar apenas o nome mais um identificador 
-unico no nome do canal, pelo menos da maneira com eu estou a fazer.
-    - Não esquecer de corrigir os erros provocados por estas ultimas alterações.
-- __Não Esquecer__ de meter uma foto em algum lado a mostrar que as passwords estão completamente encriptadas...
-    - já não me lembro se consigo ver las facilmente porque tenho o segredo/keyword para as "desvendar" ou se fiz
-    mais alguma merda para não ser possivel que eu as veja... (não me cheira).
-
-- Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
-a lógica das mensagens, já ia ter que fazer isso.
-- Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
+# 04/11
+- Mudar as mensagens de aviso enviadas para o discord quando um utilizador entra
+    - Distinguir entre DEV e PROD

@@ -24,7 +24,7 @@ function authRouterInitializer(eventEmitter) {
                     });
 
                 // Vai emitir para o discord
-                eventEmitter.emit("enteredApp", { username: username, login: true })
+                eventEmitter.emit("enteredApp", { username: username, login: true, moreData: authSuccess.data })
 
                 // console.log("successo na autenticaçãpo", authSuccess)
                 // Só estou a conseguir fazer cookies em produção por isso por agora também vai passar a ir no body da resposta, tenho que mudar depois. Devo ter que criar um branch para produção
@@ -64,7 +64,10 @@ function authRouterInitializer(eventEmitter) {
                 let token = null;
                 if (registerSuccess.success) {
                     token = await authController.createJWT({ username: registerSuccess.data.username, idM: registerSuccess.data._id })
-                    eventEmitter.emit("enteredApp", { username: registerSuccess.data.username, login: false })
+
+                    // Emit that the user registerd
+                    // console.log("Emit -> enteredApp", registerSuccess.data)
+                    // eventEmitter.emit("enteredApp", { username: registerSuccess.data.username, login: false, moreData: registerSuccess.data })
                     // console.log("Este é o token", token)
                 }
 

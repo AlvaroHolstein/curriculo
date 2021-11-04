@@ -3,7 +3,7 @@ const messageModel = require("../models/message.model");
 
 module.exports = {
 
-    /** Se o channelName for null é porque foi eu que mandei a mensagem
+    /** Se o channelName for null é porque fui eu que mandei a mensagem
      * 
      * @param {String} message 
      * @param {Boolean} self 

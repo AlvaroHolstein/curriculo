@@ -1,4 +1,4 @@
-const envs = require("../../dev.env");
+const envs = require("../../dev.env.js");
 const jwt = require("jsonwebtoken");
 export class AuthClass {
     constructor() {
