@@ -229,3 +229,6 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
 # 04/11
 - Mudar as mensagens de aviso enviadas para o discord quando um utilizador entra
     - Distinguir entre DEV e PROD
+
+- Notas:
+    - [Quando estão a aparecer umas mensagesn estranhas no DEBUG Mode do VS Code](https://github.com/vsDizzy/bug-vscode-js-debug/blob/master/.vscode/launch.json)
