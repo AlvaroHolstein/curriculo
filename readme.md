@@ -230,5 +230,21 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
 - Mudar as mensagens de aviso enviadas para o discord quando um utilizador entra
     - Distinguir entre DEV e PROD
 
+-  Começar a fazer com que não seja preciso fazer login à entrada
+    - 1º vou fazer com que no frontend isto funcione direito
+        - Mudar o isGuest na store sempre que:
+            - logout
+            - login
+            - falha de autenticação a navegar entre páginas
+
+            - Acho que já consegui fazer a parte do Frontend mais ou menos como deve de ser,
+            pelo menos o username parece estar a mudar como deve de ser depois de o __Logout__ e do __Login__
+        
+    - 2º preocupo me em saber como é que vou fazer com que as mensagens com os "guests" funcionam direito.
+        - Depois de ter feito a parte da ultima alinea do (_1º ponto_) posso então passar a ver como 
+        é que vou __Corrigir o problema dos Logins que está a acontecer em produção__ e fazer também 
+        a parte de deixar os Guests mandar mensagem.
+        
 - Notas:
     - [Quando estão a aparecer umas mensagesn estranhas no DEBUG Mode do VS Code](https://github.com/vsDizzy/bug-vscode-js-debug/blob/master/.vscode/launch.json)
+

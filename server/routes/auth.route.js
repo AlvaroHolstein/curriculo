@@ -6,7 +6,10 @@ function authRouterInitializer(eventEmitter) {
 
     router.post("/login", async (req, res, next) => {
         try {
-            let { username, password } = req.body;
+            let { username, password, isGuest /* Ultima coisa a ser implementada
+            mas que ainda não está a ser usada em nenhuma parte que consuma ou faça 
+            este pedido POST */ } = req.body;
+            
             /**
              * Esta funcção deve retornar um objecto com vários campos como
              * sucesso,

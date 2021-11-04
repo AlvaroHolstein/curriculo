@@ -1,8 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">{{
-      $store.getters.username == null ? 'Curriculo' : $store.getters.username
-    }}</a>
+    <!-- <a class="navbar-brand" href="#">{{
+      $store.getters.username == null ? "Hi Guest!!!" : $store.getters.username
+    }}</a> -->
+    <router-link :to="{ name: 'experiencia' }" class="navbar-brand">
+      {{$store.getters.username == null ? "Hi Guest!!!" : $store.getters.username}}
+    </router-link>
 
     <!-- Burguer Button -->
     <button
@@ -61,7 +64,7 @@
 
         <!-- Logout -->
         <li class="nav-item active logout-btn" v-on:click="logout()">
-          <span>Logout</span>
+          <span>{{ $store.getters.isGuest ? "Login" : "Logout" }}</span>
         </li>
       </ul>
     </div>
@@ -75,8 +78,13 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit("logout");
-      this.$router.push({ name: "auth" });
+      if (!this.$store.getters.isGuest) {
+        this.$store.commit("logout");
+        this.$store.commit("isGuest", true);
+        this.$router.push({ name: "auth" });
+      } else {
+        this.$router.push({ name: "auth" });
+      }
     },
     getImgUrl(pet) {
       var images = require.context("../assets/", false, /\.png$/);
@@ -117,7 +125,7 @@ ul.navbar-list {
     }
 
     // &:hover {
-      // transform: scale(1.5,1.5);
+    // transform: scale(1.5,1.5);
     // }
   }
 

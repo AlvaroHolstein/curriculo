@@ -6,6 +6,7 @@ import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
+        isGuest: localStorage["isGuest"] === null || localStorage["isGuest"] === undefined ? true : localStorage["isGuest"], // this will be the var that is true until de user logs in.
         logged: false,
         url: process.env.NODE_ENV == 'production' ? PROD_URL : 'http://localhost:5000/api/',
         serverless_url: process.env.NODE_ENV == 'production' ? 'TBD' : 'http://localhost:8787/',
@@ -21,6 +22,9 @@ const store = new Vuex.Store({
         idM: ""
     },
     mutations: {
+        isGuest(state, value) {
+            state.isGuest = value;
+        },
         async login(state, idM) {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
             // console.log(idM)
@@ -30,6 +34,7 @@ const store = new Vuex.Store({
                 state.username = jwtVerified.username;
                 state.contaValue = jwtVerified.a * jwtVerified.b;
                 localStorage.setItem("elto", JSON.stringify(store.getters.token));
+                localStorage.setItem("isGuest", JSON.stringify(store.getters.isGuest));
             }
         },
         async logout(state) {
@@ -41,14 +46,20 @@ const store = new Vuex.Store({
                     state.username = null;
                     state.contaValue = null;
                     state.idM = "";
+                    state.isGuest = true;
+                    localStorage.setItem("isGuest", JSON.stringify(store.getters.isGuest));
+                    localStorage.setItem(state.lsToken, "");
                 }
             } catch (error) {
                 state.logged = false;
                 state.username = null;
                 state.contaValue = null;
                 state.idM = "";
+                state.isGuest = true;
+                localStorage.setItem("isGuest", JSON.stringify(store.getters.isGuest));
 
-                if(localStorage.getItem(state.lsToken)) {
+
+                if (localStorage.getItem(state.lsToken)) {
                     localStorage.setItem(state.lsToken, "");
                 }
             }
@@ -74,6 +85,9 @@ const store = new Vuex.Store({
         }
     },
     getters: {
+        isGuest(state) {
+            return state.isGuest;
+        },
         logged(state) {
             return state.logged;
         },
@@ -114,9 +128,9 @@ const store = new Vuex.Store({
             return state.idM;
         },
         discChannel(state) {
-            let name = (state.username+"_"+state.idM).toLowerCase();
-            if(name.split(" ").length > 1) {
-               name = name.split(" ").join("-")
+            let name = (state.username + "_" + state.idM).toLowerCase();
+            if (name.split(" ").length > 1) {
+                name = name.split(" ").join("-")
             }
             return name;
         }

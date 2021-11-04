@@ -63,9 +63,11 @@ export default {
         this.hideLoader();
 
         /** Passo 2. das Mensagens */
+        this.$store.commit("isGuest", false);
         this.$router.push({ name: "experiencia" });
       } else {
         this.hideLoader();
+        this.$store.commit("isGuest", true);
         this.$Swal.fire(
           this.$t('credential_error_login'),
           "",
