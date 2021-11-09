@@ -4,7 +4,11 @@
       $store.getters.username == null ? "Hi Guest!!!" : $store.getters.username
     }}</a> -->
     <router-link :to="{ name: 'experiencia' }" class="navbar-brand">
-      {{$store.getters.username == null ? "Hi Guest!!!" : $store.getters.username}}
+      {{
+        $store.getters.username == null
+          ? "Hi Guest!!!"
+          : $store.getters.username
+      }}
     </router-link>
 
     <!-- Burguer Button -->
@@ -63,8 +67,8 @@
         </li>
 
         <!-- Logout -->
-        <li class="nav-item active logout-btn" v-on:click="logout()">
-          <span>{{ $store.getters.isGuest ? "Login" : "Logout" }}</span>
+        <li class="nav-item active logout-btn">
+          <span v-on:click="logout()">{{ $store.getters.isGuest ? "Login" : "Logout" }}</span>
         </li>
       </ul>
     </div>
@@ -132,9 +136,10 @@ ul.navbar-list {
   li.logout-btn {
     width: 100%;
     text-align: right;
-
-    &:hover {
-      color: red;
+    > span {
+      &:hover {
+        color: red;
+      }
     }
   }
 }

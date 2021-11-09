@@ -83,6 +83,7 @@ router.beforeEach(async (to, from, next) => {
             // Ir para qualquer que for o caminho que o utilizador quer.
             next();
         } else {
+
             if (to.name != "auth" && store.getters.logged == false) {
                 if (lsToken != "") {
 
@@ -90,13 +91,11 @@ router.beforeEach(async (to, from, next) => {
 
                     let { a, b } = jwtVerified;
                     let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: lsToken, c: a * b });
-                    // console.log(authRes)
                     if (!authRes.data.success) {
                         letgo = false;
                     }
                     else {
                         // Se for este o caso então significa que pode ir direto para a conta
-                        // console.log("Store", authRes.data.data._id)
                         store.commit("setToken", lsToken);
                         await store.commit("login", authRes.data.data._id);
 
@@ -111,15 +110,12 @@ router.beforeEach(async (to, from, next) => {
             /** Fazer a conflirmação das cookies aqui */
             if ((to.name != 'auth' && store.getters.logged == true) || store.getters.logged == true) {
                 //1. Veirficar Token
-                // console.log("ATA!1111111!!!!!!!!!!!!!!")
                 let jwtVerified = await AuthClass.verifyToken(store.getters.token);
 
 
                 //Ainda tenho que criar a rota
                 let { a, b } = jwtVerified;
-                // console.log({a, b, jwtVerified}); 
                 let authRes = await axios.post(`${store.getters.url}auth/verify`, { token: store.getters.token, c: a * b });
-                // console.log("Token verification router.js", authRes)
                 if (!authRes.data.success) {
                     letgo = false;
                 }
@@ -141,7 +137,6 @@ router.beforeEach(async (to, from, next) => {
             }
         }
     } catch (error) {
-        // console.log("FDP!", error.stack)
         if (to.name != "auth") router.push({ name: 'auth' })
         else next()
     }

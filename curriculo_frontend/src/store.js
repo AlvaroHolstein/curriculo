@@ -27,14 +27,15 @@ const store = new Vuex.Store({
         },
         async login(state, idM) {
             let jwtVerified = await AuthClass.verifyToken(store.getters.token);
-            // console.log(idM)
             if (jwtVerified) {
                 state.logged = true;
                 state.idM = idM;
                 state.username = jwtVerified.username;
                 state.contaValue = jwtVerified.a * jwtVerified.b;
                 localStorage.setItem("elto", JSON.stringify(store.getters.token));
-                localStorage.setItem("isGuest", JSON.stringify(store.getters.isGuest));
+
+                state.isGuest = false;
+                localStorage.setItem("isGuest", JSON.stringify(state.isGuest));
             }
         },
         async logout(state) {
@@ -47,7 +48,7 @@ const store = new Vuex.Store({
                     state.contaValue = null;
                     state.idM = "";
                     state.isGuest = true;
-                    localStorage.setItem("isGuest", JSON.stringify(store.getters.isGuest));
+                    localStorage.setItem("isGuest", JSON.stringify(state.isGuest));
                     localStorage.setItem(state.lsToken, "");
                 }
             } catch (error) {
@@ -79,13 +80,22 @@ const store = new Vuex.Store({
 
             // Agora o que realmente vai fazer mudar a linguagem
             // this.$i18n.locale = state.language
-            // console.log(i18n.locale, state.language, lang)
             // Funcionando
             i18n.locale = state.language;
         }
     },
     getters: {
+        /**
+         * 
+         * @param {*} state 
+         * @returns {boolean} isGuest
+         */
         isGuest(state) {
+            if (typeof state.isGuest == "string") {
+                if (state.isGuest == "false") return false;
+                if (state.isGuest == "true") return true;
+            }
+
             return state.isGuest;
         },
         logged(state) {

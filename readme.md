@@ -248,3 +248,12 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
 - Notas:
     - [Quando estão a aparecer umas mensagesn estranhas no DEBUG Mode do VS Code](https://github.com/vsDizzy/bug-vscode-js-debug/blob/master/.vscode/launch.json)
 
+
+
+# 09/11
+- Vou ter que fazer com que depois de fazer reload o user continue logado.
+    - Ainda não tenho a certeza se o user está a manter se o user se está a manter logado direito mas
+    um dos erros que estava a acontecer era porque a variável da `$store` `isGuest` era devolvida
+    a partir do getter como uma string o que fazia com que a função de confirmar o token não funcionasse 
+    como suposto
+
