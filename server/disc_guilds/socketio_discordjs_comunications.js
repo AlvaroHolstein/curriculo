@@ -63,6 +63,9 @@ module.exports = function discordComs(socketFromAbove, disc, defaultChanelId, ev
                 // let selectedOne = null;// Socket selected beloow
                 let contador = 0;
                 await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name, "", msg.id);
+                // vai ser aqui que vou ter que fazer alterações para conseguir arranjar o erro que está a acontecer 
+                // porque não estou a usar o SnowFlake dos Discord.js (é o ID dos channels e mais).
+                // Ver mais (Discord Docs): https://discord.js.org/#/docs/discord.js/stable/typedef/Snowflake
                 for (let sc of socketArr) {
 
                     // ou seja, se o user já tiver saido não vai emitir mensagem 

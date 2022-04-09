@@ -257,3 +257,8 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
     a partir do getter como uma string o que fazia com que a função de confirmar o token não funcionasse 
     como suposto
 
+# 09/04/2022
+- Na máquina linux no pc da empresa instalei a versão `16.+` do __Node JS__ mas a [versão](https://www.npmjs.com/package/node-sass/v/4.14.1) do `node-sass` que está atualmente no projeto tem que ser no minimo a verão 14.
+    - como ver todas as _versões 14_ que o __nvm__ tem disponiveis: `nvm list-remote | grep -E 'v14\..*LTS.*'`. [Também pode dar jeito](https://www.cyberciti.biz/faq/grep-regular-expressions/)
+
+- Tenho que dar update ás packages no _backend_ e do _frontend_.

@@ -19,12 +19,13 @@ const port = process.env.PORT || 8000;
 const server = express();
 
 if (process.env.NODE_ENV != 'production') {
+    console.log("Tou mal se estou a aparecer no Heroku logs!")
     const morgan = require("morgan")
 
     server.use(morgan('tiny'))
 }
 
-server.use(cookieParser()); // Não sei se vai ficar só assim no fim
+server.use(cookieParser()); // Não sei se vai ficar só assim no fim, update: porquê?
 server.use(cors());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json())
