@@ -21,8 +21,10 @@ const jwt = require("jsonwebtoken");
  * to emite events properly. 
  */
 /** Discord Comunication part */
-module.exports = function discordComs(socketFromAbove, disc, defaultChanelId, eventEmitter) {
-    let client = disc();
+// Esta função muito provavelmente vai ter que ser assincrona para não deixar o servidor ir abaixo no caso de o Token não existir.
+module.exports = async function discordComs(socketFromAbove, disc, defaultChanelId, eventEmitter) {
+    try {
+    let client = await disc();
 
     // console.log(socket.handshake.query)
 
@@ -283,5 +285,8 @@ module.exports = function discordComs(socketFromAbove, disc, defaultChanelId, ev
         }
         client.channels.cache.get(defaultChanelId).send(`${msg} \n IMPORTANTE: __${debugMsg}__ \n ___________________________________________\n`)
     })
+    } catch (err) {
+        throw err;
+    }
 
 };

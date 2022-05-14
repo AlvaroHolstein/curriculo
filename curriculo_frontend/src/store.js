@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import i18n from './i18n';
-import { PROD_URL } from '../dev.env.js';
+import { PROD_URL, PORT } from '../dev.env.js';
 import { AuthClass } from './classes/auth.class';
 Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         isGuest: localStorage["isGuest"] === null || localStorage["isGuest"] === undefined ? true : localStorage["isGuest"], // this will be the var that is true until de user logs in.
         logged: false,
-        url: process.env.NODE_ENV == 'production' ? PROD_URL : 'http://localhost:5000/api/',
-        serverless_url: process.env.NODE_ENV == 'production' ? 'TBD' : 'http://localhost:8787/',
+        url: process.env.NODE_ENV == 'production' ? PROD_URL : `http://localhost:${PORT}/api/`,
+        serverless_url: process.env.NODE_ENV == 'production' ? 'TBD' : `http://localhost:${PORT}/`,
         token: null,
         username: null,
         contaValue: null,

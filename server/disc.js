@@ -18,7 +18,9 @@ const chanelId = process.env.DISCORD_CHANEL_ID;
  * https://gist.github.com/koad/316b265a91d933fd1b62dddfcc3ff584
  */
 
-function discordInit() {
+async function discordInit() {
+   try {
+
     // Vou limpar quando chegar ás 20 mensagens
     let contadorParaLimparMensagens = 0;
     let msgArr = [];
@@ -69,9 +71,16 @@ function discordInit() {
     }
 
     if (!successfullyStarted) {
-        client.login(discordToken);
+        console.log("A Entrar no Discord API");
+        await client.login(discordToken)
     }
+  
+
     return client;
+} catch (err) {
+    console.log("Erro ao fazer login pelo discord !!!", err)
+    throw err;
+}
 }
 
 

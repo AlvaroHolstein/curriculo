@@ -61,8 +61,6 @@ const router = new Router({
     ]
 })
 
-
-
 router.beforeEach(async (to, from, next) => {
     try {
         let letgo = true;
@@ -70,9 +68,13 @@ router.beforeEach(async (to, from, next) => {
         let tokenNameLs = "elto";
 
         let lsToken = "";
+
+        // Checkar se algum user já estava "logado"
         if (localStorage.getItem(tokenNameLs)) {
             lsToken = JSON.parse(localStorage.getItem(tokenNameLs));
         }
+
+        console.log("passando", {isGuest: store.getters.isGuest})
 
         /** Em desenvolvimento isto vai ser de uma forma, 
          * depois em produção vai ser de outra maneira
@@ -81,7 +83,9 @@ router.beforeEach(async (to, from, next) => {
          */
         if (store.getters.isGuest) {
             // Ir para qualquer que for o caminho que o utilizador quer.
+            console.log("entºao calara")
             next();
+            return;
         } else {
 
             if (to.name != "auth" && store.getters.logged == false) {
@@ -107,6 +111,7 @@ router.beforeEach(async (to, from, next) => {
                     letgo = false;
                 }
             }
+
             /** Fazer a conflirmação das cookies aqui */
             if ((to.name != 'auth' && store.getters.logged == true) || store.getters.logged == true) {
                 //1. Veirficar Token

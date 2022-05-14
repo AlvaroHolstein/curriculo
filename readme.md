@@ -261,4 +261,12 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
 - Na máquina linux no pc da empresa instalei a versão `16.+` do __Node JS__ mas a [versão](https://www.npmjs.com/package/node-sass/v/4.14.1) do `node-sass` que está atualmente no projeto tem que ser no minimo a verão 14.
     - como ver todas as _versões 14_ que o __nvm__ tem disponiveis: `nvm list-remote | grep -E 'v14\..*LTS.*'`. [Também pode dar jeito](https://www.cyberciti.biz/faq/grep-regular-expressions/)
 
-- Tenho que dar update ás packages no _backend_ e do _frontend_.
+- Tenho que dar update ás packages no _backend_ e do _frontend_. __(*1)__
+
+# 12/05/MesmoAno
+- Acho que já dei os updates necessários para por a App a correr em Desenvolvimento em Linux, agora é só fazere
+    - __(*1)__ Esta já no "dia anterior" e tem que ser feito para poder trabalhar em Desenvolvimento e porque tem que ser.
+
+# 14/05/MesmoAno
+- Vou fazer com que ao ir para o "curriculo"(__Vai ter que mudar de nome__) o user seja sempre dirigido para a página principal. 
+    - Mexer no `router.js`
