@@ -18,7 +18,9 @@ const chanelId = process.env.DISCORD_CHANEL_ID;
  * https://gist.github.com/koad/316b265a91d933fd1b62dddfcc3ff584
  */
 
-function discordInit() {
+async function discordInit() {
+   try {
+
     // Vou limpar quando chegar ás 20 mensagens
     let contadorParaLimparMensagens = 0;
     let msgArr = [];
@@ -52,7 +54,8 @@ function discordInit() {
     /** Se der return true não é para mandar nem gravar
      * se der false seguesse
      * 
-     * @param {msg} param0 
+     * @param {object} param0 - Message Instance i think... 
+     * @return {boolean} isDuplicated - Needs to be `false` to save ...
      */
     function isDuplicated({ id }) {
         // console.log("id da mensagem", id);
@@ -68,9 +71,16 @@ function discordInit() {
     }
 
     if (!successfullyStarted) {
-        client.login(discordToken);
+        console.log("A Entrar no Discord API");
+        await client.login(discordToken)
     }
+  
+
     return client;
+} catch (err) {
+    console.log("Erro ao fazer login pelo discord !!!", err)
+    throw err;
+}
 }
 
 

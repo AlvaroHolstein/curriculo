@@ -20,7 +20,7 @@
               </p>
               <span class="data-inicio">{{ escola.data_inicio }}</span>
               até
-              <span class="data-fim">{{ escola.data_inicio }}</span>
+              <span class="data-fim">{{ escola.data_fim}}</span>
             </b-card-text>
           </b-card-body>
         </b-col>

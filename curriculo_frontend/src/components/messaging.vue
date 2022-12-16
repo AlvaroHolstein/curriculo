@@ -5,6 +5,7 @@
     </div>
     <div id="messaging" class="message-container" v-show="showMessages">
       <div class="message-container-header">
+        <div class="chat-username">{{$store.getters.isGuest ? 'GUEST' : $store.getters.username}}</div>
         <div class="fab close-messaging" v-on:click="closeMessages()">
           <i class="fas fa-times"></i>
         </div>
@@ -279,10 +280,17 @@ div.message-container-header {
   height: 40px;
   /* position: relative; */
 
+  display: flex;
+  align-items: center;
+
   border-radius: 9px 9px 0px 0px;
   border-bottom: 1px solid green;
 
   background-color: rgba(37, 186, 37, 0.9);
+
+  div.chat-username {
+    margin-left: 5px;
+  }
 }
 
 div.message-container-body {

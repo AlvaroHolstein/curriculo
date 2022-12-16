@@ -192,6 +192,20 @@ porque assim depois vou poder utilizar a informação que vai ser ai gerada em m
     * Para o _Host_ da __Serverless Function__ vou usar a amazon porque é o Host com que estou mais familiarizado.
     
 # 18/06
+
+# 20/06
+- Acho que depois de criar um novo canal vou ter que ir ao user alterar lhe o 
+campo `channelId`, porque não dá para usar apenas o nome mais um identificador 
+unico no nome do canal, pelo menos da maneira com eu estou a fazer.
+    - Não esquecer de corrigir os erros provocados por estas ultimas alterações.
+- __Não Esquecer__ de meter uma foto em algum lado a mostrar que as passwords estão completamente encriptadas...
+    - já não me lembro se consigo ver las facilmente porque tenho o segredo/keyword para as "desvendar" ou se fiz
+    mais alguma merda para não ser possivel que eu as veja... (não me cheira).
+
+- Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
+a lógica das mensagens, já ia ter que fazer isso.
+- Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
+
 # 06/09
 - Devo ter que fazer sync deste ficheiro porque tenho quase a certeza que já escrevi para aqui merdas noutros 
 dias mas não cheguei a dar push...
@@ -212,14 +226,9 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
     - Pelo menos em produção.
 
 
-# 20/06
-- Acho que depois de criar um novo canal vou ter que ir ao user alterar lhe o 
-campo `channelId`, porque não dá para usar apenas o nome mais um identificador 
-unico no nome do canal, pelo menos da maneira com eu estou a fazer.
-    - Não esquecer de corrigir os erros provocados por estas ultimas alterações.
-- __Não Esquecer__ de meter uma foto em algum lado a mostrar que as passwords estão completamente encriptadas...
-    - já não me lembro se consigo ver las facilmente porque tenho o segredo/keyword para as "desvendar" ou se fiz
-    mais alguma merda para não ser possivel que eu as veja... (não me cheira).
+# 04/11
+- Mudar as mensagens de aviso enviadas para o discord quando um utilizador entra
+    - Distinguir entre DEV e PROD
 
 - Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
 a lógica das mensagens, já ia ter que fazer isso.
@@ -233,3 +242,43 @@ Para começar a fazer debug dos webSockets (server side muito provavelmente vou 
 ![[Pasted image 20221109233125.png]]
 
 Consegui fazer a ligação a partir do Postman, agora falta a parte do Debug xD
+-  Começar a fazer com que não seja preciso fazer login à entrada
+    - 1º vou fazer com que no frontend isto funcione direito
+        - Mudar o isGuest na store sempre que:
+            - logout
+            - login
+            - falha de autenticação a navegar entre páginas
+
+            - Acho que já consegui fazer a parte do Frontend mais ou menos como deve de ser,
+            pelo menos o username parece estar a mudar como deve de ser depois de o __Logout__ e do __Login__
+        
+    - 2º preocupo me em saber como é que vou fazer com que as mensagens com os "guests" funcionam direito.
+        - Depois de ter feito a parte da ultima alinea do (_1º ponto_) posso então passar a ver como 
+        é que vou __Corrigir o problema dos Logins que está a acontecer em produção__ e fazer também 
+        a parte de deixar os Guests mandar mensagem.
+        
+- Notas:
+    - [Quando estão a aparecer umas mensagesn estranhas no DEBUG Mode do VS Code](https://github.com/vsDizzy/bug-vscode-js-debug/blob/master/.vscode/launch.json)
+
+
+
+# 09/11
+- Vou ter que fazer com que depois de fazer reload o user continue logado.
+    - Ainda não tenho a certeza se o user está a manter se o user se está a manter logado direito mas
+    um dos erros que estava a acontecer era porque a variável da `$store` `isGuest` era devolvida
+    a partir do getter como uma string o que fazia com que a função de confirmar o token não funcionasse 
+    como suposto
+
+# 09/04/2022
+- Na máquina linux no pc da empresa instalei a versão `16.+` do __Node JS__ mas a [versão](https://www.npmjs.com/package/node-sass/v/4.14.1) do `node-sass` que está atualmente no projeto tem que ser no minimo a verão 14.
+    - como ver todas as _versões 14_ que o __nvm__ tem disponiveis: `nvm list-remote | grep -E 'v14\..*LTS.*'`. [Também pode dar jeito](https://www.cyberciti.biz/faq/grep-regular-expressions/)
+
+- Tenho que dar update ás packages no _backend_ e do _frontend_. __(*1)__
+
+# 12/05/MesmoAno
+- Acho que já dei os updates necessários para por a App a correr em Desenvolvimento em Linux, agora é só fazere
+    - __(*1)__ Esta já no "dia anterior" e tem que ser feito para poder trabalhar em Desenvolvimento e porque tem que ser.
+
+# 14/05/MesmoAno
+- Vou fazer com que ao ir para o "curriculo"(__Vai ter que mudar de nome__) o user seja sempre dirigido para a página principal. 
+    - Mexer no `router.js`

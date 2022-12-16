@@ -19,12 +19,13 @@ const port = process.env.PORT || 8000;
 const server = express();
 
 if (process.env.NODE_ENV != 'production') {
+    console.log("Tou mal se estou a aparecer no Heroku logs!")
     const morgan = require("morgan")
 
     server.use(morgan('tiny'))
 }
 
-server.use(cookieParser()); // Não sei se vai ficar só assim no fim
+server.use(cookieParser()); // Não sei se vai ficar só assim no fim, update: porquê?
 server.use(cors());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json())
@@ -41,7 +42,12 @@ let { discInit, defaultChanelId } = require("./server/disc.js");
 
 
 let socketDiscComunications = require("./server/disc_guilds/socketio_discordjs_comunications");
-socketDiscComunications(scInit, discInit, defaultChanelId, eventEmitter)
+
+try {
+    socketDiscComunications(scInit, discInit, defaultChanelId, eventEmitter)
+} catch (err) {
+    console.log("Fodeu ao ligar o WebSocket ou o 'cliente' do discord!!!");
+}
 
 const mongoConf = require("./server/mongoConfig");
 
@@ -52,7 +58,6 @@ const infoExtraRoute = require("./server/routes/info_extra.route");
 const experienciaRoute = require("./server/routes/experiencia.route");
 const competenciasRoute = require("./server/routes/competencias.route");
 const socket = require("./server/socket");
-const { EventEmitter } = require("events");
 const messagesRoute = require("./server/routes/message.route")(scInit);
 
 const authMiddleware = require('./server/controller/auth.controller').middlewareVerification;

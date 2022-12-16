@@ -1,4 +1,4 @@
-const envs = require("../../dev.env");
+const envs = require("../../dev.env.js"); // Tenho que criar este ficheiro.
 const jwt = require("jsonwebtoken");
 export class AuthClass {
     constructor() {
@@ -24,6 +24,7 @@ export class AuthClass {
      * @param {axios} http 
      * @param {url} url
      * @param {string} token 
+     * 
      */
     static logout(http, url, token) {
         return new Promise((res, rej) => {
