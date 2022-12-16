@@ -224,3 +224,12 @@ unico no nome do canal, pelo menos da maneira com eu estou a fazer.
 - Vou ter que mudar então a forma de fazer login para ser possivel entrar como Guest... O que faz com que tenha que alterar
 a lógica das mensagens, já ia ter que fazer isso.
 - Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
+
+# 09/11
+#### Estou a usar o Obsidian para escrever as notas de hoje 
+Para começar a fazer debug dos webSockets (server side muito provavelmente vou usar o Postman, [how to aqui](https://learning.postman.com/docs/sending-requests/websocket/websocket/)*(\*1)*) 
+> WebSockets offers a bidirectional, full-duplex communications channel that operates over HTTP through a single TCP socket connection. *(\*1)*
+
+![[Pasted image 20221109233125.png]]
+
+Consegui fazer a ligação a partir do Postman, agora falta a parte do Debug xD

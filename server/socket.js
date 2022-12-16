@@ -22,6 +22,7 @@ class SocketInicialization {
 
     constructor(io) {
         this.io = io
+        // console.log(io)
 
         // https://stackoverflow.com/questions/13745519/send-custom-data-along-with-handshakedata-in-socket-io
         this.io.use((socket, next) => {

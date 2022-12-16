@@ -1,5 +1,5 @@
 // Mais tarde vai sair da pasta disc_guilds
-const user
+// const user
 const messageController = require("../controller/message.controller");
 const jwt = require("jsonwebtoken");
 
@@ -137,6 +137,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
 
                 let chanelExists = false;
                 let chanelId = null;
+                console.log("Foudace")
                 /**
                  * Vai ser aqui que vou receber as mensagens dos utilizadores,
                  * por isso é aqui que antes de enviar uma mensagem para um certo canal,
@@ -144,7 +145,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                  * e agir consoante isso
                  */
 
-                let decoded = await jwt.verify(token, process.env.JWT_SECRET);
+                let decoded = jwt.verify(token, process.env.JWT_SECRET);
                 let { username, idM } = decoded; // Vou ter que passar aqui o id do channel???
                 let channelName = (username + "_" + idM).toLowerCase();
 
@@ -173,7 +174,7 @@ module.exports = function (socketFromAbove, disc, defaultChanelId, eventEmitter)
                              * Os nomes dos canais são sempre em minusculas
                              */
 
-                            if (ch.type == 'text' && (() || (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName))) {
+                            if (ch.type == 'text' &&  (ch.name == channelName.split("_").join("") /** Porque só me lembrei de chamar os canais assim (username + _ + idM) agora */ || ch.name == channelName)) {
                                 chanelId = ch.id
                                 chanelExists = true;
                             }

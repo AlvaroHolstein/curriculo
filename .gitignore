@@ -31,3 +31,6 @@ json-viwer.json
 curriculo_frontend/public/*
 !/curriculo_frontend/public/index.html
 !/curriculo_frontend/dist/
+
+# Obsidian folder
+curriculo/
