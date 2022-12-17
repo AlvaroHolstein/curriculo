@@ -234,7 +234,29 @@ multiplos canais no discord fossem criados para o mesmo utilizador...
 a lógica das mensagens, já ia ter que fazer isso.
 - Por o site a funcionar outra vez, já tinha metido para aqui o print do erro. Ir ao outro PC e fazer push seu dumb ass.
 
+# 09/04/2022
+- Na máquina linux no pc da empresa instalei a versão `16.+` do __Node JS__ mas a [versão](https://www.npmjs.com/package/node-sass/v/4.14.1) do `node-sass` que está atualmente no projeto tem que ser no minimo a verão 14.
+    - como ver todas as _versões 14_ que o __nvm__ tem disponiveis: `nvm list-remote | grep -E 'v14\..*LTS.*'`. [Também pode dar jeito](https://www.cyberciti.biz/faq/grep-regular-expressions/)
+
+- Tenho que dar update ás packages no _backend_ e do _frontend_. __(*1)__
+
+# 12/05/MesmoAno
+- Acho que já dei os updates necessários para por a App a correr em Desenvolvimento em Linux, agora é só fazere
+    - __(*1)__ Esta já no "dia anterior" e tem que ser feito para poder trabalhar em Desenvolvimento e porque tem que ser.
+
+# 14/05/MesmoAno
+- Vou fazer com que ao ir para o "curriculo"(__Vai ter que mudar de nome__) o user seja sempre dirigido para a página principal. 
+    - Mexer no `router.js`
+
 # 09/11
+
+- Vou ter que fazer com que depois de fazer reload o user continue logado.
+    - Ainda não tenho a certeza se o user está a manter se o user se está a manter logado direito mas
+    um dos erros que estava a acontecer era porque a variável da `$store` `isGuest` era devolvida
+    a partir do getter como uma string o que fazia com que a função de confirmar o token não funcionasse 
+    como suposto
+
+
 #### Estou a usar o Obsidian para escrever as notas de hoje 
 Para começar a fazer debug dos webSockets (server side muito provavelmente vou usar o Postman, [how to aqui](https://learning.postman.com/docs/sending-requests/websocket/websocket/)*(\*1)*) 
 > WebSockets offers a bidirectional, full-duplex communications channel that operates over HTTP through a single TCP socket connection. *(\*1)*
@@ -261,24 +283,8 @@ Consegui fazer a ligação a partir do Postman, agora falta a parte do Debug xD
     - [Quando estão a aparecer umas mensagesn estranhas no DEBUG Mode do VS Code](https://github.com/vsDizzy/bug-vscode-js-debug/blob/master/.vscode/launch.json)
 
 
+# 17/12
 
-# 09/11
-- Vou ter que fazer com que depois de fazer reload o user continue logado.
-    - Ainda não tenho a certeza se o user está a manter se o user se está a manter logado direito mas
-    um dos erros que estava a acontecer era porque a variável da `$store` `isGuest` era devolvida
-    a partir do getter como uma string o que fazia com que a função de confirmar o token não funcionasse 
-    como suposto
-
-# 09/04/2022
-- Na máquina linux no pc da empresa instalei a versão `16.+` do __Node JS__ mas a [versão](https://www.npmjs.com/package/node-sass/v/4.14.1) do `node-sass` que está atualmente no projeto tem que ser no minimo a verão 14.
-    - como ver todas as _versões 14_ que o __nvm__ tem disponiveis: `nvm list-remote | grep -E 'v14\..*LTS.*'`. [Também pode dar jeito](https://www.cyberciti.biz/faq/grep-regular-expressions/)
-
-- Tenho que dar update ás packages no _backend_ e do _frontend_. __(*1)__
-
-# 12/05/MesmoAno
-- Acho que já dei os updates necessários para por a App a correr em Desenvolvimento em Linux, agora é só fazere
-    - __(*1)__ Esta já no "dia anterior" e tem que ser feito para poder trabalhar em Desenvolvimento e porque tem que ser.
-
-# 14/05/MesmoAno
-- Vou fazer com que ao ir para o "curriculo"(__Vai ter que mudar de nome__) o user seja sempre dirigido para a página principal. 
-    - Mexer no `router.js`
+Lista de coisas que estão mal: **ATUALIZAR ESTA LISTA**
+- Ao entrar no site e não estando logado o utilizador não é enviado para a página de login, **mas esta página não é suposto ficar assim (login) porque não é suposto continuar a ser preciso fazer login**
+- Ver screenshot e ![erro_na_pagina_de_login](screenshots/errors/.xdp_home_button_appearing_in_the_wrong_plavce.7976W1)
