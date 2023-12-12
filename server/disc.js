@@ -1,13 +1,15 @@
+require("dotenv").config()
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const messageController = require("./controller/message.controller");
+
+// const messageController = require("./controller/message.controller");
 
 const discordToken = process.env.DISCORD_TOKEN;
 const chanelId = process.env.DISCORD_CHANEL_ID;
 /**
  * Vou criar uma funcção com um array que vai ser limpo a cada X mensagens
- * que assim n\ao preciso de estar a meter um timeout praqui po meio
+ * que assim não preciso de estar a meter um timeout praqui po meio
  * se este tiver cheio
  * este array vai ter  as uktimas mensagens recebidas
  * se as mensagens repetidas tiveram o mesmo id (do discord)
@@ -89,3 +91,7 @@ module.exports = {
     discInit: discordInit,
     defaultChanelId: chanelId
 };
+
+(async () => {
+    await discordInit();
+})();
