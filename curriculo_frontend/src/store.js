@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue, { reactive } from 'vue';
+// import Vuex from 'vuex';
 import i18n from './i18n';
 import { PROD_URL, PORT } from '../dev.env.js';
 import { AuthClass } from './classes/auth.class';
-Vue.use(Vuex);
-const store = new Vuex.Store({
+// Vue.use(Vuex);
+const store = reactive({
     state: {
         isGuest: localStorage["isGuest"] === null || localStorage["isGuest"] === undefined ? true : localStorage["isGuest"], // this will be the var that is true until de user logs in.
         logged: false,
